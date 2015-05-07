@@ -5,4 +5,155 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
     <dimen name="slidingmenu_offset">80dp</dimen>
+    
+     <!-- 所有的字体统一，还有一些专用的，没有摘出来 -->
+    <dimen name="textsize_18">18sp</dimen>
+    <dimen name="textsize_14">14sp</dimen>
+    <dimen name="textsize_13">13sp</dimen>
+    
+    
+    <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    
+    
+    <!-- 480*854  float -->
+    <dimen name="float_w">460px</dimen>
+    <dimen name="float_h">716px</dimen>
+    <!-- 自定义title -->
+    <dimen name="system_window_title_text_size">24sp</dimen>
+    <!-- 自定义title内  textview的字体大小 -->
+    <dimen name="system_window_title_btn_size">@dimen/textsize_18</dimen>
+    <!-- 自定义title内  button的字体大小 -->
+    <!-- 非订单消息 List -->
+    <dimen name="other_msg_list_item_time_textview_size">@dimen/textsize_18</dimen>
+    <!-- 时间字体大小 -->
+    <dimen name="other_msg_list_item_info_textview_size">@dimen/textsize_18</dimen>
+    <!-- 内容字体大小 -->
+    <dimen name="other_msg_list_item_left_right">10dip</dimen>
+    <!-- 左右边距 -->
+    <!-- 非订单消息  详情 -->
+    <dimen name="other_msg_details_info_textview_marginTop">20dip</dimen>
+    <!-- 内容距上面的大小 -->
+    <dimen name="other_msg_details_info_textview_margin_Left_right">10dip</dimen>
+    <!-- 左右边距 -->
+    <dimen name="other_msg_details_info_textview_text_size">@dimen/textsize_18</dimen>
+    <!-- 内容字体大小 -->
+    <dimen name="other_msg_details_time_textview_text_size">@dimen/textsize_18</dimen>
+    <!-- 时间字体大小 -->
+
+    <!-- 订单的所有 msg -->
+    <dimen name="order_msg_orderid_title_textview_size">16sp</dimen>
+    <!-- title -->
+    <dimen name="order_msg_orderid_textview_size">19sp</dimen>
+    <!-- order -->
+    <dimen name="order_msg_type_textview_size">23sp</dimen>
+    <!-- type -->
+    <dimen name="order_msg_type_textview_marginRight">70dip</dimen>
+    <!-- type marginRight -->
+    <!-- HDPI -->
+    <!-- 月界面 -->
+    <dimen name="mouth_height">320dip</dimen>
+    <dimen name="gridview_text_paddingTop">13dip</dimen>
+    <dimen name="gridview_text_paddingBottom">13dip</dimen>
+    <dimen name="gridview_Spacing">1dip</dimen>
+    <dimen name="down_menu_height">62dip</dimen>
+    <dimen name="date_height">48dip</dimen>
+    <dimen name="down_menu_padding_height">11dip</dimen>
+    <!-- 订单管理tab主页 -->
+    <dimen name="how_many_orders_height">45dip</dimen>
+    <!-- custom dialog -->
+    <dimen name="custom_ui_w">200dip</dimen>
+    <dimen name="custom_ui_h">60dip</dimen>
+    <dimen name="custom_ui_textview_paddingLeft">20dip</dimen>
+    <!-- 更多 -->
+    <dimen name="more_info_text_size">@dimen/textsize_18</dimen>
+    <!-- 设置界面 语音播报提示自己大小 -->
+    <dimen name="set_tts_info_text_size">@dimen/textsize_13</dimen>
+
+    <!-- 登录界面button字体大小 -->
+    <dimen name="login_btn_text_size">@dimen/textsize_18</dimen>
+    <dimen name="login_text_size">@dimen/textsize_14</dimen>
+    <!-- 登录界面divider_line粗细程度 -->
+    <dimen name="divider_line_size">0.5dip</dimen>
+    <!-- 登录界面padding size -->
+    <dimen name="login_padding_size">18dip</dimen>
+    <dimen name="edittext_height_75dip">75dip</dimen>
+    <dimen name="edittext_height_60dip">60dip</dimen>
+    <!-- 常用字体大小 -->
+    <dimen name="LargeTextSize">16dp</dimen>
+    <dimen name="BasicTextSize">15dp</dimen>
+    <dimen name="TitleTextSize">18dp</dimen>
+    <dimen name="SmallTextSize">14dp</dimen>
+    <dimen name="SmallerTextSize">13dp</dimen>
+    <dimen name="SmallestTextSize">10dp</dimen>
+    <dimen name="LargestTextSize">30dp</dimen>
+    <dimen name="ChattingTextSize">16dp</dimen>
+    <dimen name="ChattingContentMinHeight">49dp</dimen>
+    <dimen name="PreferenceItemHeight">42dp</dimen>
+    <dimen name="ConversationItemHeight">58dp</dimen>
+    <dimen name="LargeAvatarSize">56dp</dimen>
+    <dimen name="LargerSize">26dp</dimen>
+    <dimen name="MiddleTextSize">22dp</dimen>
+    <dimen name="text_20sp">20sp</dimen>
+    <dimen name="text_8sp">8sp</dimen>
+    <dimen name="now_driver_item_text_size">12dp</dimen>
+    <!-- now司机信息页签高度 -->
+    <dimen name="now_driver_info_tab_height">45dp</dimen>
+    
+	<dimen name="car_main_head_height">86dp</dimen>
+    <dimen name="car_main_add_height">72dp</dimen>
+    <dimen name="car_main_cus_height">144dp</dimen>
+    <dimen name="car_quick_item">144dp</dimen>
+    
+    
+    <!-- 新版订车 -->
+    <dimen name="order_car_linearlayout_height">54dp</dimen>
+    <dimen name="order_car_linearlayout_height_cartype">64dp</dimen>
+    <dimen name="order_car_linearlayout_height_carprice">36dp</dimen>
+    <dimen name="order_car_linearlayout_height_btn">50dp</dimen>
+    <dimen name="order_car_linearlayout_margin">10dp</dimen>
+    <dimen name="order_car_linearlayout_margin_up">5dp</dimen>
+    
+    <!-- layout_car_price_list_item用价格字体 -->
+    <dimen name="car_price_list_item">12dp</dimen>
+    
+    <!-- user decide -->
+    <dimen name="user_decide_text_size_large">18dp</dimen>
+    <dimen name="user_decide_text_size_small">12dp</dimen>
+    <dimen name="popupWindow_width">130dp</dimen>
+    <dimen name="journey_pop_width">130dp</dimen>
+    <dimen name="popupWindow_margin">10dp</dimen>
+    <dimen name="map_height">140dp</dimen>
+    <dimen name="map_height_2times">280dp</dimen>
+    <dimen name="map_height_3times">360dp</dimen>
+    <dimen name="paralax_offset">200dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="window_height">47dp</dimen>
+    
+    <!-- bus calendar -->
+    <dimen name="calendar_day_headers_paddingbottom">4dp</dimen>
+    <dimen name="calendar_month_topmargin">16dp</dimen>
+    <dimen name="calendar_month_title_bottommargin">4dp</dimen>
+    <dimen name="calendar_text_medium">@dimen/textsize_18</dimen>
+    <dimen name="calendar_text_small">@dimen/textsize_14</dimen>
+    
+    
+    <!-- 信用卡 -->
+    <dimen name="credit_add_head_height">150dp</dimen>
+    <dimen name="credit_add_head_iv_margintop">35dp</dimen>
+    <dimen name="credit_add_head_tv_margintop">25dp</dimen>
+    <dimen name="credit_add_head_tv_textsize">@dimen/textsize_13</dimen>
+    <dimen name="credit_add_layout_height">70dp</dimen>
+    <dimen name="credit_add_layout_paddingleft">80dp</dimen>
+    <dimen name="credit_add_symbol_width">25dp</dimen>
+    
+    <dimen name="arrow_width">20dp</dimen>
+    
+    
+    <dimen name="payment_layout_height">56dp</dimen>
 </resources>

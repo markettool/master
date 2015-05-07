@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="confirm_price_text_size">10sp</dimen>
+    
+       <!-- 新版评论   -->
+    <dimen name="pay_success_text_margin_pic">36dp</dimen>
+    <dimen name="pay_success_text_margin">88dp</dimen>
+    <dimen name="pay_success_text_size_01">16sp</dimen>
+    <dimen name="pay_success_text_size_02">24sp</dimen>
+    <dimen name="rating_margin">38dp</dimen>
+    <dimen name="rating_margin_top">36dp</dimen>
+    <dimen name="time_margin_top">8dp</dimen>
+    <dimen name="comment_content_margin_left">14dp</dimen>
+    <dimen name="comment_content_padding_left">14dp</dimen>
+    <dimen name="button_margin">8dp</dimen>
+    <dimen name="button_margin_edit">20dp</dimen>
+    <dimen name="comment_edit_margin">8dp</dimen>
+    <dimen name="comment_edit_padding">8dp</dimen>
+    <dimen name="comment_edit_height">72dp</dimen>
+    <dimen name="comment_edit_text_size">16sp</dimen>
+    <dimen name="credit_margin">8dp</dimen>
+    <dimen name="credit_padding">12dp</dimen>
+    <dimen name="credit_text_text_margin">8dp</dimen>
+    <dimen name="credit_pic_text_margin">12dp</dimen>
+    <dimen name="credit_view_height">64dp</dimen>
+    <dimen name="credit_text_01">16sp</dimen>
+    <dimen name="credit_text_02">12sp</dimen>
+    <dimen name="credit_text_margin_top">16dp</dimen>
+</resources>

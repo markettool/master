@@ -1,6 +1,7 @@
 package com.infzm.slidingmenu.demo.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.infzm.slidingmenu.demo.MainActivity;
 import com.infzm.slidingmenu.demo.R;
+import com.infzm.slidingmenu.demo.SettingActivity;
 /**
  * @date 2014/11/14
  * @author wuwenjie
@@ -94,8 +96,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 //			title = getString(R.string.myComments);
 //			break;
 		case R.id.tvMySettings: // 设置
-			newContent = new MySettingsFragment();
-			title = getString(R.string.settings);
+//			newContent = new MySettingsFragment();
+//			title = getString(R.string.settings);
+			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
 			break;
 		default:
 			break;

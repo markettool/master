@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="system_window_title_size">24dip</dimen>
+    <dimen name="common_item_height">72dp</dimen>
+    <dimen name="car_main_head_height">66dp</dimen>
+    <dimen name="car_main_add_height">54dp</dimen>
+    <dimen name="car_main_cus_height">122dp</dimen>
+    <dimen name="car_quick_item">122dp</dimen>
+    <dimen name="car_quick_size">32dp</dimen>
+    <dimen name="car_quick_name_size">16sp</dimen>
+    <dimen name="car_reverse_height">94dp</dimen>
+    <dimen name="car_main_yi_width">76dp</dimen>
+    
+    <!-- 新版订车 -->
+    <dimen name="order_car_linearlayout_height">42dp</dimen>
+    <dimen name="order_car_linearlayout_margin">8dp</dimen>
+    <dimen name="order_car_linearlayout_height_cartype">46dp</dimen>
+    <dimen name="order_car_linearlayout_height_carprice">32dp</dimen>
+    <dimen name="order_car_linearlayout_height_btn">50dp</dimen>
+    <dimen name="order_car_linearlayout_margin_up">6dp</dimen>
+    <dimen name="order_car_car_type_height">55dp</dimen>
+    <dimen name="order_car_fare_total_tip_margintop">10dp</dimen>
+    <dimen name="order_car_fare_total_tip_textsize">12sp</dimen>
+    <dimen name="order_car_fare_total_txt_textsize">28sp</dimen>
+    
+    <!-- user decide -->
+    <dimen name="user_decide_text_size_large">14dp</dimen>
+    <dimen name="user_decide_text_size_small">10dp</dimen>
+    <dimen name="confirm_price_text_size">10sp</dimen>
+    
+    <dimen name="con_padding">8dp</dimen>
+    <dimen name="con_padding_top">8dp</dimen>
+    <dimen name="con_padding_left">8dp</dimen>
+    <dimen name="con_padding_right">8dp</dimen>
+    <dimen name="con_padding_bottom">8dp</dimen>
+    
+    <dimen name="table_cell_height">40dp</dimen>
+    <dimen name="car_type_cell_height">48dp</dimen>
+    <dimen name="car_type_desc_cell_height">32dp</dimen>
+    <dimen name="car_fare_min_height">86dp</dimen>
+	<dimen name="car_fare_padding_left">24dp</dimen>
+    
+    <dimen name="tab_cell_left_icon_margin_left">12dp</dimen>
+    <dimen name="tab_cell_left_icon_margin_right">12dp</dimen>
+    <dimen name="tab_cell_title_margin_right">12dp</dimen>
+    <dimen name="tab_cell_right_icon_margin_left">12dp</dimen>
+    <dimen name="tab_cell_right_icon_margin_right">8dp</dimen>
+	
+   	<dimen name="car_fare_jiesongji_height">64dp</dimen>
+   	<dimen name="car_type_right_top_icon_margin_top">4dp</dimen>
+   	<dimen name="car_type_right_top_icon_margin_right">4dp</dimen>
+   	<dimen name="car_type_title_margint_bottom">8dp</dimen>
+    
+   	<dimen name="car_fare_item_padding">4dp</dimen>
+   	<dimen name="car_fare_price_padding_top_bottom">4dp</dimen>
+   	<dimen name="car_fare_price_margin_top">20dp</dimen>
+   	<dimen name="car_fare_price_details_margin_top">20dp</dimen>
+   	<dimen name="car_fare_map_margin_top">6dp</dimen>
+   	<dimen name="car_fare_map_padding">8dp</dimen>
+   	<dimen name="car_fare_map_text_margin_bottom">8dp</dimen>
+   	
+   	<dimen name="car_price_item_height">64dp</dimen>
+   	<dimen name="car_price_foot_margin_top">20dp</dimen>
+   	<dimen name="car_price_view_details_margin_top">12dp</dimen>
+   	
+   	 <!-- 订单确认 针对480P适配-->
+    <dimen name="bill_one_four">14dp</dimen>
+    <dimen name="bill_one_four_in">12dp</dimen>
+    <dimen name="bill_two_zero">20dp</dimen>
+    <dimen name="bill_one_zero">10dp</dimen>
+    <dimen name="bill_one_three">13dp</dimen>
+    <dimen name="bill_seven_zero">70dp</dimen>
+    <dimen name="bill_one_five">15dp</dimen>
+    <dimen name="bill_zero_five">5dp</dimen>
+    <dimen name="bill_zero_three">3dp</dimen>
+    <dimen name="bill_zero_seven">7dp</dimen>
+    <dimen name="bill_zero_six">6dp</dimen>
+    <dimen name="bill_text_one_six">16sp</dimen>
+    <dimen name="bill_text_one_four">14sp</dimen>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="system_window_title_high">47dp</dimen>
+    <dimen name="title_padding_left_right">14dp</dimen>
+    <dimen name="system_window_title_size">24dip</dimen>
+    <dimen name="common_item_height">72dp</dimen>
+    <dimen name="car_main_head_height">86dp</dimen>
+    <dimen name="car_main_add_height">72dp</dimen>
+    <dimen name="car_main_cus_height">144dp</dimen>
+    <dimen name="car_quick_item">144dp</dimen>
+    <dimen name="car_reverse_height">99dp</dimen>
+    <dimen name="car_quick_size">40dp</dimen>
+    <dimen name="car_quick_name_size">20sp</dimen>
+    <dimen name="confirm_price_text_size">12sp</dimen>
+
+    <!-- 新版订车 -->
+    <dimen name="order_car_linearlayout_height">52dp</dimen>
+    <dimen name="order_car_linearlayout_height_cartype">64dp</dimen>
+    <dimen name="order_car_linearlayout_height_carprice">32dp</dimen>
+    <dimen name="order_car_linearlayout_height_btn">50dp</dimen>
+    <dimen name="order_car_linearlayout_margin">14dp</dimen>
+    <dimen name="order_car_linearlayout_margin_up">6dp</dimen>
+    <dimen name="order_car_car_type_height">50dp</dimen>
+    <dimen name="order_car_fare_total_tip_margintop">10dp</dimen>
+    <dimen name="order_car_fare_total_tip_textsize">12sp</dimen>
+    <dimen name="order_car_fare_total_txt_textsize">28sp</dimen>
+    <dimen name="con_padding">14dp</dimen>
+    <dimen name="con_padding_top">14dp</dimen>
+    <dimen name="con_padding_left">14dp</dimen>
+    <dimen name="con_padding_right">14dp</dimen>
+    <dimen name="con_padding_bottom">14dp</dimen>
+    <dimen name="table_cell_height">52dp</dimen>
+    <dimen name="car_type_cell_height">62dp</dimen>
+    <dimen name="car_type_desc_cell_height">32dp</dimen>
+    <dimen name="car_fare_min_height">150dp</dimen>
+    <dimen name="car_fare_padding_left">24dp</dimen>
+    <dimen name="tab_cell_left_icon_margin_left">14dp</dimen>
+    <dimen name="tab_cell_left_icon_margin_right">14dp</dimen>
+    <dimen name="tab_cell_title_margin_right">14dp</dimen>
+    <dimen name="tab_cell_right_icon_margin_left">6dp</dimen>
+    <dimen name="tab_cell_right_icon_margin_right">14dp</dimen>
+    <dimen name="car_type_right_top_icon_margin_top">6dp</dimen>
+    <dimen name="car_type_right_top_icon_margin_right">6dp</dimen>
+    <dimen name="car_type_title_margint_bottom">8dp</dimen>
+    <dimen name="car_fare_jiesongji_height">96dp</dimen>
+    <dimen name="car_fare_item_padding">4dp</dimen>
+    <dimen name="car_fare_price_padding_top_bottom">10dp</dimen>
+    <dimen name="car_fare_price_margin_top">40dp</dimen>
+    <dimen name="car_fare_price_details_margin_top">25dp</dimen>
+    <dimen name="car_fare_map_margin_top">6dp</dimen>
+    <dimen name="car_fare_map_padding">8dp</dimen>
+    <dimen name="car_fare_map_text_margin_bottom">8dp</dimen>
+    <dimen name="car_price_padding">8dp</dimen>
+    <dimen name="car_price_item_height">64dp</dimen>
+    <dimen name="car_price_foot_margin_top">14dp</dimen>
+    <dimen name="car_price_view_details_margin_top">10dp</dimen>
+
+    <!-- 1:54px, 2:48px 3:42px 3:36px -->
+    <dimen name="text_size_1">18sp</dimen>
+    <dimen name="text_size_2">16sp</dimen>
+    <dimen name="text_size_3">14sp</dimen>
+    <dimen name="text_size_4">12sp</dimen>
+    <dimen name="text_size_5">10sp</dimen>
+    <dimen name="text_size_6">8sp</dimen>
+    
+    <dimen name="split_height">0.5dp</dimen>
+</resources>

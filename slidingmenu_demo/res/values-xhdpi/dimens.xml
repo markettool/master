@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 新版评论   -->
+    <dimen name="pay_success_text_margin_pic">32dp</dimen>
+    <dimen name="pay_success_text_margin">88dp</dimen>
+    <dimen name="pay_success_text_size_01">16sp</dimen>
+    <dimen name="pay_success_text_size_02">27sp</dimen>
+    <dimen name="rating_margin">56dp</dimen>
+    <dimen name="rating_margin_top">24dp</dimen>
+    <dimen name="time_margin_top">24dp</dimen>
+    <dimen name="comment_content_margin_left">16dp</dimen>
+    <dimen name="comment_content_padding_left">14dp</dimen>
+    <dimen name="button_margin">14dp</dimen>
+    <dimen name="button_margin_edit">20dp</dimen>
+    <dimen name="comment_edit_margin">14dp</dimen>
+    <dimen name="comment_edit_padding">14dp</dimen>
+    <dimen name="comment_edit_height">72dp</dimen>
+    <dimen name="comment_edit_text_size">12sp</dimen>
+    <dimen name="credit_margin">14dp</dimen>
+    <dimen name="credit_padding">14dp</dimen>
+    <dimen name="credit_text_text_margin">8dp</dimen>
+    <dimen name="credit_pic_text_margin">14dp</dimen>
+    <dimen name="credit_view_height">72dp</dimen>
+    <dimen name="credit_text_01">14sp</dimen>
+    <dimen name="credit_text_02">12sp</dimen>
+    <dimen name="credit_text_margin_top">20dp</dimen>
+    
+    <!-- 订单确认 针对1080P适配-->
+    <dimen name="bill_one_four">14dp</dimen>
+    <dimen name="bill_one_four_in">14dp</dimen>
+    <dimen name="bill_two_zero">20dp</dimen>
+    <dimen name="bill_one_zero">10dp</dimen>
+    <dimen name="bill_one_three">13dp</dimen>
+    <dimen name="bill_seven_zero">70dp</dimen>
+    <dimen name="bill_one_five">15dp</dimen>
+    <dimen name="bill_zero_five">5dp</dimen>
+    <dimen name="bill_zero_three">3dp</dimen>
+    <dimen name="bill_zero_seven">7dp</dimen>
+    <dimen name="bill_zero_six">6dp</dimen>
+    <dimen name="bill_text_one_six">16sp</dimen>
+    <dimen name="bill_text_one_four">14sp</dimen>
+</resources>
