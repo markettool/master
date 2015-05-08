@@ -8,6 +8,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.bmob.v3.Bmob;
+
 import com.infzm.slidingmenu.demo.fragment.LeftFragment;
 import com.infzm.slidingmenu.demo.fragment.TodayFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -20,6 +22,11 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
  */
 public class MainActivity extends SlidingFragmentActivity implements
 		OnClickListener {
+	
+	/**
+	 * SDK初始化建议放在启动页
+	 */
+	public static String APPID = "61cac84cd9fe5268b0ff9ff054236373";
 
 	private ImageView topButton;
 	private Fragment mContent;
@@ -30,6 +37,8 @@ public class MainActivity extends SlidingFragmentActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 无标题
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Bmob.initialize(getApplicationContext(),APPID);
 
 		topButton = (ImageView) findViewById(R.id.topButton);
 		topButton.setOnClickListener(this);

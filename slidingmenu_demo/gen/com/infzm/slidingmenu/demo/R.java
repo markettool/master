@@ -528,7 +528,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int wwj_748=0x7f020008;
     }
     public static final class id {
-        public static final int action_settings=0x7f04002b;
+        public static final int action_settings=0x7f04002c;
         public static final int adcontainer=0x7f040016;
         public static final int age=0x7f04000d;
         public static final int arrow_si=0x7f04001b;
@@ -546,8 +546,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int login=0x7f040010;
         public static final int male=0x7f04000b;
         public static final int margin=0x7f040002;
-        public static final int menu_frame=0x7f040028;
-        public static final int menu_frame_two=0x7f040029;
+        public static final int menu_frame=0x7f040029;
+        public static final int menu_frame_two=0x7f04002a;
         public static final int middle=0x7f040019;
         public static final int my_data=0x7f040023;
         public static final int profile_image=0x7f040024;
@@ -557,16 +557,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int selected_view=0x7f040004;
         public static final int sex=0x7f04000a;
         public static final int signin=0x7f040011;
-        public static final int slidingmenumain=0x7f04002a;
+        public static final int slidingmenumain=0x7f04002b;
         public static final int submit=0x7f040005;
         public static final int title_layout=0x7f040017;
         public static final int title_split=0x7f040022;
         public static final int top=0x7f040006;
-        public static final int topButton=0x7f040026;
-        public static final int topTv=0x7f040027;
+        public static final int topButton=0x7f040027;
+        public static final int topTv=0x7f040028;
         public static final int tvLastlist=0x7f040015;
-        public static final int tvMySettings=0x7f040025;
+        public static final int tvMySettings=0x7f040026;
         public static final int tvToday=0x7f040014;
+        public static final int user_name=0x7f040025;
         public static final int userage=0x7f04000e;
         public static final int userimg=0x7f040007;
         public static final int username=0x7f040008;

@@ -1,6 +1,5 @@
 package com.infzm.slidingmenu.demo;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -8,9 +7,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends BaseActivity {
-	private Dialog dialog;
 	private EditText username, userpsw;
 	private Button signin;
 	private TextView register;
@@ -31,7 +31,10 @@ public class LoginActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-
+				String name = username.getText().toString();
+				String psw = userpsw.getText().toString();
+				
+				login(name, psw);
 			}
 		});
 
@@ -43,6 +46,7 @@ public class LoginActivity extends BaseActivity {
 			public void onClick(View v) {
 
 				startActivity(RegisterActivity.class);
+				finish();
 			}
 		});
     }
@@ -64,6 +68,30 @@ public class LoginActivity extends BaseActivity {
 	protected void initData() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * 登陆用户
+	 */
+	private void login(String name,String psw) {
+		final BmobUser bu2 = new BmobUser();
+		bu2.setUsername(name);
+		bu2.setPassword(psw);
+		bu2.login(this, new SaveListener() {
+
+			@Override
+			public void onSuccess() {
+				toastMsg(bu2.getUsername() + "登陆成功");
+//				testGetCurrentUser();
+				finish();
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				toastMsg("登陆失败:" + msg);
+				
+			}
+		});
 	}
 
 }

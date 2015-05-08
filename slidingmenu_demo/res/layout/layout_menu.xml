@@ -32,7 +32,8 @@
             android:paddingLeft="15dp"
             android:text="杰"
             android:textColor="@color/white"
-            android:textSize="14.0sp" />
+            android:textSize="14sp"
+            android:id="@+id/user_name" />
 
     </RelativeLayout>
 

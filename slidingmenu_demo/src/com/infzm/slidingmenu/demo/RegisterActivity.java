@@ -9,24 +9,24 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+import cn.bmob.v3.listener.SaveListener;
+
+import com.infzm.slidingmenu.demo.beans.MyUser;
 
 public class RegisterActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	private EditText username, userpsw, userage;
 	private Button submit;
 	private RadioGroup group;
-	private String sex = "0";
+	private boolean gender = true;
 	private ImageView userimg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.acitivity_register);
 
@@ -101,12 +101,12 @@ public class RegisterActivity extends BaseActivity {
 				String psw = userpsw.getText().toString();
 				String age = userage.getText().toString();
 				if (name.equals("") || psw.equals("") || age.equals("")
-						|| sex.equals("")) {
-					Toast.makeText(getApplicationContext(), "请填写基本资料", 2000)
-							.show();
+						) {
+					toastMsg("请填写基本资料");
 					return;
 				}
 
+				signUp(name, psw, new Integer(age), gender);
 			}
 		});
 
@@ -116,10 +116,10 @@ public class RegisterActivity extends BaseActivity {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if (checkedId == R.id.male) {
-					sex = "男";
-					Toast.makeText(getApplicationContext(), "男", 2000).show();
+					gender = true;
+//					Toast.makeText(getApplicationContext(), "男", 2000).show();
 				} else {
-					sex = "女";
+					gender = false;
 				}
 
 			}
@@ -129,9 +129,33 @@ public class RegisterActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-//				Toast.makeText(getApplicationContext(), "更改用户头像！", 2000).show();
-				toastMsg("更改用户头像！");
 				getFileFromSD();
+			}
+		});
+	}
+	
+	/**
+	 * 注册用户
+	 */
+	private void signUp(String name,String psw,int age,boolean gender) {
+		final MyUser myUser = new MyUser();
+		myUser.setUsername(name);
+		myUser.setPassword(psw);
+		myUser.setAge(age);
+		myUser.setGender(gender);
+		myUser.signUp(this, new SaveListener() {
+
+			@Override
+			public void onSuccess() {
+				toastMsg("注册成功:" + myUser.getUsername() + "-"
+						+ myUser.getObjectId() + "-" + myUser.getCreatedAt()
+						+ "-" + myUser.getSessionToken()+",是否验证："+myUser.getEmailVerified());
+				finish();
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				toastMsg("注册失败:" + msg);
 			}
 		});
 	}

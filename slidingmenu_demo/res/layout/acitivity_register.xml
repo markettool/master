@@ -147,7 +147,8 @@
             android:id="@+id/userage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:inputType="number" />
     </LinearLayout>
 
     <!-- <LinearLayout

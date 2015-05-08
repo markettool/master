@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import cn.bmob.v3.BmobUser;
 
 import com.infzm.slidingmenu.demo.LoginActivity;
 import com.infzm.slidingmenu.demo.MainActivity;
@@ -24,7 +27,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	private View lastListView;
 	private View settingsView;
 	private RelativeLayout myData;
-	
+	private TextView username;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +54,19 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		lastListView = view.findViewById(R.id.tvLastlist);
 		settingsView = view.findViewById(R.id.tvMySettings);
 		myData=(RelativeLayout) view.findViewById(R.id.my_data);
+		username=(TextView) view.findViewById(R.id.user_name);
 		todayView.setOnClickListener(this);
 		lastListView.setOnClickListener(this);
 		settingsView.setOnClickListener(this);
 		myData.setOnClickListener(this);
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		BmobUser myUser = BmobUser.getCurrentUser(getActivity());
+		username.setText(myUser.getUsername());
+	};
 	
 	@Override
 	public void onDestroyView() {
