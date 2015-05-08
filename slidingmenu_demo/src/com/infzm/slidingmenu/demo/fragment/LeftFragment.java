@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cn.bmob.v3.BmobUser;
 
@@ -100,8 +101,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			title = getString(R.string.today);
 			break;
 		case R.id.tvLastlist:// 往期列表
-			newContent = new LastListFragment();
-			title = getString(R.string.lastList);
+//			newContent = new LastListFragment();
+//			title = getString(R.string.lastList);
+			Toast.makeText(getActivity(), "此功能暂时不开放,敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.tvMySettings: // 设置
 			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
