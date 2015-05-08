@@ -15,6 +15,7 @@ import cn.bmob.v3.BmobUser;
 
 import com.infzm.slidingmenu.demo.LoginActivity;
 import com.infzm.slidingmenu.demo.MainActivity;
+import com.infzm.slidingmenu.demo.MyDataActivity;
 import com.infzm.slidingmenu.demo.R;
 import com.infzm.slidingmenu.demo.SettingActivity;
 /**
@@ -28,6 +29,8 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	private View settingsView;
 	private RelativeLayout myData;
 	private TextView username;
+	
+	private BmobUser myUser;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,8 +67,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		BmobUser myUser = BmobUser.getCurrentUser(getActivity());
-		username.setText(myUser.getUsername());
+		myUser = BmobUser.getCurrentUser(getActivity());
+		if(myUser!=null)
+		   username.setText(myUser.getUsername());
 	};
 	
 	@Override
@@ -95,7 +99,11 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
 			break;
 		case R.id.my_data:
-			getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+			if(myUser==null){
+				getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+			}else{
+				getActivity().startActivity(new Intent(getActivity(), MyDataActivity.class));
+			}
 			break;
 		default:
 			break;

@@ -82,7 +82,6 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onSuccess() {
 				toastMsg(bu2.getUsername() + "登陆成功");
-//				testGetCurrentUser();
 				finish();
 			}
 
@@ -93,5 +92,12 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 	}
+	
+//	private void save(final String name,final int age,final boolean gender){
+//		SharedPrefUtil spu=new SharedPrefUtil(this, "user");
+//		spu.putValueByKey("name", name);
+//		spu.putValueByKey("age", ""+age);
+//		spu.putValueByKey("gender", ""+gender);
+//	}
 
 }

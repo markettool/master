@@ -49,6 +49,14 @@
             android:name="com.infzm.slidingmenu.demo.RegisterActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.infzm.slidingmenu.demo.MyDataActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.infzm.slidingmenu.demo.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

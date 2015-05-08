@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import cn.bmob.v3.listener.SaveListener;
 
 import com.infzm.slidingmenu.demo.beans.MyUser;
+import com.infzm.slidingmenu.demo.utils.SharedPrefUtil;
 
 public class RegisterActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
@@ -24,7 +25,7 @@ public class RegisterActivity extends BaseActivity {
 	private RadioGroup group;
 	private boolean gender = true;
 	private ImageView userimg;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +75,7 @@ public class RegisterActivity extends BaseActivity {
 
 	@Override
 	protected void initView() {
+		
 		username = (EditText) findViewById(R.id.username);
 		userpsw = (EditText) findViewById(R.id.userpsw);
 		userage = (EditText) findViewById(R.id.userage);
@@ -137,12 +139,13 @@ public class RegisterActivity extends BaseActivity {
 	/**
 	 * 注册用户
 	 */
-	private void signUp(String name,String psw,int age,boolean gender) {
+	private void signUp(final String name,String psw,final int age,final boolean gender) {
 		final MyUser myUser = new MyUser();
 		myUser.setUsername(name);
 		myUser.setPassword(psw);
 		myUser.setAge(age);
 		myUser.setGender(gender);
+//		myUser.setEmail(age+"-"+gender+"-@qq.com");
 		myUser.signUp(this, new SaveListener() {
 
 			@Override
@@ -150,6 +153,8 @@ public class RegisterActivity extends BaseActivity {
 				toastMsg("注册成功:" + myUser.getUsername() + "-"
 						+ myUser.getObjectId() + "-" + myUser.getCreatedAt()
 						+ "-" + myUser.getSessionToken()+",是否验证："+myUser.getEmailVerified());
+				
+//				save(name, age, gender);
 				finish();
 			}
 
@@ -159,6 +164,13 @@ public class RegisterActivity extends BaseActivity {
 			}
 		});
 	}
+	
+//	private void save(final String name,final int age,final boolean gender){
+//		SharedPrefUtil spu=new SharedPrefUtil(this, "user");
+//		spu.putValueByKey("name", name);
+//		spu.putValueByKey("age", ""+age);
+//		spu.putValueByKey("gender", ""+gender);
+//	}
 
 
 }
