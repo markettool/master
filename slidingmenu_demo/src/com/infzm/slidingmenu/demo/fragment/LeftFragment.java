@@ -68,9 +68,17 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	public void onResume() {
 		super.onResume();
 		myUser = BmobUser.getCurrentUser(getActivity());
-		if(myUser!=null)
-		   username.setText(myUser.getUsername());
+		refresh();
 	};
+	
+	private void refresh(){
+		if(myUser!=null){
+			 username.setText(myUser.getUsername());
+		}
+		else{
+			username.setText("未登录");
+		}
+	}
 	
 	@Override
 	public void onDestroyView() {

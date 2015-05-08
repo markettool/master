@@ -31,6 +31,8 @@ public class MainActivity extends SlidingFragmentActivity implements
 	private ImageView topButton;
 	private Fragment mContent;
 	private TextView topTextView;
+	
+	private LeftFragment leftFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,9 @@ public class MainActivity extends SlidingFragmentActivity implements
 
 		// 设置左侧滑动菜单
 		setBehindContentView(R.layout.menu_frame_left);
+		leftFragment=new LeftFragment();
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.menu_frame, new LeftFragment()).commit();
+				.replace(R.id.menu_frame, leftFragment).commit();
 
 		// 实例化滑动菜单对象
 		SlidingMenu sm = getSlidingMenu();
@@ -115,5 +118,17 @@ public class MainActivity extends SlidingFragmentActivity implements
 			break;
 		}
 	}
+	
+//	@Override
+//	protected void onRestart() {
+//		super.onRestart();
+//		refresh();
+//	}
+	
+//	private void refresh(){
+//		if(leftFragment!=null){
+//			leftFragment.refresh();
+//		}
+//	}
 
 }

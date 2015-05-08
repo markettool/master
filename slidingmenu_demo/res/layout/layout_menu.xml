@@ -30,7 +30,7 @@
             android:layout_toRightOf="@+id/profile_image"
             android:layout_centerVertical="true"
             android:paddingLeft="15dp"
-            android:text="杰"
+            android:text="未登录"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:id="@+id/user_name" />
