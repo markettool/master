@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.infzm.slidingmenu.demo.utils.ActivityControl;
 
@@ -141,7 +142,7 @@ public abstract class BaseActivity extends Activity {
 	
 	/** toast **/
 	public void toastMsg(String message) {
-//		ToastUtils.showToast(message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 	
 	private int titleHeight = 0;

@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.infzm.slidingmenu.demo.LoginActivity;
 import com.infzm.slidingmenu.demo.MainActivity;
 import com.infzm.slidingmenu.demo.R;
 import com.infzm.slidingmenu.demo.SettingActivity;
@@ -20,9 +22,8 @@ import com.infzm.slidingmenu.demo.SettingActivity;
 public class LeftFragment extends Fragment implements OnClickListener{
 	private View todayView;
 	private View lastListView;
-//	private View favoritesView;
-//	private View commentsView;
 	private View settingsView;
+	private RelativeLayout myData;
 	
 	
 	@Override
@@ -48,16 +49,12 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	public void findViews(View view) {
 		todayView = view.findViewById(R.id.tvToday);
 		lastListView = view.findViewById(R.id.tvLastlist);
-//		favoritesView = view.findViewById(R.id.tvMyFavorites);
-//		commentsView = view.findViewById(R.id.tvMyComments);
 		settingsView = view.findViewById(R.id.tvMySettings);
-		
+		myData=(RelativeLayout) view.findViewById(R.id.my_data);
 		todayView.setOnClickListener(this);
 		lastListView.setOnClickListener(this);
-//		discussView.setOnClickListener(this);
-//		favoritesView.setOnClickListener(this);
-//		commentsView.setOnClickListener(this);
 		settingsView.setOnClickListener(this);
+		myData.setOnClickListener(this);
 	}
 	
 	@Override
@@ -83,22 +80,11 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			newContent = new LastListFragment();
 			title = getString(R.string.lastList);
 			break;
-//		case R.id.tvDiscussMeeting: // 讨论集会
-//			newContent = new DiscussFragment();
-//			title = getString(R.string.discussMeetting);
-//			break;
-//		case R.id.tvMyFavorites: // 我的收藏
-//			newContent = new MyFavoritesFragment();
-//			title = getString(R.string.myFavorities);
-//			break;
-//		case R.id.tvMyComments: // 我的评论
-//			newContent = new MyCommentsFragment();
-//			title = getString(R.string.myComments);
-//			break;
 		case R.id.tvMySettings: // 设置
-//			newContent = new MySettingsFragment();
-//			title = getString(R.string.settings);
 			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
+			break;
+		case R.id.my_data:
+			getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
 			break;
 		default:
 			break;
