@@ -1,5 +1,6 @@
 package com.infzm.slidingmenu.demo;
 
+import cn.bmob.v3.update.BmobUpdateAgent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +13,7 @@ public class AboutActivity extends BaseActivity {
 		setContentView(R.layout.activity_about);
 		
 		initView();
+		initData();
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class AboutActivity extends BaseActivity {
 
 	@Override
 	protected void initData() {
-
+		BmobUpdateAgent.update(this);
 	}
 
 }

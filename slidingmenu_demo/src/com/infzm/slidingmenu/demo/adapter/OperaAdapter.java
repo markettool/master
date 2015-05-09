@@ -74,12 +74,12 @@ public class OperaAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
-				if(beans.get(position).getUserId()!=null&&su.getValueByKey("like", "").contains(beans.get(position).getUserId())){
+				if(beans.get(position).getUserId()!=null&&!su.getValueByKey("like_"+beans.get(position).getUserId(), "").equals("")){
 					Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				beans.get(position).setLikeNum(beans.get(position).getLikeNum()+1);
-				su.putValueByKey("like", beans.get(position).getUserId()+"-");
+				su.putValueByKey("like_"+beans.get(position).getUserId(),"-");
 				notifyDataSetChanged();
 				updateLike(beans.get(position));
 			}

@@ -1,5 +1,6 @@
 package com.infzm.slidingmenu.demo.fragment;
 
+import java.util.Collections;
 import java.util.List;
 
 import net.youmi.android.banner.AdSize;
@@ -18,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobQuery.CachePolicy;
 import cn.bmob.v3.listener.FindListener;
 
 import com.infzm.slidingmenu.demo.R;
@@ -111,14 +111,14 @@ public class OperaFragment extends Fragment {
 	
 	private void queryOperas(){
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
-//		bmobQuery.addQueryKeys("objectId");
 		bmobQuery.setLimit(10);
-//		bmobQuery.order("createdAt");
+		bmobQuery.order("likeNum");
 //		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
 		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
 
 			@Override
 			public void onSuccess(List<OperaBean> object) {
+				Collections.reverse(object);
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				setAdapter(object);
 			}
