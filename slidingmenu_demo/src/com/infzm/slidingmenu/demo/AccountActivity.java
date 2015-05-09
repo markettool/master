@@ -3,6 +3,7 @@ package com.infzm.slidingmenu.demo;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -63,6 +64,11 @@ public class AccountActivity extends BaseActivity {
 				if(totalFund<10){
 					toastMsg("低于10元不能体现");
 					return;
+				}else{
+//					startActivity(c);
+					Intent intent=new Intent(AccountActivity.this, GetCashActivity.class);
+					intent.putExtra("fund", totalFund);
+					startActivity(intent);
 				}
 			}
 		});
