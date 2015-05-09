@@ -1,5 +1,6 @@
 package com.infzm.slidingmenu.demo;
 
+import net.youmi.android.AdManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -7,11 +8,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import cn.bmob.v3.Bmob;
 
 import com.infzm.slidingmenu.demo.fragment.LeftFragment;
-import com.infzm.slidingmenu.demo.fragment.TodayFragment;
+import com.infzm.slidingmenu.demo.fragment.OperaFragment;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
@@ -41,6 +41,8 @@ public class MainActivity extends SlidingFragmentActivity implements
 		setContentView(R.layout.activity_main);
 		
 		Bmob.initialize(getApplicationContext(),APPID);
+		 AdManager.getInstance(this).init("8fc8db6c25bac8e1",
+				 "b9aee7b0b8ce4419", true);
 
 		topButton = (ImageView) findViewById(R.id.topButton);
 		topButton.setOnClickListener(this);
@@ -60,8 +62,8 @@ public class MainActivity extends SlidingFragmentActivity implements
 		}
 
 		if (mContent == null) {
-			mContent = new TodayFragment();
-			switchContent(mContent, "ceshi");
+			mContent = new OperaFragment();
+			switchContent(mContent, "乱弹");
 		}
 
 		// 设置左侧滑动菜单

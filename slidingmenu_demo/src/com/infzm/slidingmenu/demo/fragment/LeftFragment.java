@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import cn.bmob.v3.BmobUser;
 
+import com.infzm.slidingmenu.demo.AccountActivity;
 import com.infzm.slidingmenu.demo.LoginActivity;
 import com.infzm.slidingmenu.demo.MainActivity;
 import com.infzm.slidingmenu.demo.MyDataActivity;
@@ -96,13 +96,10 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		Fragment newContent = null;
 		String title = null;
 		switch (v.getId()) {
-		case R.id.tvToday: // 今日
-			newContent = new TodayFragment();
-			title = getString(R.string.today);
+		case R.id.tvToday: // account
+			getActivity().startActivity(new Intent(getActivity(), AccountActivity.class));
 			break;
 		case R.id.tvLastlist:// 往期列表
-//			newContent = new LastListFragment();
-//			title = getString(R.string.lastList);
 			Toast.makeText(getActivity(), "此功能暂时不开放,敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.tvMySettings: // 设置

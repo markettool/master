@@ -57,6 +57,14 @@
             android:name="com.infzm.slidingmenu.demo.AboutActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.infzm.slidingmenu.demo.AccountActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.infzm.slidingmenu.demo.WriteOperaActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
