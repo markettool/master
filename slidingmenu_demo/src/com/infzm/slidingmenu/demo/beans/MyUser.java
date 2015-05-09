@@ -13,6 +13,28 @@ public class MyUser extends BmobUser {
 	// ...
 	private BmobFile avatar;
 	
+	private float fund;
+	private int like;
+	private int comment;
+	
+	public  float getFund() {
+		return fund;
+	}
+	public void setFund(float fund) {
+		this.fund = fund;
+	}
+	public int getLike() {
+		return like;
+	}
+	public void setLike(int like) {
+		this.like = like;
+	}
+	public int getComment() {
+		return comment;
+	}
+	public void setComment(int comment) {
+		this.comment = comment;
+	}
 	public BmobFile getAvatar() {
 		return avatar;
 	}

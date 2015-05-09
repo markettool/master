@@ -60,6 +60,16 @@ public class LoginActivity extends BaseActivity {
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("用户登录");
 		mBtnTitleMiddle.setTextColor(getResources().getColor(R.color.white));
+		
+		mImgLeft.setVisibility(View.VISIBLE);
+		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
+		mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 	}
 
 

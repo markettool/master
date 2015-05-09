@@ -28,6 +28,16 @@ public class SettingActivity extends BaseActivity{
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setTextColor(getResources().getColor(R.color.white));
 		mBtnTitleMiddle.setText("设置");
+		
+		mImgLeft.setVisibility(View.VISIBLE);
+		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
+		mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 	}
 
 	@Override

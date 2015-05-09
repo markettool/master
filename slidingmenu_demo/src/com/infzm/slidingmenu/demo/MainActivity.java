@@ -8,7 +8,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.listener.BmobDialogButtonListener;
+import cn.bmob.v3.listener.BmobUpdateListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
+import cn.bmob.v3.update.UpdateResponse;
+import cn.bmob.v3.update.UpdateStatus;
 
 import com.infzm.slidingmenu.demo.fragment.LeftFragment;
 import com.infzm.slidingmenu.demo.fragment.OperaFragment;
@@ -43,12 +49,29 @@ public class MainActivity extends SlidingFragmentActivity implements
 		Bmob.initialize(getApplicationContext(),APPID);
 		 AdManager.getInstance(this).init("8fc8db6c25bac8e1",
 				 "b9aee7b0b8ce4419", true);
+		 
 
 		topButton = (ImageView) findViewById(R.id.topButton);
 		topButton.setOnClickListener(this);
 		topTextView = (TextView) findViewById(R.id.topTv);
 		
 		initSlidingMenu(savedInstanceState);
+		
+		updateVersion();
+	}
+	
+	private void updateVersion(){
+		BmobUpdateAgent.initAppVersion(this);
+		 BmobUpdateAgent.update(this);
+		 
+		 BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
+
+			 @Override
+			 public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
+			     // TODO Auto-generated method stub
+			     //根据updateStatus来判断更新是否成功
+			 }
+			});
 	}
 
 	/**
@@ -120,17 +143,5 @@ public class MainActivity extends SlidingFragmentActivity implements
 			break;
 		}
 	}
-	
-//	@Override
-//	protected void onRestart() {
-//		super.onRestart();
-//		refresh();
-//	}
-	
-//	private void refresh(){
-//		if(leftFragment!=null){
-//			leftFragment.refresh();
-//		}
-//	}
 
 }

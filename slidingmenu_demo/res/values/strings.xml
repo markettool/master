@@ -12,4 +12,5 @@
 	<string name="yestoday_fund">昨日收益：0元</string>
 	<string name="total_fund">总收益：0元</string>
 	<string name="write_opera_hint">发表乱弹可赚钱</string>
+		<string name="default_username">小小</string>
 </resources>

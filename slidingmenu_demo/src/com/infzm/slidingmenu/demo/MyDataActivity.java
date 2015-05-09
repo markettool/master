@@ -2,11 +2,6 @@ package com.infzm.slidingmenu.demo;
 
 import java.io.File;
 
-import com.infzm.slidingmenu.demo.beans.MyUser;
-import com.infzm.slidingmenu.demo.utils.SharedPrefUtil;
-
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.UpdateListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.UpdateListener;
+
+import com.infzm.slidingmenu.demo.beans.MyUser;
 
 public class MyDataActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
@@ -64,6 +63,21 @@ public class MyDataActivity extends BaseActivity {
 		mBtnTitleMiddle.setText("我的资料");
 		mBtnTitleMiddle.setTextColor(getResources().getColor(R.color.white));
 		
+		mImgLeft.setVisibility(View.VISIBLE);
+		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
+		mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
+		
+			
+	}
+
+	@Override
+	protected void initData() {
 		MyUser myUser = BmobUser.getCurrentUser(this, MyUser.class);
 		username.setText(myUser.getUsername());
 		username.setEnabled(false);
@@ -73,12 +87,7 @@ public class MyDataActivity extends BaseActivity {
 			maleRb.setChecked(true);
 		}else{
 			femaleRb.setChecked(true);
-		}		
-	}
-
-	@Override
-	protected void initData() {
-
+		}	
 	}
 	private void setListeners(){
 		submit.setOnClickListener(new OnClickListener() {

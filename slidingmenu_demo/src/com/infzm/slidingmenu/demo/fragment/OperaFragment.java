@@ -1,5 +1,7 @@
 package com.infzm.slidingmenu.demo.fragment;
 
+import java.util.List;
+
 import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
 import net.youmi.android.banner.AdViewListener;
@@ -13,10 +15,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobQuery.CachePolicy;
+import cn.bmob.v3.listener.FindListener;
 
 import com.infzm.slidingmenu.demo.R;
 import com.infzm.slidingmenu.demo.WriteOperaActivity;
+import com.infzm.slidingmenu.demo.adapter.OperaAdapter;
+import com.infzm.slidingmenu.demo.beans.OperaBean;
 public class OperaFragment extends Fragment {
 	public static final String PUBLISHER_ID = "56OJxFyIuN0CmR98Ua";
 	public static final String InlinePPID = "16TLettoApHowNUdHoefcMUi";
@@ -25,6 +33,9 @@ public class OperaFragment extends Fragment {
 	
 	private RelativeLayout mAdContainer;
 	private ImageView btWrite;
+	private ListView lv;
+	
+	private OperaAdapter adapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,8 +44,10 @@ public class OperaFragment extends Fragment {
 		View view = inflater.inflate(R.layout.frag_opera, null);
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
+		lv=(ListView) view.findViewById(R.id.lv);
 		setListeners();
 		showBanner();
+		queryOperas();
 		return view;
 	}
 	
@@ -43,10 +56,16 @@ public class OperaFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				getActivity().startActivity(new Intent(getActivity(), WriteOperaActivity.class));
+				getActivity().startActivityForResult(new Intent(getActivity(), WriteOperaActivity.class),0x01);
 			}
 		});
 	}
+	
+//	@Override
+//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		super.onActivityResult(requestCode, resultCode, data);
+//		queryOperas();
+//	}
 	
 	private void showBanner() {
 
@@ -90,14 +109,30 @@ public class OperaFragment extends Fragment {
 		mAdContainer.addView(adView,layoutParams);
 	}
 	
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
+	private void queryOperas(){
+		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
+//		bmobQuery.addQueryKeys("objectId");
+		bmobQuery.setLimit(10);
+//		bmobQuery.order("createdAt");
+//		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
+		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+
+			@Override
+			public void onSuccess(List<OperaBean> object) {
+				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+				setAdapter(object);
+			}
+
+			@Override
+			public void onError(int code, String msg) {
+				Log.e("majie","查询失败："+msg);
+			}
+		});
 	}
 	
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	private void setAdapter(List<OperaBean> object){
+		adapter=new OperaAdapter(getActivity(), object);
+		lv.setAdapter(adapter);
 	}
+	
 }

@@ -9,10 +9,11 @@
         android:layout_height="100dp"
         android:layout_margin="5dp"
         android:gravity="top"
-        android:hint="@string/write_opera_hint" />
+        android:hint="@string/write_opera_hint"
+        android:id="@+id/et_opera" />
     
     <Button
-        android:id="@+id/bt_write"
+        android:id="@+id/btn_write"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"

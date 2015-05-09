@@ -20,7 +20,7 @@
         android:layout_centerVertical="true"
         android:text="今日"
         android:textColor="@color/white"
-        android:textSize="21sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 </RelativeLayout>
