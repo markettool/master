@@ -28,7 +28,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-        <meta-data android:value="Channel ID" android:name="BMOB_CHANNEL"/>
         <activity
             android:name="com.infzm.slidingmenu.demo.MainActivity"
             android:label="@string/app_name"

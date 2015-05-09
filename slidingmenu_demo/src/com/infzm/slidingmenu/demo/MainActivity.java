@@ -3,6 +3,7 @@ package com.infzm.slidingmenu.demo;
 import net.youmi.android.AdManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -61,15 +62,16 @@ public class MainActivity extends SlidingFragmentActivity implements
 	}
 	
 	private void updateVersion(){
-		BmobUpdateAgent.initAppVersion(this);
+//		BmobUpdateAgent.initAppVersion(this);
 		 BmobUpdateAgent.update(this);
-		 
+//		BmobUpdateAgent.forceUpdate(this);
 		 BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
 
 			 @Override
 			 public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
 			     // TODO Auto-generated method stub
 			     //根据updateStatus来判断更新是否成功
+				 Log.e("majie","updateStatus "+ updateStatus);
 			 }
 			});
 	}
