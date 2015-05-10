@@ -13,7 +13,7 @@
         android:id="@+id/my_data"
         >
 
-        <com.infzm.slidingmenu.demo.view.CircleImageView
+        <org.markettool.opera.view.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="60dp"

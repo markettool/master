@@ -47,7 +47,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center_vertical" >
 
-        <com.infzm.slidingmenu.demo.view.CircleImageView
+        <org.markettool.opera.view.CircleImageView
             android:id="@+id/userimg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
