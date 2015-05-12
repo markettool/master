@@ -6,6 +6,8 @@ import org.markettool.opera.MainActivity;
 import org.markettool.opera.MyDataActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.SettingActivity;
+import org.markettool.opera.beans.MyUser;
+import org.markettool.opera.utils.BitmapUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +33,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	private View settingsView;
 	private RelativeLayout myData;
 	private TextView username;
+	private ImageView avatarPic;
 	
-	private BmobUser myUser;
+	private MyUser myUser;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,8 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		settingsView = view.findViewById(R.id.tvMySettings);
 		myData=(RelativeLayout) view.findViewById(R.id.my_data);
 		username=(TextView) view.findViewById(R.id.user_name);
+		avatarPic=(ImageView) view.findViewById(R.id.avatar_pic);
+		avatarPic.setOnClickListener(this);
 		todayView.setOnClickListener(this);
 		lastListView.setOnClickListener(this);
 		settingsView.setOnClickListener(this);
@@ -68,7 +74,11 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		myUser = BmobUser.getCurrentUser(getActivity());
+		myUser = BmobUser.getCurrentUser(getActivity(),MyUser.class);
+		if(myUser!=null&&myUser.getFilePath()!=null){
+			avatarPic.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+		}
+		
 		refresh();
 	};
 	
@@ -112,6 +122,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 				getActivity().startActivity(new Intent(getActivity(), MyDataActivity.class));
 			}
 			break;
+//		case R.id.avatar_pic:
+//			
+//			break;
 		default:
 			break;
 		}

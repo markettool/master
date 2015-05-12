@@ -17,6 +17,8 @@ public class MyUser extends BmobUser {
 	private int like;
 	private int comment;
 	
+	private String filePath;
+	
 	public  float getFund() {
 		return fund;
 	}
@@ -52,5 +54,11 @@ public class MyUser extends BmobUser {
 	}
 	public void setGender(Boolean gender) {
 		this.gender = gender;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 }

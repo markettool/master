@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,16 +15,11 @@ import android.util.Log;
 public class FileUtils {
 	
 	
-	public static String getSDCardRoot() throws NoSdcardException{
+	public static String getSDCardRoot() {
 			String SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 		return SDCardRoot;
 	}
 	
-	public static String getRoot(){
-		return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-	}
-
-
 	public static boolean isFileExist(String path) {
 		if (TextUtils.isEmpty(path))
 			return false;
@@ -85,71 +79,9 @@ public class FileUtils {
 		return file;
 	}
 	
-	public void persistFileToSdCard(String filePath, String fileName, InputStream in, OnFileSaveListener onFileSaveListener) {
-		File dir = new File(filePath);
-		if (!dir.exists() || (dir.exists() && !dir.isDirectory()))
-			dir.mkdirs();
-		File target = new File(dir, fileName + ".tmp");
-		OutputStream os = null;
-		try {
-			os = new FileOutputStream(target);
-			byte[] buffer = new byte[4 * 1024];
-			int len = -1;
-			while ((len = in.read(buffer)) != -1) {
-				os.write(buffer, 0, len);
-				if (onFileSaveListener != null) {
-					onFileSaveListener.onFileSaving(len);
-				}
-			}
-			os.flush();
-			target.renameTo(new File(dir, fileName));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (os != null) {
-				try {
-					os.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-	}
 	
 	
-	/**
-	 * 文件下载的监听器
-	 * 
-	 * @author foxchan@live.cn
-	 * @version 1.0.0
-	 * @create 2014年1月9日
-	 */
-	public static interface OnFileDownloadListener {
 
-		/**
-		 * 当文件正在下载的时候将触发该事件
-		 * 
-		 * @param totalLength
-		 *            正在下载的文件的总长度，单位：字节
-		 */
-		void onFileDownloading(long totalLength);
-
-	}
-
-	public static interface OnFileSaveListener {
-
-		/**
-		 * 当文件正在保存的时候将触发该事件
-		 * 
-		 * @param savingLength
-		 *            本次保存的文件的大小，单位：字节
-		 */
-		void onFileSaving(long savingLength);
-
-	}
 	
 	/**
 	 * 获得文件的拓展名
@@ -167,23 +99,7 @@ public class FileUtils {
 		return ext;
 	}
 
-	public static boolean isJpg(String ext) {
-		if (TextUtils.isEmpty(ext))
-			return false;
-		return "jpg|jpeg".contains(ext.toLowerCase());
-	}
 
-	public static boolean isPng(String ext) {
-		if (TextUtils.isEmpty(ext))
-			return false;
-		return "png".contains(ext.toLowerCase());
-	}
-
-	public static boolean isGif(String ext) {
-		if (TextUtils.isEmpty(ext))
-			return false;
-		return "gif".contains(ext.toLowerCase());
-	}
 	
 	public static void persistFileToSdcard(byte [] buff,String filePath , String fileName){
 		File dir = new File(filePath);
@@ -213,5 +129,12 @@ public class FileUtils {
 	public static void renameFile(String oldFileName,String newFileName){
 		File file=new File(oldFileName);
 		file.renameTo(new File(newFileName));
+	}
+	
+	public static void mkdirs(String dir){
+		File dirFile=new File(dir);
+		if(!dirFile.exists()){
+			dirFile.mkdirs();
+		}
 	}
 }

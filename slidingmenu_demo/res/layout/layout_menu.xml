@@ -15,7 +15,7 @@
 
         <org.markettool.opera.view.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
+            android:id="@+id/avatar_pic"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/profile_image"
+            android:layout_toRightOf="@+id/avatar_pic"
             android:layout_centerVertical="true"
             android:paddingLeft="15dp"
             android:text="未登录"

@@ -4,9 +4,12 @@ import java.io.File;
 
 import org.markettool.opera.R;
 import org.markettool.opera.beans.MyUser;
+import org.markettool.opera.utils.BitmapUtil;
+import org.markettool.opera.utils.FileUtils;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class MyDataActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
@@ -31,8 +36,7 @@ public class MyDataActivity extends BaseActivity {
 	private ImageView userimg;
 	private LinearLayout pswLayout;
     private RadioButton maleRb,femaleRb;
-	
-//	private SharedPrefUtil spu=null;
+    private String avatarPath;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,6 @@ public class MyDataActivity extends BaseActivity {
 
 	@Override
 	protected void initView() {
-//		spu=new SharedPrefUtil(this, "user");
 		
 		username = (EditText) findViewById(R.id.username);
 		userage = (EditText) findViewById(R.id.userage);
@@ -89,6 +92,9 @@ public class MyDataActivity extends BaseActivity {
 		}else{
 			femaleRb.setChecked(true);
 		}	
+		if(myUser.getFilePath()!=null){
+			userimg.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+		}
 	}
 	private void setListeners(){
 		submit.setOnClickListener(new OnClickListener() {
@@ -105,7 +111,12 @@ public class MyDataActivity extends BaseActivity {
 					return;
 				}
 
-				updateUser(name, new Integer(age), gender);
+				if(avatarPath==null){
+					updateUser(name, new Integer(age), gender, null);
+				}else{
+					uploadAvatarFile(name,  new Integer(age), gender, new File(avatarPath));
+				}
+				
 			}
 		});
 
@@ -144,7 +155,6 @@ public class MyDataActivity extends BaseActivity {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			Uri uri = data.getData();
@@ -157,9 +167,15 @@ public class MyDataActivity extends BaseActivity {
 					cursor.moveToFirst();
 					String path = cursor.getString(colunm_index);
 
-					File file = new File(path);
-					System.out.println("path  " + path);
+//					Log.e("majie", "path  " + path);
 					if (path != null) {
+					    Bitmap b= BitmapUtil.decodeBitmap(path);
+					    userimg.setImageBitmap(b);
+					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
+					    FileUtils.mkdirs(dir);
+					    avatarPath=dir+path.substring(path.lastIndexOf("/")+1);
+					    BitmapUtil.saveBitmapToSdcard(b, avatarPath);
+					    
 					}
 				}
 
@@ -169,21 +185,26 @@ public class MyDataActivity extends BaseActivity {
 		}
 	}
 	
-	private void updateUser(String name,int age,boolean gender) {
+	private void updateUser(String name,int age,boolean gender,BmobFile bmobFile) {
 		final MyUser bmobUser = BmobUser.getCurrentUser(this, MyUser.class);
 		if (bmobUser != null) {
 			Log.d("bmob", "getObjectId = " + bmobUser.getObjectId());
 			Log.d("bmob", "getUsername = " + bmobUser.getUsername());
 			MyUser newUser = new MyUser();
 //			newUser.setPassword("123456");
+			if(bmobFile!=null){
+				newUser.setAvatar(bmobFile);
+			}
 			newUser.setAge(age);
 			newUser.setGender(gender);
+			newUser.setFilePath(avatarPath);
 			newUser.setObjectId(bmobUser.getObjectId());
 			newUser.update(this,new UpdateListener() {
 
 				@Override
 				public void onSuccess() {
 					toastMsg("更新用户信息成功");
+					finish();
 				}
 
 				@Override
@@ -193,6 +214,30 @@ public class MyDataActivity extends BaseActivity {
 			});
 		} 
 	}
+	
+	private void uploadAvatarFile(final String name,final int age,final boolean gender,File file) {
+		final BmobFile bmobFile = new BmobFile(file);
+		
+		bmobFile.uploadblock(this, new UploadFileListener() {
 
+			@Override
+			public void onSuccess() {
+				Log.i("majie", "名称--"+bmobFile.getFileUrl(MyDataActivity.this)+"，文件名="+bmobFile.getFilename());
+				updateUser(name, age, gender, bmobFile);
+			}
 
+			@Override
+			public void onProgress(Integer arg0) {
+			}
+
+			@Override
+			public void onFailure(int arg0, String arg1) {
+				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
+			}
+
+		});
+
+	}
+
+	
 }

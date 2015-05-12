@@ -1,9 +1,15 @@
 package org.markettool.opera;
 
-import org.markettool.opera.R;
+import java.io.File;
+
+import org.markettool.opera.beans.MyUser;
+import org.markettool.opera.utils.FileDownloader;
+import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
+import org.markettool.opera.utils.FileUtils;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -86,15 +92,16 @@ public class LoginActivity extends BaseActivity {
 	 * 登陆用户
 	 */
 	private void login(String name,String psw) {
-		final BmobUser bu2 = new BmobUser();
-		bu2.setUsername(name);
-		bu2.setPassword(psw);
-		bu2.login(this, new SaveListener() {
+		final MyUser bu = new MyUser();
+		bu.setUsername(name);
+		bu.setPassword(psw);
+		bu.login(this, new SaveListener() {
 
 			@Override
 			public void onSuccess() {
-				toastMsg(bu2.getUsername() + "登陆成功");
-				finish();
+				toastMsg(bu.getUsername() + "登陆成功");
+				getAvatar();
+				
 			}
 
 			@Override
@@ -105,11 +112,34 @@ public class LoginActivity extends BaseActivity {
 		});
 	}
 	
-//	private void save(final String name,final int age,final boolean gender){
-//		SharedPrefUtil spu=new SharedPrefUtil(this, "user");
-//		spu.putValueByKey("name", name);
-//		spu.putValueByKey("age", ""+age);
-//		spu.putValueByKey("gender", ""+gender);
-//	}
-
+	private void getAvatar(){
+		final MyUser user=BmobUser.getCurrentUser(this, MyUser.class);
+		String url=user.getAvatar().getFileUrl(this);
+		FileDownloader downloader=new FileDownloader();
+		downloader.setFileUrl(url);
+		final String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
+	    FileUtils.mkdirs(dir);
+		downloader.setSavePath(dir+"avatar.png");
+		downloader.setProgressOutput(new IDownloadProgress() {
+			
+			@Override
+			public void downloadSucess() {
+				user.setFilePath(dir+"avatar.png");
+				finish();
+			}
+			
+			@Override
+			public void downloadProgress(float progress) {
+				
+			}
+			
+			@Override
+			public void downloadFail() {
+				finish();
+			}
+		});
+		Log.e("majie", url);
+		downloader.start();
+	}
+	
 }
