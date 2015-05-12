@@ -2,6 +2,7 @@ package org.markettool.opera.fragment;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
@@ -11,9 +12,13 @@ import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.view.RefreshableView;
+import org.markettool.opera.view.RefreshableView.PullToLoadListener;
+import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 public class OperaFragment extends Fragment {
@@ -35,8 +41,12 @@ public class OperaFragment extends Fragment {
 	private RelativeLayout mAdContainer;
 	private ImageView btWrite;
 	private ListView lv;
+	private RefreshableView mRefreshableView;
 	
 	private OperaAdapter adapter;
+	
+	public static final int FINISH_REFRESHING=0;
+	public static final int FINISH_LOADING=1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +56,7 @@ public class OperaFragment extends Fragment {
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
 		lv=(ListView) view.findViewById(R.id.lv);
+		mRefreshableView=(RefreshableView) view.findViewById(R.id.refreshableview);
 		setListeners();
 		showBanner();
 		queryOperas();
@@ -60,13 +71,23 @@ public class OperaFragment extends Fragment {
 				getActivity().startActivityForResult(new Intent(getActivity(), WriteOperaActivity.class),0x01);
 			}
 		});
+		
+        mRefreshableView.setOnRefreshListener(new PullToRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				Log.e("majie", "refresh");
+				queryOperas();
+			}
+		}, 1, false);
+		
+		mRefreshableView.setOnLoadListener(new PullToLoadListener() {
+			
+			@Override
+			public void onLoad() {
+			}
+		});
 	}
-	
-//	@Override
-//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		super.onActivityResult(requestCode, resultCode, data);
-//		queryOperas();
-//	}
 	
 	private void showBanner() {
 
@@ -122,11 +143,13 @@ public class OperaFragment extends Fragment {
 				Collections.reverse(object);
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				setAdapter(object);
+				mHandler.sendEmptyMessage(FINISH_REFRESHING);
 			}
 
 			@Override
 			public void onError(int code, String msg) {
 				Log.e("majie","查询失败："+msg);
+				mHandler.sendEmptyMessage(FINISH_REFRESHING);
 			}
 		});
 	}
@@ -135,5 +158,23 @@ public class OperaFragment extends Fragment {
 		adapter=new OperaAdapter(getActivity(), object);
 		lv.setAdapter(adapter);
 	}
+	
+	private Handler mHandler=new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case FINISH_REFRESHING:
+				mRefreshableView.finishRefreshing();
+				break;
+
+			case FINISH_LOADING:
+				mRefreshableView.finishLoading();
+//				mLv.setSelection(oldSize+1);
+				break;
+			}
+			
+		};
+	};
+	
+	
 	
 }
