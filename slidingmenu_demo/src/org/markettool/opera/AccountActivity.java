@@ -63,7 +63,7 @@ public class AccountActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				if(totalFund<10){
-					toastMsg("低于10元不能体现");
+					toastMsg("低于10元不能提现");
 					return;
 				}else{
 //					startActivity(c);

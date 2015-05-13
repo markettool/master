@@ -20,6 +20,7 @@ public class BitmapUtil {
         if (bitmap == null)
         {
         	Log.e("majie", "bitmap为空");
+//        	return null;
         }
         float realWidth = options.outWidth;
         float realHeight = options.outHeight;

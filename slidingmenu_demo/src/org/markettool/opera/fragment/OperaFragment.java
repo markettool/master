@@ -1,17 +1,21 @@
 package org.markettool.opera.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
 import net.youmi.android.banner.AdViewListener;
 
+import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.utils.FileDownloader;
+import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
+import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
@@ -25,6 +29,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,7 +52,6 @@ public class OperaFragment extends Fragment {
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
-	public static final int CANNOT_PULL_AND_DOWN=2;
 	
 	private int skip;
 	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
@@ -94,15 +99,20 @@ public class OperaFragment extends Fragment {
 				queryOperas(FINISH_LOADING);
 			}
 		});
+		
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent=new Intent(getActivity(), CommentActivity.class);
+				intent.putExtra("operaBean", operaBeans.get(arg2));
+				getActivity().startActivity(intent);
+			}
+		});
 	}
 	
 	private void showBanner() {
-
-		// 广告条接口调用（适用于应用）
-		// 将广告条adView添加到需要展示的layout控件中
-		// LinearLayout adLayout = (LinearLayout) findViewById(R.id.adLayout);
-		// AdView adView = new AdView(this, AdSize.FIT_SCREEN);
-		// adLayout.addView(adView);
 
 		// 广告条接口调用（适用于游戏）
 
@@ -139,17 +149,15 @@ public class OperaFragment extends Fragment {
 	}
 	
 	private void queryOperas(final int handle){
-		mHandler.sendEmptyMessage(CANNOT_PULL_AND_DOWN);
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
-		bmobQuery.setLimit(8);
-		bmobQuery.order("-likeNum");
+		bmobQuery.setLimit(10);
+		bmobQuery.order("-commentNum,-likeNum");
 		bmobQuery.setSkip(skip);
 //		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
 		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
 
 			@Override
 			public void onSuccess(List<OperaBean> object) {
-//				Collections.reverse(object);
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				skip+=object.size();
 				operaBeans.addAll(object);
@@ -175,7 +183,7 @@ public class OperaFragment extends Fragment {
 			switch (msg.what) {
 			case FINISH_REFRESHING:
 				mRefreshableView.finishRefreshing();
-				
+				downloadPics(0);
 				break;
 
 			case FINISH_LOADING:
@@ -196,6 +204,42 @@ public class OperaFragment extends Fragment {
 		};
 	};
 	
-	
+	private void downloadPics(int index){
+		if(index>=operaBeans.size()){
+			return;
+		}
+		final int tem=index+1;
+		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator;
+	    FileUtils.mkdirs(dir);
+	    String url=operaBeans.get(index).getUserPicPath();
+	    String savePath=dir+operaBeans.get(index).getUsername();
+	    if(new File(savePath).exists()){
+	    	downloadPics(tem);
+	    	return;
+	    }
+		FileDownloader downloader=new FileDownloader();
+	    downloader.setFileUrl(url);
+	    downloader.setSavePath(savePath);
+	    downloader.setProgressOutput(new IDownloadProgress() {
+			
+			@Override
+			public void downloadSucess() {
+				
+				mHandler.sendEmptyMessage(0x1101);
+				downloadPics(tem);
+			}
+			
+			@Override
+			public void downloadProgress(float progress) {
+				
+			}
+			
+			@Override
+			public void downloadFail() {
+				
+			}
+		});
+	    downloader.start();	    
+	}
 	
 }

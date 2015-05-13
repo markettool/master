@@ -1,5 +1,9 @@
 package org.markettool.opera;
 
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
+import net.youmi.android.banner.AdViewListener;
+
 import org.markettool.opera.R;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
@@ -11,6 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -20,6 +26,7 @@ public class WriteOperaActivity extends BaseActivity {
 	private EditText etOpera;
 	private Button btPublish;
 	private MyUser myUser;
+	private RelativeLayout mAdContainer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +35,14 @@ public class WriteOperaActivity extends BaseActivity {
 		initView();
 		setListeners();
 		initData();
+		showBanner();
 	}
 
 	@Override
 	protected void initView() {
 		etOpera=(EditText) findViewById(R.id.et_opera);
 		btPublish=(Button) findViewById(R.id.btn_write);
+		mAdContainer = (RelativeLayout) findViewById(R.id.adcontainer);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("我爱乱弹");
@@ -71,6 +80,7 @@ public class WriteOperaActivity extends BaseActivity {
 		myUser=BmobUser.getCurrentUser(this, MyUser.class);
 		if(myUser==null){
 			startActivity(LoginActivity.class);
+			finish();
 		}
 	}
 	
@@ -85,11 +95,13 @@ public class WriteOperaActivity extends BaseActivity {
 	 */
 	private void writeOpera() {
 		
-		final OperaBean p2 = new OperaBean();
-		p2.setUserId(myUser.getUsername()+new java.util.Date().getTime());
-		p2.setUsername(myUser.getUsername());
-		p2.setOperaContent(etOpera.getText().toString());
-		p2.save(this, new SaveListener() {
+		final OperaBean p = new OperaBean();
+		if(myUser.getAvatar()!=null){
+			p.setUserPicPath(myUser.getAvatar().getFileUrl(this));
+		}
+		p.setUsername(myUser.getUsername());
+		p.setOperaContent(etOpera.getText().toString());
+		p.save(this, new SaveListener() {
 
 			@Override
 			public void onSuccess() {
@@ -110,5 +122,40 @@ public class WriteOperaActivity extends BaseActivity {
 		super.onDestroy();
 		setResult(0x01);
 	}
+	
+	private void showBanner() {
+
+		// 实例化LayoutParams(重要)
+		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT);
+		// 设置广告条的悬浮位置
+//		layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT; // 这里示例为右下角
+		// 实例化广告条
+		AdView adView = new AdView(this, AdSize.FIT_SCREEN);
+		// 调用Activity的addContentView函数
+
+		// 监听广告条接口
+		adView.setAdListener(new AdViewListener() {
+
+			@Override
+			public void onSwitchedAd(AdView arg0) {
+				Log.i("YoumiAdDemo", "广告条切换");
+			}
+
+			@Override
+			public void onReceivedAd(AdView arg0) {
+				Log.i("YoumiAdDemo", "请求广告成功");
+
+			}
+
+			@Override
+			public void onFailedToReceivedAd(AdView arg0) {
+				Log.i("YoumiAdDemo", "请求广告失败");
+			}
+		});
+//		this.addContentView(adView, layoutParams);
+		mAdContainer.addView(adView,layoutParams);
+	}
+
 
 }

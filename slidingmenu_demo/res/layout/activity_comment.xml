@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/et_comment"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:padding="5dp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="5dp"
+        android:text="提交"
+        android:textSize="16sp" />
+    
+    <RelativeLayout
+        android:id="@+id/adcontainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+         >
+    </RelativeLayout>
+    
+    <org.markettool.opera.view.RefreshableView
+        android:id="@+id/refreshableview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         >
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+             >
+        </ListView>
+        
+        <include layout="@layout/footer"/>
+    </org.markettool.opera.view.RefreshableView>
+    
+</LinearLayout>

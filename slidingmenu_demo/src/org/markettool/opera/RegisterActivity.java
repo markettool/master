@@ -128,8 +128,12 @@ public class RegisterActivity extends BaseActivity {
 					toastMsg("请填写基本资料");
 					return;
 				}
-				uploadAvatarFile(name, psw, new Integer(age), gender,new File(avatarPath));
-
+				if(avatarPath==null){
+					signUp(name, psw, new Integer(age), gender, null);
+				}else{
+					uploadAvatarFile(name, psw, new Integer(age), gender,new File(avatarPath));
+				}
+				
 //				signUp(name, psw, new Integer(age), gender);
 			}
 		});
@@ -169,7 +173,9 @@ public class RegisterActivity extends BaseActivity {
 		myUser.setAge(age);
 		myUser.setGender(gender);
 		myUser.setAvatar(file);
-		myUser.setFilePath(avatarPath);
+		if(avatarPath!=null){
+			myUser.setFilePath(avatarPath);
+		}
 //		
 		myUser.signUp(this, new SaveListener() {
 

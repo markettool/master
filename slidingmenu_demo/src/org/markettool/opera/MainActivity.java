@@ -49,7 +49,7 @@ public class MainActivity extends SlidingFragmentActivity implements
 		
 		Bmob.initialize(getApplicationContext(),APPID);
 		 AdManager.getInstance(this).init("8fc8db6c25bac8e1",
-				 "b9aee7b0b8ce4419", true);
+				 "b9aee7b0b8ce4419", false);
 		 
 
 		topButton = (ImageView) findViewById(R.id.topButton);
