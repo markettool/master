@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
@@ -40,6 +41,7 @@ public class CommentActivity extends BaseActivity {
 	private ListView lv;
 	private RefreshableView mRefreshableView;
 	private RelativeLayout mAdContainer;
+	private TextView tvOpera;
 	
 	private int skip;
 	
@@ -92,13 +94,13 @@ public class CommentActivity extends BaseActivity {
 			}
 		}, 1, false);
 		
-		mRefreshableView.setOnLoadListener(new PullToLoadListener() {
-			
-			@Override
-			public void onLoad() {
-				queryComments(FINISH_LOADING);
-			}
-		});
+//		mRefreshableView.setOnLoadListener(new PullToLoadListener() {
+//			
+//			@Override
+//			public void onLoad() {
+//				queryComments(FINISH_LOADING);
+//			}
+//		});
 	}
 	
 	@Override
@@ -107,6 +109,7 @@ public class CommentActivity extends BaseActivity {
 		etComment=(EditText) findViewById(R.id.et_comment);
 		btSubmit=(Button) findViewById(R.id.submit);
 		mAdContainer = (RelativeLayout) findViewById(R.id.adcontainer);
+		tvOpera=(TextView) findViewById(R.id.tv_opera);
 		
 		lv=(ListView) findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) findViewById(R.id.refreshableview);
@@ -130,11 +133,14 @@ public class CommentActivity extends BaseActivity {
 	protected void initData() {
 
 		operaBean=(OperaBean) getIntent().getSerializableExtra("operaBean");
+		String operaText=operaBean.getOperaContent();
+		tvOpera.setText(operaText);
 		myuser=BmobUser.getCurrentUser(this, MyUser.class);
 		if(myuser==null){
 			startActivity(LoginActivity.class);
 			finish();
 		}
+		
 	}
 	
 	@Override
