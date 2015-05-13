@@ -12,7 +12,6 @@ import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
-import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.FileDownloader;
 import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
@@ -114,12 +113,6 @@ public class OperaFragment extends Fragment {
 	}
 	
 	private void showBanner() {
-
-		// 广告条接口调用（适用于应用）
-		// 将广告条adView添加到需要展示的layout控件中
-		// LinearLayout adLayout = (LinearLayout) findViewById(R.id.adLayout);
-		// AdView adView = new AdView(this, AdSize.FIT_SCREEN);
-		// adLayout.addView(adView);
 
 		// 广告条接口调用（适用于游戏）
 
