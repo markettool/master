@@ -12,7 +12,7 @@
 	<string name="yestoday_fund">昨日收益：0元</string>
 	<string name="total_fund">总收益：0元</string>
 	<string name="write_opera_hint">发表乱弹可赚钱</string>
-	<string name="get_cash_hint">输入银行，开户名（标明支行），卡号，已逗号隔开</string>
+	<string name="get_cash_hint">输入银行，开户名（标明支行），卡号，以逗号隔开</string>
 		<string name="default_username">小小</string>
 		
 		<string name="pull_to_refresh">下拉可以刷新</string>

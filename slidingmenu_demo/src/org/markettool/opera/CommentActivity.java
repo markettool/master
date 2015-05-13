@@ -101,6 +101,20 @@ public class CommentActivity extends BaseActivity {
 		
 		lv=(ListView) findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) findViewById(R.id.refreshableview);
+		
+		mBtnTitleMiddle.setVisibility(View.VISIBLE);
+		mBtnTitleMiddle.setText("发表评论");
+		mBtnTitleMiddle.setTextColor(getResources().getColor(R.color.white));
+		
+		mImgLeft.setVisibility(View.VISIBLE);
+		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
+		mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
+			}
+		});
 	}
 
 	@Override

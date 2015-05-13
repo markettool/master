@@ -92,8 +92,12 @@ public class MyDataActivity extends BaseActivity {
 		}else{
 			femaleRb.setChecked(true);
 		}	
-		if(myUser.getFilePath()!=null){
-			userimg.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+		try{
+			if(myUser.getFilePath()!=null){
+				userimg.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+			}
+		}catch(Exception e){
+			
 		}
 	}
 	private void setListeners(){

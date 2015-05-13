@@ -77,11 +77,15 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		super.onResume();
 		myUser = BmobUser.getCurrentUser(getActivity(),MyUser.class);
 		if(myUser!=null&&myUser.getFilePath()!=null){
-			Bitmap b=BitmapUtil.decodeBitmap(myUser.getFilePath());
-			if(b!=null){
-				avatarPic.setImageBitmap(b);
-			}else{
-				avatarPic.setImageResource(R.drawable.wwj_748);
+			try{
+				Bitmap b=BitmapUtil.decodeBitmap(myUser.getFilePath());
+				if(b!=null){
+					avatarPic.setImageBitmap(b);
+				}else{
+					avatarPic.setImageResource(R.drawable.wwj_748);
+				}
+			}catch(Exception e){
+				
 			}
 			
 		}

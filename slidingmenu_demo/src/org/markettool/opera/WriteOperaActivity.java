@@ -71,6 +71,7 @@ public class WriteOperaActivity extends BaseActivity {
 		myUser=BmobUser.getCurrentUser(this, MyUser.class);
 		if(myUser==null){
 			startActivity(LoginActivity.class);
+			finish();
 		}
 	}
 	
