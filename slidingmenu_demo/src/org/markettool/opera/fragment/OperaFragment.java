@@ -1,8 +1,8 @@
 package org.markettool.opera.fragment;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
@@ -29,7 +29,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 public class OperaFragment extends Fragment {
@@ -48,6 +47,9 @@ public class OperaFragment extends Fragment {
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
 	
+	private int skip;
+	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class OperaFragment extends Fragment {
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
 		lv=(ListView) view.findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) view.findViewById(R.id.refreshableview);
+		setAdapter();
 		setListeners();
 		showBanner();
 		queryOperas();
@@ -77,6 +80,8 @@ public class OperaFragment extends Fragment {
 			@Override
 			public void onRefresh() {
 				Log.e("majie", "refresh");
+				operaBeans.clear();
+				skip=0;
 				queryOperas();
 			}
 		}, 1, false);
@@ -85,6 +90,7 @@ public class OperaFragment extends Fragment {
 			
 			@Override
 			public void onLoad() {
+				queryOperas();
 			}
 		});
 	}
@@ -133,16 +139,19 @@ public class OperaFragment extends Fragment {
 	
 	private void queryOperas(){
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
-		bmobQuery.setLimit(10);
-		bmobQuery.order("likeNum");
+		bmobQuery.setLimit(8);
+		bmobQuery.order("-likeNum");
+		bmobQuery.setSkip(skip);
 //		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
 		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
 
 			@Override
 			public void onSuccess(List<OperaBean> object) {
-				Collections.reverse(object);
+//				Collections.reverse(object);
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
-				setAdapter(object);
+				skip+=object.size();
+				operaBeans.addAll(object);
+				
 				mHandler.sendEmptyMessage(FINISH_REFRESHING);
 			}
 
@@ -154,8 +163,8 @@ public class OperaFragment extends Fragment {
 		});
 	}
 	
-	private void setAdapter(List<OperaBean> object){
-		adapter=new OperaAdapter(getActivity(), object);
+	private void setAdapter(){
+		adapter=new OperaAdapter(getActivity(), operaBeans);
 		lv.setAdapter(adapter);
 	}
 	
@@ -164,13 +173,15 @@ public class OperaFragment extends Fragment {
 			switch (msg.what) {
 			case FINISH_REFRESHING:
 				mRefreshableView.finishRefreshing();
+				
 				break;
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-//				mLv.setSelection(oldSize+1);
+				lv.setSelection(skip+1);
 				break;
 			}
+			adapter.notifyDataSetChanged();
 			
 		};
 	};
