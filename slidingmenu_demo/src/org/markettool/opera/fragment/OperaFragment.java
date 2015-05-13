@@ -8,6 +8,7 @@ import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
 import net.youmi.android.banner.AdViewListener;
 
+import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
@@ -25,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -93,6 +96,17 @@ public class OperaFragment extends Fragment {
 				queryOperas();
 			}
 		});
+		
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent intent=new Intent(getActivity(), CommentActivity.class);
+				intent.putExtra("operaId", operaBeans.get(arg2).getObjectId());
+				getActivity().startActivity(intent);
+			}
+		});
 	}
 	
 	private void showBanner() {
@@ -139,7 +153,7 @@ public class OperaFragment extends Fragment {
 	
 	private void queryOperas(){
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
-		bmobQuery.setLimit(8);
+		bmobQuery.setLimit(10);
 		bmobQuery.order("-likeNum");
 		bmobQuery.setSkip(skip);
 //		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
@@ -147,7 +161,6 @@ public class OperaFragment extends Fragment {
 
 			@Override
 			public void onSuccess(List<OperaBean> object) {
-//				Collections.reverse(object);
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				skip+=object.size();
 				operaBeans.addAll(object);
@@ -178,7 +191,10 @@ public class OperaFragment extends Fragment {
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-				lv.setSelection(skip+1);
+				if(skip+2<operaBeans.size()){
+					lv.setSelection(skip+2);
+				}
+				
 				break;
 			}
 			adapter.notifyDataSetChanged();

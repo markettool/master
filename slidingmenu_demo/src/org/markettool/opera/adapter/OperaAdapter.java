@@ -66,20 +66,22 @@ public class OperaAdapter extends BaseAdapter {
 			holder=(ViewHolder) convertView.getTag();
 		}
 		final int position=arg0;
-		holder.tvUsername.setText(beans.get(position).getUsername());
-		holder.tvOperaContent.setText(beans.get(position).getOperaContent());
-		holder.tvLikeNum.setText(""+beans.get(position).getLikeNum());
+		if(position<beans.size()){
+			holder.tvUsername.setText(beans.get(position).getUsername());
+			holder.tvOperaContent.setText(beans.get(position).getOperaContent());
+			holder.tvLikeNum.setText(""+beans.get(position).getLikeNum());
+		}
 		
 		holder.llLike.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				if(beans.get(position).getUserId()!=null&&!su.getValueByKey("like_"+beans.get(position).getUserId(), "").equals("")){
+				if(beans.get(position).getObjectId()!=null&&!su.getValueByKey("like_"+beans.get(position).getObjectId(), "").equals("")){
 					Toast.makeText(context, "不能重复点赞", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				beans.get(position).setLikeNum(beans.get(position).getLikeNum()+1);
-				su.putValueByKey("like_"+beans.get(position).getUserId(),"-");
+				su.putValueByKey("like_"+beans.get(position).getObjectId(),"-");
 				notifyDataSetChanged();
 				updateLike(beans.get(position));
 			}
