@@ -266,6 +266,9 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+//		if(cannotPullAndLoad){
+//			return false;
+//		}
 		setIsAbleToPull(event);
 		if(!ableToPull&&footer!=null) setIsAbleToLoad(event);
 		if (ableToPull) {
@@ -275,6 +278,12 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 		}
 		return false;
 	}
+	
+//	private boolean cannotPullAndLoad=true;
+//	
+//	public void setCannotPullAndLoad(boolean cannotPullAndLoad){
+//		this.cannotPullAndLoad=cannotPullAndLoad;
+//	}
 	
 	private boolean loadHandle(MotionEvent event){
 		

@@ -46,6 +46,7 @@ public class OperaFragment extends Fragment {
 	
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
+	public static final int CANNOT_PULL_AND_DOWN=2;
 	
 	private int skip;
 	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
@@ -62,7 +63,7 @@ public class OperaFragment extends Fragment {
 		setAdapter();
 		setListeners();
 		showBanner();
-		queryOperas();
+		queryOperas(FINISH_REFRESHING);
 		return view;
 	}
 	
@@ -82,7 +83,7 @@ public class OperaFragment extends Fragment {
 				Log.e("majie", "refresh");
 				operaBeans.clear();
 				skip=0;
-				queryOperas();
+				queryOperas(FINISH_REFRESHING);
 			}
 		}, 1, false);
 		
@@ -90,7 +91,7 @@ public class OperaFragment extends Fragment {
 			
 			@Override
 			public void onLoad() {
-				queryOperas();
+				queryOperas(FINISH_LOADING);
 			}
 		});
 	}
@@ -137,7 +138,8 @@ public class OperaFragment extends Fragment {
 		mAdContainer.addView(adView,layoutParams);
 	}
 	
-	private void queryOperas(){
+	private void queryOperas(final int handle){
+		mHandler.sendEmptyMessage(CANNOT_PULL_AND_DOWN);
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
 		bmobQuery.setLimit(8);
 		bmobQuery.order("-likeNum");
@@ -152,13 +154,13 @@ public class OperaFragment extends Fragment {
 				skip+=object.size();
 				operaBeans.addAll(object);
 				
-				mHandler.sendEmptyMessage(FINISH_REFRESHING);
+				mHandler.sendEmptyMessage(handle);
 			}
 
 			@Override
 			public void onError(int code, String msg) {
 				Log.e("majie","查询失败："+msg);
-				mHandler.sendEmptyMessage(FINISH_REFRESHING);
+				mHandler.sendEmptyMessage(handle);
 			}
 		});
 	}
@@ -178,9 +180,17 @@ public class OperaFragment extends Fragment {
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-				lv.setSelection(skip+1);
+				if(skip+2<operaBeans.size()){
+					lv.setSelection(skip+2);
+				}
+				
 				break;
+				
+//			case CANNOT_PULL_AND_DOWN:
+//				mRefreshableView.setCannotPullAndLoad(true);
+//				break;
 			}
+//			mRefreshableView.setCannotPullAndLoad(false);
 			adapter.notifyDataSetChanged();
 			
 		};
