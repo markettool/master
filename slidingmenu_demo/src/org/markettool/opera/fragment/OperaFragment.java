@@ -1,5 +1,6 @@
 package org.markettool.opera.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,11 @@ import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
+import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.utils.FileDownloader;
+import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
+import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
@@ -102,7 +107,7 @@ public class OperaFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Intent intent=new Intent(getActivity(), CommentActivity.class);
-				intent.putExtra("operaId", operaBeans.get(arg2).getObjectId());
+				intent.putExtra("operaBean", operaBeans.get(arg2));
 				getActivity().startActivity(intent);
 			}
 		});
@@ -153,7 +158,7 @@ public class OperaFragment extends Fragment {
 	private void queryOperas(final int handle){
 		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
 		bmobQuery.setLimit(10);
-		bmobQuery.order("-likeNum");
+		bmobQuery.order("-commentNum,-likeNum");
 		bmobQuery.setSkip(skip);
 //		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
 		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
@@ -185,7 +190,7 @@ public class OperaFragment extends Fragment {
 			switch (msg.what) {
 			case FINISH_REFRESHING:
 				mRefreshableView.finishRefreshing();
-				
+				downloadPics(0);
 				break;
 
 			case FINISH_LOADING:
@@ -201,6 +206,42 @@ public class OperaFragment extends Fragment {
 		};
 	};
 	
-	
+	private void downloadPics(int index){
+		if(index>=operaBeans.size()){
+			return;
+		}
+		final int tem=index+1;
+		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator;
+	    FileUtils.mkdirs(dir);
+	    String url=operaBeans.get(index).getUserPicPath();
+	    String savePath=dir+operaBeans.get(index).getUsername();
+	    if(new File(savePath).exists()){
+	    	downloadPics(tem);
+	    	return;
+	    }
+		FileDownloader downloader=new FileDownloader();
+	    downloader.setFileUrl(url);
+	    downloader.setSavePath(savePath);
+	    downloader.setProgressOutput(new IDownloadProgress() {
+			
+			@Override
+			public void downloadSucess() {
+				
+				mHandler.sendEmptyMessage(0x1101);
+				downloadPics(tem);
+			}
+			
+			@Override
+			public void downloadProgress(float progress) {
+				
+			}
+			
+			@Override
+			public void downloadFail() {
+				
+			}
+		});
+	    downloader.start();	    
+	}
 	
 }

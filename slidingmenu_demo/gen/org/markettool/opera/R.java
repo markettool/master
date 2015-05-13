@@ -596,7 +596,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int middle=0x7f040035;
         public static final int my_data=0x7f04003f;
         public static final int opera_content=0x7f040029;
-        public static final int profile_image=0x7f040048;
         public static final int progress_bar=0x7f040030;
         public static final int psw_layout=0x7f040009;
         public static final int pull_to_refresh_head=0x7f04002e;
@@ -624,6 +623,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tv_feed_like_num=0x7f04002b;
         public static final int updated_at=0x7f040049;
         public static final int user_name=0x7f040028;
+        public static final int user_pic=0x7f040048;
         public static final int userage=0x7f04000f;
         public static final int userimg=0x7f040007;
         public static final int username=0x7f040008;

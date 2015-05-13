@@ -6,6 +6,7 @@ import java.util.List;
 import org.markettool.opera.adapter.CommentAdapter;
 import org.markettool.opera.beans.CommentBean;
 import org.markettool.opera.beans.MyUser;
+import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
@@ -23,12 +24,13 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class CommentActivity extends BaseActivity {
 	
 	private EditText etComment;
 	private Button btSubmit;
-	private String operaId;
+	private OperaBean operaBean;
 	private ListView lv;
 	private RefreshableView mRefreshableView;
 	
@@ -37,7 +39,7 @@ public class CommentActivity extends BaseActivity {
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
 	
-	private List<CommentBean> operaBeans=new ArrayList<CommentBean>();
+	private List<CommentBean> commentBeans=new ArrayList<CommentBean>();
 	
 	private CommentAdapter adapter=null;
 	
@@ -67,7 +69,7 @@ public class CommentActivity extends BaseActivity {
 					toastMsg("输入为空");
 					return;
 				}
-				writeComment(comment, operaId);
+				writeComment(comment, operaBean.getObjectId());
 			}
 		});
 		
@@ -76,7 +78,7 @@ public class CommentActivity extends BaseActivity {
 			@Override
 			public void onRefresh() {
 				Log.e("majie", "refresh");
-				operaBeans.clear();
+				commentBeans.clear();
 				skip=0;
 				queryComments(FINISH_REFRESHING);
 			}
@@ -104,7 +106,7 @@ public class CommentActivity extends BaseActivity {
 	@Override
 	protected void initData() {
 
-		operaId=getIntent().getStringExtra("operaId");
+		operaBean=(OperaBean) getIntent().getSerializableExtra("operaBean");
 		myuser=BmobUser.getCurrentUser(this, MyUser.class);
 		if(myuser==null){
 			startActivity(LoginActivity.class);
@@ -131,6 +133,10 @@ public class CommentActivity extends BaseActivity {
 				Log.d("bmob", "success  " );
 				toastMsg("发表成功");
 				etComment.setText("");
+				updateComment(operaBean);
+				if(commentBeans.size()==0){
+					queryComments(FINISH_REFRESHING);
+				}
 //				finish();
 			}
 
@@ -144,7 +150,7 @@ public class CommentActivity extends BaseActivity {
     private void queryComments(final int handle){
 		BmobQuery<CommentBean> bmobQuery	 = new BmobQuery<CommentBean>();
 		bmobQuery.setLimit(10);
-		bmobQuery.addWhereEqualTo("operaId", operaId);
+		bmobQuery.addWhereEqualTo("operaId", operaBean.getObjectId());
 //		bmobQuery.order("-likeNum");
 		bmobQuery.setSkip(skip);
 		bmobQuery.findObjects(this, new FindListener<CommentBean>() {
@@ -153,7 +159,7 @@ public class CommentActivity extends BaseActivity {
 			public void onSuccess(List<CommentBean> object) {
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				skip+=object.size();
-				operaBeans.addAll(object);
+				commentBeans.addAll(object);
 				
 				mHandler.sendEmptyMessage(handle);
 			}
@@ -176,7 +182,7 @@ public class CommentActivity extends BaseActivity {
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-				if(skip+2<operaBeans.size()){
+				if(skip+2<commentBeans.size()){
 					lv.setSelection(skip+2);
 				}
 				
@@ -188,8 +194,29 @@ public class CommentActivity extends BaseActivity {
 	};
 	
 	private void setAdapter(){
-		adapter=new CommentAdapter(this, operaBeans);
+		adapter=new CommentAdapter(this, commentBeans);
 		lv.setAdapter(adapter);
+	}
+	
+	/**
+	 * 更新对象
+	 */
+	private void updateComment(OperaBean bean) {
+		final OperaBean p2 = new OperaBean();
+		p2.setCommentNum(bean.getCommentNum()+1);
+		p2.update(this, bean.getObjectId(), new UpdateListener() {
+
+			@Override
+			public void onSuccess() {
+				Log.e("majie", "更新成功：" + p2.getUpdatedAt());
+			}
+
+			@Override
+			public void onFailure(int code, String msg) {
+				Log.e("majie", "更新失败：" + msg);
+			}
+		});
+
 	}
 
 }

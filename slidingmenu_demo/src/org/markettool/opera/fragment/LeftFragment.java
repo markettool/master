@@ -11,6 +11,7 @@ import org.markettool.opera.utils.BitmapUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -76,7 +77,13 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		super.onResume();
 		myUser = BmobUser.getCurrentUser(getActivity(),MyUser.class);
 		if(myUser!=null&&myUser.getFilePath()!=null){
-			avatarPic.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+			Bitmap b=BitmapUtil.decodeBitmap(myUser.getFilePath());
+			if(b!=null){
+				avatarPic.setImageBitmap(b);
+			}else{
+				avatarPic.setImageResource(R.drawable.wwj_748);
+			}
+			
 		}
 		
 		refresh();

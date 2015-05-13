@@ -8,7 +8,7 @@ public class OperaBean extends BmobObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-//	private String userId;
+	private String userPicPath;
 	private String username;
 	private String operaContent;
 	private int likeNum;
@@ -52,11 +52,11 @@ public class OperaBean extends BmobObject {
 	public void setCommentNum(int commentNum) {
 		this.commentNum = commentNum;
 	}
-//	public String getUserId() {
-//		return userId;
-//	}
-//	public void setUserId(String userId) {
-//		this.userId = userId;
-//	}
+	public String getUserPicPath() {
+		return userPicPath;
+	}
+	public void setUserPicPath(String userPicPath) {
+		this.userPicPath = userPicPath;
+	}
 
 }

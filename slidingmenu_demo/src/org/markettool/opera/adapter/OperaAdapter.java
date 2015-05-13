@@ -1,18 +1,28 @@
 package org.markettool.opera.adapter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
+import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.utils.BitmapUtil;
+import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.utils.SharedPrefUtil;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +63,7 @@ public class OperaAdapter extends BaseAdapter {
 		if(convertView==null){
 			convertView=mInflater.inflate(R.layout.opera_item, null);
 			holder=new ViewHolder();
+			holder.ivUserPic=(ImageView) convertView.findViewById(R.id.user_pic);
 			holder.tvUsername=(TextView) convertView.findViewById(R.id.user_name);
 			holder.tvOperaContent=(TextView) convertView.findViewById(R.id.opera_content);
 			holder.llLike=(LinearLayout) convertView.findViewById(R.id.ll_feed_like);
@@ -70,6 +81,23 @@ public class OperaAdapter extends BaseAdapter {
 			holder.tvUsername.setText(beans.get(position).getUsername());
 			holder.tvOperaContent.setText(beans.get(position).getOperaContent());
 			holder.tvLikeNum.setText(""+beans.get(position).getLikeNum());
+			holder.tvCommentNum.setText(""+beans.get(position).getCommentNum());
+			
+			String dir=FileUtils.getSDCardRoot()+context.getPackageName()+File.separator;
+		    FileUtils.mkdirs(dir);
+//		    String url=beans.get(position).getUserPicPath();
+		    String savePath=dir+beans.get(position).getUsername();
+		    File file=new File(savePath);
+		    if(file.exists()){
+				try {
+					Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+					if(bitmap!=null)
+			    	    holder.ivUserPic.setImageBitmap(bitmap);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+		    	
+		    }
 		}
 		
 		holder.llLike.setOnClickListener(new OnClickListener() {
@@ -86,11 +114,21 @@ public class OperaAdapter extends BaseAdapter {
 				updateLike(beans.get(position));
 			}
 		});
+		holder.llComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent=new Intent(context, CommentActivity.class);
+				intent.putExtra("operaBean", beans.get(position));
+				context.startActivity(intent);
+			}
+		});
 		
 		return convertView;
 	}
 	
 	class ViewHolder{
+		ImageView ivUserPic;
 		TextView tvUsername;
 		TextView tvOperaContent;
 		LinearLayout llLike;

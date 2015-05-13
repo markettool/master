@@ -85,11 +85,11 @@ public class WriteOperaActivity extends BaseActivity {
 	 */
 	private void writeOpera() {
 		
-		final OperaBean p2 = new OperaBean();
-//		p2.setUserId(myUser.getUsername()+new java.util.Date().getTime());
-		p2.setUsername(myUser.getUsername());
-		p2.setOperaContent(etOpera.getText().toString());
-		p2.save(this, new SaveListener() {
+		final OperaBean p = new OperaBean();
+		p.setUserPicPath(myUser.getAvatar().getFileUrl(this));
+		p.setUsername(myUser.getUsername());
+		p.setOperaContent(etOpera.getText().toString());
+		p.save(this, new SaveListener() {
 
 			@Override
 			public void onSuccess() {

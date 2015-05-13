@@ -368,7 +368,6 @@ int id menu_frame_two 0x7f040047
 int id middle 0x7f040035
 int id my_data 0x7f04003f
 int id opera_content 0x7f040029
-int id profile_image 0x7f040048
 int id progress_bar 0x7f040030
 int id psw_layout 0x7f040009
 int id pull_to_refresh_head 0x7f04002e
@@ -396,6 +395,7 @@ int id tv_feed_comment_num 0x7f04002d
 int id tv_feed_like_num 0x7f04002b
 int id updated_at 0x7f040049
 int id user_name 0x7f040028
+int id user_pic 0x7f040048
 int id userage 0x7f04000f
 int id userimg 0x7f040007
 int id username 0x7f040008
