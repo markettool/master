@@ -92,16 +92,6 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	}
 	
 	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
 	public void onClick(View v) {
 		Fragment newContent = null;
 		String title = null;

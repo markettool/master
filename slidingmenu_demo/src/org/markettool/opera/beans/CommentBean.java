@@ -12,6 +12,8 @@ public class CommentBean extends BmobObject {
 	private String comment;
 	
 	private String operaId;
+	
+	private String username;
 
 	public String getComment() {
 		return comment;
@@ -27,6 +29,14 @@ public class CommentBean extends BmobObject {
 
 	public void setOperaId(String operaId) {
 		this.operaId = operaId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
