@@ -94,7 +94,7 @@ public class MyDataActivity extends BaseActivity {
 		}	
 		try{
 			if(myUser.getFilePath()!=null){
-				userimg.setImageBitmap(BitmapUtil.decodeBitmap(myUser.getFilePath()));
+				userimg.setImageBitmap(BitmapUtil.getOriginBitmap(myUser.getFilePath()));
 			}
 		}catch(Exception e){
 			
@@ -173,7 +173,7 @@ public class MyDataActivity extends BaseActivity {
 
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
-					    Bitmap b= BitmapUtil.decodeBitmap(path);
+					    Bitmap b= BitmapUtil.getThumbilBitmap(path);
 					    userimg.setImageBitmap(b);
 					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 					    FileUtils.mkdirs(dir);

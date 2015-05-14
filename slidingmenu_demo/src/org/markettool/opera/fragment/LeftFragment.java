@@ -1,5 +1,7 @@
 package org.markettool.opera.fragment;
 
+import java.io.File;
+
 import org.markettool.opera.AccountActivity;
 import org.markettool.opera.LoginActivity;
 import org.markettool.opera.MainActivity;
@@ -8,6 +10,9 @@ import org.markettool.opera.R;
 import org.markettool.opera.SettingActivity;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.utils.BitmapUtil;
+import org.markettool.opera.utils.FileDownloader;
+import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
+import org.markettool.opera.utils.FileUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -53,7 +58,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.layout_menu, null);
 		findViews(view);
-		
+		downloadUserPic();
 		return view;
 	}
 	
@@ -76,20 +81,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	public void onResume() {
 		super.onResume();
 		myUser = BmobUser.getCurrentUser(getActivity(),MyUser.class);
-		if(myUser!=null&&myUser.getFilePath()!=null){
-			try{
-				Bitmap b=BitmapUtil.decodeBitmap(myUser.getFilePath());
-				if(b!=null){
-					avatarPic.setImageBitmap(b);
-				}else{
-					avatarPic.setImageResource(R.drawable.wwj_748);
-				}
-			}catch(Exception e){
-				
-			}
-			
-		}
-		
+		setAvatarImage();
 		refresh();
 	};
 	
@@ -145,6 +137,56 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		if (getActivity() instanceof MainActivity) {
 			MainActivity fca = (MainActivity) getActivity();
 			fca.switchContent(fragment, title);
+		}
+	}
+	
+	private void downloadUserPic(){
+		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator;
+		File dirFile=new File(dir);
+		if(!dirFile.exists()){
+			dirFile.mkdirs();
+		}
+		MyUser myUser=BmobUser.getCurrentUser(getActivity(), MyUser.class);
+		File file=new File(myUser.getFilePath());
+		if(file.exists()){
+			return;
+		}
+		FileDownloader downloader=new FileDownloader();
+		downloader.setFileUrl(myUser.getAvatar().getFileUrl(getActivity()));
+		downloader.setSavePath(myUser.getFilePath());
+		downloader.setProgressOutput(new IDownloadProgress() {
+			
+			@Override
+			public void downloadSucess() {
+				setAvatarImage();
+			}
+			
+			@Override
+			public void downloadProgress(float progress) {
+				
+			}
+			
+			@Override
+			public void downloadFail() {
+				
+			}
+		});
+		downloader.start();
+	}
+	
+	private void setAvatarImage(){
+		if(myUser!=null&&myUser.getFilePath()!=null){
+			try{
+				Bitmap b=BitmapUtil.getOriginBitmap(myUser.getFilePath());
+				if(b!=null){
+					avatarPic.setImageBitmap(b);
+				}else{
+					avatarPic.setImageResource(R.drawable.wwj_748);
+				}
+			}catch(Exception e){
+				
+			}
+			
 		}
 	}
 	

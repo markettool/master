@@ -179,10 +179,10 @@ public class CommentActivity extends BaseActivity {
     
     private void queryComments(final int handle){
 		BmobQuery<CommentBean> bmobQuery	 = new BmobQuery<CommentBean>();
-		bmobQuery.setLimit(10);
+//		bmobQuery.setLimit(10);
 		bmobQuery.addWhereEqualTo("operaId", operaBean.getObjectId());
 //		bmobQuery.order("-likeNum");
-		bmobQuery.setSkip(skip);
+//		bmobQuery.setSkip(skip);
 		bmobQuery.findObjects(this, new FindListener<CommentBean>() {
 
 			@Override

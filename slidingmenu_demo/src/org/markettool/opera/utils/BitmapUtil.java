@@ -1,6 +1,7 @@
 package org.markettool.opera.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,7 +12,18 @@ import android.util.Log;
 
 public class BitmapUtil {
 	
-	public static Bitmap decodeBitmap(String srcPath)
+	public static Bitmap getOriginBitmap(String path){
+		try {
+			Bitmap bitmap=BitmapFactory.decodeStream(new FileInputStream(path));
+			return bitmap;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Bitmap getThumbilBitmap(String srcPath)
     {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

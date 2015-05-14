@@ -1,10 +1,15 @@
 package org.markettool.opera;
 
+import java.io.File;
+
 import net.youmi.android.AdManager;
 
-import org.markettool.opera.R;
+import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.fragment.LeftFragment;
 import org.markettool.opera.fragment.OperaFragment;
+import org.markettool.opera.utils.FileDownloader;
+import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
+import org.markettool.opera.utils.FileUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +20,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.BmobUpdateListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import cn.bmob.v3.update.UpdateResponse;
@@ -63,8 +69,7 @@ public class MainActivity extends SlidingFragmentActivity implements
 	
 	private void updateVersion(){
 //		BmobUpdateAgent.initAppVersion(this);
-		 BmobUpdateAgent.update(this);
-//		BmobUpdateAgent.forceUpdate(this);
+		BmobUpdateAgent.forceUpdate(this);
 		 BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
 
 			 @Override
@@ -145,5 +150,12 @@ public class MainActivity extends SlidingFragmentActivity implements
 			break;
 		}
 	}
-
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+//		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
+//	    FileUtils.delete(dir);
+	}
+	
 }

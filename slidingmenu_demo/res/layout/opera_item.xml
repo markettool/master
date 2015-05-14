@@ -28,7 +28,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="@string/default_username" />
+            android:text="@string/default_username"
+            android:ellipsize="end"
+            android:maxWidth="72dp"
+            android:maxLines="1"
+             />
     </LinearLayout>
 
     <TextView

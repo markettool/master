@@ -194,11 +194,7 @@ public class OperaFragment extends Fragment {
 				
 				break;
 				
-//			case CANNOT_PULL_AND_DOWN:
-//				mRefreshableView.setCannotPullAndLoad(true);
-//				break;
 			}
-//			mRefreshableView.setCannotPullAndLoad(false);
 			adapter.notifyDataSetChanged();
 			
 		};
@@ -209,11 +205,11 @@ public class OperaFragment extends Fragment {
 			return;
 		}
 		final int tem=index+1;
-		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator;
+		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator+"opera"+File.separator;
 	    FileUtils.mkdirs(dir);
 	    String url=operaBeans.get(index).getUserPicPath();
 	    String savePath=dir+operaBeans.get(index).getUsername();
-	    if(new File(savePath).exists()){
+	    if(new File(savePath).exists()||url==null){
 	    	downloadPics(tem);
 	    	return;
 	    }

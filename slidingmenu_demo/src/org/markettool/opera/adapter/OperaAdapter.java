@@ -8,7 +8,6 @@ import java.util.List;
 import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.beans.OperaBean;
-import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.utils.SharedPrefUtil;
 
@@ -83,9 +82,8 @@ public class OperaAdapter extends BaseAdapter {
 			holder.tvLikeNum.setText(""+beans.get(position).getLikeNum());
 			holder.tvCommentNum.setText(""+beans.get(position).getCommentNum());
 			
-			String dir=FileUtils.getSDCardRoot()+context.getPackageName()+File.separator;
+			String dir=FileUtils.getSDCardRoot()+context.getPackageName()+File.separator+"opera"+File.separator;
 		    FileUtils.mkdirs(dir);
-//		    String url=beans.get(position).getUserPicPath();
 		    String savePath=dir+beans.get(position).getUsername();
 		    File file=new File(savePath);
 		    if(file.exists()){

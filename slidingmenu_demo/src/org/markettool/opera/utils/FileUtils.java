@@ -13,76 +13,74 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class FileUtils {
-	
-	
+
 	public static String getSDCardRoot() {
-			String SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		String SDCardRoot = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + File.separator;
 		return SDCardRoot;
 	}
-	
+
 	public static boolean isFileExist(String path) {
 		if (TextUtils.isEmpty(path))
 			return false;
 		File file = new File(path);
 		return file.exists();
 	}
-	
-	public static boolean isfileExist(String dirpath,String fileName){
+
+	public static boolean isfileExist(String dirpath, String fileName) {
 		File dir = new File(dirpath);
-		if (!dir.exists())dir.mkdirs();
-		File file = new File(dirpath+fileName);
+		if (!dir.exists())
+			dir.mkdirs();
+		File file = new File(dirpath + fileName);
 		return file.exists();
 	}
-	
-	public static void copyFile(String fromStr,String toStr){
-		
+
+	public static void copyFile(String fromStr, String toStr) {
+
 		File fromFile = new File(fromStr);
 		File toFile = new File(toStr);
-		if(!toFile.getParentFile().exists()){
+		if (!toFile.getParentFile().exists()) {
 			toFile.getParentFile().mkdirs();
 		}
-		if(toFile.exists()){
+		if (toFile.exists()) {
 			toFile.delete();
 		}
-		try{			
+		try {
 			FileInputStream fosfrom = new FileInputStream(fromFile);
 			FileOutputStream fosto = new FileOutputStream(toFile);
 			byte bt[] = new byte[1024];
 			int c;
-			while((c = fosfrom.read(bt))>0){
-				fosto.write(bt,0,c);
+			while ((c = fosfrom.read(bt)) > 0) {
+				fosto.write(bt, 0, c);
 			}
 			fosfrom.close();
 			fosto.close();
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("file", e.getMessage());
 		}
 	}
-	public void closeInputStream(InputStream inputStream){
-		if(inputStream!=null){
-			try {
-				inputStream.close();
-			} catch (IOException e) {
-				Log.e("error", "close failed");
-				e.printStackTrace();
-			}
-		}
-	}
-	public class NoSdcardException extends Exception{
-		
-	}
-	
-	public static String replaceChars(String file){
-		if(file.contains("-")||file.contains(" ")||file.contains(":")){
-			file=file.replaceAll("-", "").replaceAll(" ", "").replaceAll(":", "");
-		}
-		return file;
-	}
-	
-	
-	
 
-	
+	public static void delete(String filepath) {
+		File file = new File(filepath);
+		if (file.isFile()) {
+			file.delete();
+			return;
+		}
+
+		if (file.isDirectory()) {
+			File[] childFiles = file.listFiles();
+			if (childFiles == null || childFiles.length == 0) {
+				file.delete();
+				return;
+			}
+
+			for (int i = 0; i < childFiles.length; i++) {
+				delete(childFiles[i].getAbsolutePath());
+			}
+			file.delete();
+		}
+	}
+
 	/**
 	 * 获得文件的拓展名
 	 * 
@@ -99,9 +97,8 @@ public class FileUtils {
 		return ext;
 	}
 
-
-	
-	public static void persistFileToSdcard(byte [] buff,String filePath , String fileName){
+	public static void persistFileToSdcard(byte[] buff, String filePath,
+			String fileName) {
 		File dir = new File(filePath);
 		if (!dir.exists())
 			dir.mkdirs();
@@ -109,7 +106,7 @@ public class FileUtils {
 		OutputStream os = null;
 		try {
 			os = new FileOutputStream(target);
-            os.write(buff);
+			os.write(buff);
 			os.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -125,15 +122,15 @@ public class FileUtils {
 			}
 		}
 	}
-	
-	public static void renameFile(String oldFileName,String newFileName){
-		File file=new File(oldFileName);
+
+	public static void renameFile(String oldFileName, String newFileName) {
+		File file = new File(oldFileName);
 		file.renameTo(new File(newFileName));
 	}
-	
-	public static void mkdirs(String dir){
-		File dirFile=new File(dir);
-		if(!dirFile.exists()){
+
+	public static void mkdirs(String dir) {
+		File dirFile = new File(dir);
+		if (!dirFile.exists()) {
 			dirFile.mkdirs();
 		}
 	}
