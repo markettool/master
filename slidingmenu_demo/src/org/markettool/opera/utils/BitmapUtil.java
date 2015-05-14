@@ -23,7 +23,7 @@ public class BitmapUtil {
 		return null;
 	}
 	
-	public static Bitmap getThumbilBitmap(String srcPath)
+	public static Bitmap getThumbilBitmap(String srcPath,int width)
     {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -38,7 +38,7 @@ public class BitmapUtil {
         float realHeight = options.outHeight;
         Log.e("majie", "真实图片高度：" + realHeight + "宽度:" + realWidth);
         // 计算缩放比&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-        int scale = (int) ((realHeight > realWidth ? realHeight : realWidth) / 100);
+        int scale = (int) ((realHeight > realWidth ? realHeight : realWidth) / width);
         if (scale <= 0)
         {
             scale = 1;

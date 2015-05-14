@@ -68,7 +68,7 @@ public class RegisterActivity extends BaseActivity {
 
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
-					    Bitmap b= BitmapUtil.getThumbilBitmap(path);
+					    Bitmap b= BitmapUtil.getThumbilBitmap(path,100);
 					    userimg.setImageBitmap(b);
 					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 					    FileUtils.mkdirs(dir);

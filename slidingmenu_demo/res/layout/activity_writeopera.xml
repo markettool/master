@@ -3,32 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-     <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/adcontainer"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-         >
+        android:layout_height="wrap_content" >
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/et_opera"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
         android:gravity="top"
         android:hint="@string/write_opera_hint"
-        android:id="@+id/et_opera" />
-    
-    <Button
-        android:id="@+id/btn_write"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:paddingTop="5dp"
-        android:text="发表"
-        android:textSize="16sp"
          />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="72dp"
+            android:paddingRight="72dp"
+            android:text="发表"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_addimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/image"
+            android:layout_toRightOf="@+id/btn_write"
+            android:layout_marginLeft="16dp"
+             />
+    </RelativeLayout>
 
 </LinearLayout>

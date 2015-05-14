@@ -6,23 +6,29 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.markettool.opera.CommentActivity;
+import org.markettool.opera.MyApplication;
 import org.markettool.opera.R;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.utils.SharedPrefUtil;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.listener.UpdateListener;
@@ -34,11 +40,17 @@ public class OperaAdapter extends BaseAdapter {
 	private Context context;
 	private SharedPrefUtil su;
 	
+	private int screenWidth;
+	private int screenHeight;
+	
 	public OperaAdapter(Context context,List<OperaBean> beans){
 		this.context=context;
 		this.beans=beans;
 		this.mInflater=LayoutInflater.from(context);
 		su=new SharedPrefUtil(context, "opera");
+		MyApplication app=(MyApplication) ((Activity)context).getApplication();
+		screenWidth=app.getScreenWidth();
+		screenHeight=app.getScreenHeight();
 	}
 
 	@Override
@@ -70,6 +82,8 @@ public class OperaAdapter extends BaseAdapter {
 			holder.tvLikeNum=(TextView) convertView.findViewById(R.id.tv_feed_like_num);
 			holder.tvCommentNum=(TextView) convertView.findViewById(R.id.tv_feed_comment_num);
 
+			holder.rlOperaBg=(RelativeLayout) convertView.findViewById(R.id.opera_item_bg);
+			holder.ivOperaPic=(ImageView) convertView.findViewById(R.id.opera_pic);
 			convertView.setTag(holder);
 		}
 		else{
@@ -87,15 +101,40 @@ public class OperaAdapter extends BaseAdapter {
 		    String savePath=dir+beans.get(position).getUsername();
 		    File file=new File(savePath);
 		    if(file.exists()){
-				try {
-					Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+					Bitmap bitmap = BitmapUtil.getOriginBitmap(savePath);
 					if(bitmap!=null)
 			    	    holder.ivUserPic.setImageBitmap(bitmap);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}
+					else{
+						holder.ivUserPic.setImageResource(R.drawable.wwj_748);
+					}
 		    	
 		    }
+		    String operaPicPath=dir+beans.get(position).getObjectId();
+		    File operaFile=new File(operaPicPath);
+		    if(operaFile.exists()){
+					Bitmap bitmap = BitmapUtil.getOriginBitmap(operaPicPath);
+					
+					if(bitmap!=null){
+						int height=Math.min(bitmap.getHeight()*screenWidth/bitmap.getWidth(),screenHeight/3);
+						bitmap=Bitmap.createScaledBitmap(bitmap, screenWidth, height, false);
+//						holder.rlOperaBg.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT, height));
+						
+//			    	    holder.rlOperaBg.setBackgroundDrawable(new BitmapDrawable(bitmap));
+						holder.ivOperaPic.setImageBitmap(bitmap);
+					    holder.tvUsername.setTextColor(context.getResources().getColor(R.color.white));
+					    holder.tvOperaContent.setTextColor(context.getResources().getColor(R.color.white));
+					    holder.tvLikeNum.setTextColor(context.getResources().getColor(R.color.white));
+					    holder.tvCommentNum.setTextColor(context.getResources().getColor(R.color.white));
+					}
+					
+		    	
+		    }else{
+				holder.ivOperaPic.setImageBitmap(null);
+				holder.tvUsername.setTextColor(context.getResources().getColor(R.color.black));
+			    holder.tvOperaContent.setTextColor(context.getResources().getColor(R.color.black));
+			    holder.tvLikeNum.setTextColor(context.getResources().getColor(R.color.black));
+			    holder.tvCommentNum.setTextColor(context.getResources().getColor(R.color.black));
+			}
 		}
 		
 		holder.llLike.setOnClickListener(new OnClickListener() {
@@ -133,6 +172,8 @@ public class OperaAdapter extends BaseAdapter {
 		LinearLayout llComment;
 		TextView tvLikeNum;
 		TextView tvCommentNum;
+		RelativeLayout rlOperaBg;
+		ImageView ivOperaPic;
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package org.markettool.opera;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +12,14 @@ import org.markettool.opera.adapter.CommentAdapter;
 import org.markettool.opera.beans.CommentBean;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.utils.BitmapUtil;
+import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.view.RefreshableView;
-import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -24,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,6 +59,9 @@ public class CommentActivity extends BaseActivity {
 	private CommentAdapter adapter=null;
 	
 	private MyUser myuser;
+	
+	private int screenWidth;
+	private int screenHeight;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +149,23 @@ public class CommentActivity extends BaseActivity {
 			startActivity(LoginActivity.class);
 			finish();
 		}
+		MyApplication app=(MyApplication)getApplication();
+		screenWidth=app.getScreenWidth();
+		screenHeight=app.getScreenHeight();
+		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
+		String operaPicPath=dir+operaBean.getObjectId();
+	    File operaFile=new File(operaPicPath);
+	    if(operaFile.exists()){
+				Bitmap bitmap = BitmapUtil.getOriginBitmap(operaPicPath);
+				
+				if(bitmap!=null){
+					int height=Math.min(bitmap.getHeight()*screenWidth/bitmap.getWidth(),screenHeight/3);
+					bitmap=Bitmap.createScaledBitmap(bitmap, screenWidth, height, false);
+					tvOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
+					tvOpera.setBackgroundDrawable(new BitmapDrawable(bitmap));
+					tvOpera.setTextColor(getResources().getColor(R.color.white));
+				}
+	    }
 		
 	}
 	

@@ -1,6 +1,7 @@
 package org.markettool.opera.beans;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class OperaBean extends BmobObject {
 
@@ -15,6 +16,8 @@ public class OperaBean extends BmobObject {
 	private int commentNum;
 	private int statedLikeNum;
 	private int statedCommentNum;
+//	private String operaPicPath;
+	private BmobFile operaPic;
 	
 	public int getStatLikeNum() {
 		return statedLikeNum;
@@ -57,6 +60,12 @@ public class OperaBean extends BmobObject {
 	}
 	public void setUserPicPath(String userPicPath) {
 		this.userPicPath = userPicPath;
+	}
+	public BmobFile getOperaPic() {
+		return operaPic;
+	}
+	public void setOperaPic(BmobFile operaPic) {
+		this.operaPic = operaPic;
 	}
 
 }

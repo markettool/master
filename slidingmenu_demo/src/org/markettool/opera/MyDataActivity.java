@@ -7,6 +7,8 @@ import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
 
+import com.bmob.BTPFileResponse;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -173,13 +175,12 @@ public class MyDataActivity extends BaseActivity {
 
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
-					    Bitmap b= BitmapUtil.getThumbilBitmap(path);
+					    Bitmap b= BitmapUtil.getThumbilBitmap(path,100);
 					    userimg.setImageBitmap(b);
 					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 					    FileUtils.mkdirs(dir);
 					    avatarPath=dir+path.substring(path.lastIndexOf("/")+1);
 					    BitmapUtil.saveBitmapToSdcard(b, avatarPath);
-					    
 					}
 				}
 

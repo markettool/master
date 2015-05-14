@@ -53,7 +53,7 @@ public class OperaFragment extends Fragment {
 	public static final int FINISH_REFRESHING=0;
 	public static final int FINISH_LOADING=1;
 	
-	private int skip;
+	private int focusSkip,nearSkip;
 	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
 	
 	private int oldSize=0;
@@ -61,7 +61,6 @@ public class OperaFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		Log.e("majie", "oncreateview");
 		View view = inflater.inflate(R.layout.frag_opera, null);
 		mAdContainer = (RelativeLayout) view.findViewById(R.id.adcontainer);
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
@@ -70,7 +69,7 @@ public class OperaFragment extends Fragment {
 		setAdapter();
 		setListeners();
 		showBanner();
-		queryOperas(FINISH_REFRESHING);
+		queryFocusOperas(FINISH_REFRESHING);
 		return view;
 	}
 	
@@ -89,8 +88,9 @@ public class OperaFragment extends Fragment {
 			public void onRefresh() {
 				Log.e("majie", "refresh");
 				operaBeans.clear();
-				skip=0;
-				queryOperas(FINISH_REFRESHING);
+				focusSkip=0;
+				nearSkip=0;
+				queryFocusOperas(FINISH_REFRESHING);
 			}
 		}, 1, false);
 		
@@ -98,7 +98,7 @@ public class OperaFragment extends Fragment {
 			
 			@Override
 			public void onLoad() {
-				queryOperas(FINISH_LOADING);
+				queryFocusOperas(FINISH_LOADING);
 			}
 		});
 		
@@ -116,18 +116,9 @@ public class OperaFragment extends Fragment {
 	
 	private void showBanner() {
 
-		// 广告条接口调用（适用于游戏）
-
-		// 实例化LayoutParams(重要)
 		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT);
-		// 设置广告条的悬浮位置
-//		layoutParams.gravity = Gravity.BOTTOM | Gravity.RIGHT; // 这里示例为右下角
-		// 实例化广告条
 		AdView adView = new AdView(getActivity(), AdSize.FIT_SCREEN);
-		// 调用Activity的addContentView函数
-
-		// 监听广告条接口
 		adView.setAdListener(new AdViewListener() {
 
 			@Override
@@ -150,19 +141,44 @@ public class OperaFragment extends Fragment {
 		mAdContainer.addView(adView,layoutParams);
 	}
 	
-	private void queryOperas(final int handle){
-		BmobQuery<OperaBean> bmobQuery	 = new BmobQuery<OperaBean>();
-		bmobQuery.setLimit(10);
-		bmobQuery.order("-commentNum,-likeNum");
-		bmobQuery.setSkip(skip);
-//		bmobQuery.setCachePolicy(CachePolicy.CACHE_ELSE_NETWORK);	// 先从缓存取数据，如果没有的话，再从网络取。
-		bmobQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+	private void queryFocusOperas(final int handle){
+		BmobQuery<OperaBean> focusQuery	 = new BmobQuery<OperaBean>();
+		focusQuery.order("-commentNum,-likeNum");
+		focusQuery.setLimit(5);
+		focusQuery.setSkip(focusSkip);
+		focusQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
 
 			@Override
 			public void onSuccess(List<OperaBean> object) {
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
 				oldSize=operaBeans.size();
-				skip+=object.size();
+				focusSkip+=object.size();
+				operaBeans.addAll(object);
+				queryNearOperas(handle);
+				
+				mHandler.sendEmptyMessage(handle);
+			}
+
+			@Override
+			public void onError(int code, String msg) {
+				Log.e("majie","查询失败："+msg);
+				mHandler.sendEmptyMessage(handle);
+			}
+		});
+	}
+	
+	private void queryNearOperas(final int handle){
+		BmobQuery<OperaBean> nearQuery	 = new BmobQuery<OperaBean>();
+		nearQuery.setLimit(5);
+		nearQuery.order("-updatedAt");
+		nearQuery.setSkip(nearSkip);
+		nearQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+
+			@Override
+			public void onSuccess(List<OperaBean> object) {
+				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+				oldSize=operaBeans.size();
+				nearSkip+=object.size();
 				operaBeans.addAll(object);
 				
 				mHandler.sendEmptyMessage(handle);
@@ -186,7 +202,8 @@ public class OperaFragment extends Fragment {
 			switch (msg.what) {
 			case FINISH_REFRESHING:
 				mRefreshableView.finishRefreshing();
-				downloadPics(0);
+				downloadUserPics(0);
+				downloadOperaPics(0);
 				break;
 
 			case FINISH_LOADING:
@@ -194,7 +211,8 @@ public class OperaFragment extends Fragment {
 				if(oldSize<operaBeans.size()){
 					lv.setSelection(oldSize);
 				}
-				downloadPics(oldSize);
+				downloadUserPics(oldSize);
+				downloadOperaPics(oldSize);
 				break;
 				
 			}
@@ -203,7 +221,7 @@ public class OperaFragment extends Fragment {
 		};
 	};
 	
-	private void downloadPics(int index){
+	private void downloadUserPics(int index){
 		if(index>=operaBeans.size()){
 			return;
 		}
@@ -213,7 +231,7 @@ public class OperaFragment extends Fragment {
 	    String url=operaBeans.get(index).getUserPicPath();
 	    String savePath=dir+operaBeans.get(index).getUsername();
 	    if(new File(savePath).exists()||url==null){
-	    	downloadPics(tem);
+	    	downloadUserPics(tem);
 	    	return;
 	    }
 		FileDownloader downloader=new FileDownloader();
@@ -225,7 +243,49 @@ public class OperaFragment extends Fragment {
 			public void downloadSucess() {
 				
 				mHandler.sendEmptyMessage(0x1101);
-				downloadPics(tem);
+				downloadUserPics(tem);
+			}
+			
+			@Override
+			public void downloadProgress(float progress) {
+				
+			}
+			
+			@Override
+			public void downloadFail() {
+				
+			}
+		});
+	    downloader.start();	    
+	}
+	
+	private void downloadOperaPics(int index){
+		if(index>=operaBeans.size()){
+			return;
+		}
+		final int tem=index+1;
+		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator+"opera"+File.separator;
+	    FileUtils.mkdirs(dir);
+	    if(operaBeans.get(index).getOperaPic()==null){
+	    	downloadOperaPics(tem);
+	    	return;
+	    }
+	    String url=operaBeans.get(index).getOperaPic().getFileUrl(getActivity());
+	    String operaPicPath=dir+operaBeans.get(index).getObjectId();
+	    if(new File(operaPicPath).exists()||url==null){
+	    	downloadOperaPics(tem);
+	    	return;
+	    }
+		FileDownloader downloader=new FileDownloader();
+	    downloader.setFileUrl(url);
+	    downloader.setSavePath(operaPicPath);
+	    downloader.setProgressOutput(new IDownloadProgress() {
+			
+			@Override
+			public void downloadSucess() {
+				
+				mHandler.sendEmptyMessage(0x1101);
+				downloadUserPics(tem);
 			}
 			
 			@Override
