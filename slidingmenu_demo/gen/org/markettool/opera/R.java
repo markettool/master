@@ -645,16 +645,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int comment_item=0x7f03000a;
         public static final int content_frame=0x7f03000b;
         public static final int footer=0x7f03000c;
-        public static final int frag_myfavorities=0x7f03000d;
-        public static final int frag_opera=0x7f03000e;
-        public static final int layout_base_title=0x7f03000f;
-        public static final int layout_menu=0x7f030010;
-        public static final int main_head=0x7f030011;
-        public static final int menu_frame_left=0x7f030012;
-        public static final int menu_frame_right=0x7f030013;
-        public static final int opera_item=0x7f030014;
-        public static final int pull_to_refresh=0x7f030015;
-        public static final int slidingmenumain=0x7f030016;
+        public static final int frag_opera=0x7f03000d;
+        public static final int layout_base_title=0x7f03000e;
+        public static final int layout_menu=0x7f03000f;
+        public static final int main_head=0x7f030010;
+        public static final int menu_frame_left=0x7f030011;
+        public static final int menu_frame_right=0x7f030012;
+        public static final int opera_item=0x7f030013;
+        public static final int pull_to_refresh=0x7f030014;
+        public static final int slidingmenumain=0x7f030015;
     }
     public static final class menu {
         public static final int main=0x7f090000;

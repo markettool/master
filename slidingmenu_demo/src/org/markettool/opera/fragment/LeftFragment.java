@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.bmob.v3.BmobUser;
 /**
  * @date 2014/11/14
@@ -102,8 +101,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		case R.id.tvToday: // account
 			getActivity().startActivity(new Intent(getActivity(), AccountActivity.class));
 			break;
-		case R.id.tvLastlist:// 往期列表
-			Toast.makeText(getActivity(), "此功能暂时不开放,敬请期待", Toast.LENGTH_SHORT).show();
+		case R.id.tvLastlist:// share
+//			Toast.makeText(getActivity(), "此功能暂时不开放,敬请期待", Toast.LENGTH_SHORT).show();
+			onClickShare();
 			break;
 		case R.id.tvMySettings: // 设置
 			getActivity().startActivity(new Intent(getActivity(), SettingActivity.class));
@@ -115,9 +115,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 				getActivity().startActivity(new Intent(getActivity(), MyDataActivity.class));
 			}
 			break;
-//		case R.id.avatar_pic:
-//			
-//			break;
+		case R.id.avatar_pic:
+			
+			break;
 		default:
 			break;
 		}
@@ -147,6 +147,9 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			dirFile.mkdirs();
 		}
 		MyUser myUser=BmobUser.getCurrentUser(getActivity(), MyUser.class);
+		if(myUser==null){
+			return;
+		}
 		File file=new File(myUser.getFilePath());
 		if(file.exists()){
 			return;
@@ -189,5 +192,17 @@ public class LeftFragment extends Fragment implements OnClickListener{
 			
 		}
 	}
+	
+	private void onClickShare() {  
+		  
+        Intent intent=new Intent(Intent.ACTION_SEND);   
+        intent.setType("text/plain");   
+        intent.putExtra(Intent.EXTRA_SUBJECT, "乱弹");   
+        intent.putExtra(Intent.EXTRA_TEXT, "发表乱弹既可赚钱，速速下载!\n" +
+        		"http://markettool-app.stor.sinaapp.com/opera.apk\n"+"请将链接复制到浏览器进行下载。");    
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+        startActivity(Intent.createChooser(intent, getActivity().getTitle()));   
+  
+    } 
 	
 }

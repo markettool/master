@@ -56,6 +56,8 @@ public class OperaFragment extends Fragment {
 	private int skip;
 	private List<OperaBean> operaBeans=new ArrayList<OperaBean>();
 	
+	private int oldSize=0;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -159,6 +161,7 @@ public class OperaFragment extends Fragment {
 			@Override
 			public void onSuccess(List<OperaBean> object) {
 				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+				oldSize=operaBeans.size();
 				skip+=object.size();
 				operaBeans.addAll(object);
 				
@@ -188,10 +191,10 @@ public class OperaFragment extends Fragment {
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-				if(skip+2<operaBeans.size()){
-					lv.setSelection(skip+2);
+				if(oldSize<operaBeans.size()){
+					lv.setSelection(oldSize);
 				}
-				
+				downloadPics(oldSize);
 				break;
 				
 			}

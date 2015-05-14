@@ -69,7 +69,8 @@ public class MainActivity extends SlidingFragmentActivity implements
 	
 	private void updateVersion(){
 //		BmobUpdateAgent.initAppVersion(this);
-		BmobUpdateAgent.forceUpdate(this);
+		BmobUpdateAgent.update(this);
+		BmobUpdateAgent.setUpdateOnlyWifi(false);
 		 BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
 
 			 @Override

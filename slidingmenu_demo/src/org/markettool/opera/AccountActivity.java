@@ -118,7 +118,7 @@ public class AccountActivity extends BaseActivity {
 	private void staticic(List<OperaBean> object){
 		List<BmobObject> bos=new ArrayList<BmobObject>();
 		for(OperaBean bean:object){
-			totalFund+=((bean.getLikeNum()-bean.getStatLikeNum())*0.05f+(bean.getCommentNum()-bean.getStatCommentNum())*0.1f);
+			totalFund+=((bean.getLikeNum()-bean.getStatLikeNum())*0.05f);
 			OperaBean bo=new OperaBean();
 			bo.setLikeNum(bean.getLikeNum());
 			bo.setCommentNum(bean.getCommentNum());
