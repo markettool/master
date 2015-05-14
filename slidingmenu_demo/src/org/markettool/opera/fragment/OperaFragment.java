@@ -193,7 +193,12 @@ public class OperaFragment extends Fragment {
 				}
 				
 				break;
+				
+//			case CANNOT_PULL_AND_DOWN:
+//				mRefreshableView.setCannotPullAndLoad(true);
+//				break;
 			}
+//			mRefreshableView.setCannotPullAndLoad(false);
 			adapter.notifyDataSetChanged();
 			
 		};
