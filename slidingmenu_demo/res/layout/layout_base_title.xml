@@ -86,7 +86,7 @@
             android:layout_height="@dimen/system_window_title_high"
             android:layout_alignParentRight="true"
             android:paddingLeft="@dimen/title_padding_left_right"
-            android:paddingRight="@dimen/title_padding_left_right" >
+            android:paddingRight="0dp" >
 
             <Button
                 android:id="@+id/button_right"
@@ -99,7 +99,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/red"
-                android:textSize="@dimen/text_size_3"
+                android:textSize="@dimen/text_size_2"
                 android:visibility="gone" />
 
             <ImageView

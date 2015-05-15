@@ -142,55 +142,58 @@ public class OperaFragment extends Fragment {
 	}
 	
 	private void queryFocusOperas(final int handle){
-		BmobQuery<OperaBean> focusQuery	 = new BmobQuery<OperaBean>();
-		focusQuery.order("-commentNum,-likeNum");
-		focusQuery.setLimit(5);
-		focusQuery.setSkip(focusSkip);
-		focusQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+		synchronized (OperaFragment.this) {
+			BmobQuery<OperaBean> focusQuery	 = new BmobQuery<OperaBean>();
+			focusQuery.order("-commentNum,-likeNum");
+			focusQuery.setLimit(10);
+			focusQuery.setSkip(focusSkip);
+			focusQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
 
-			@Override
-			public void onSuccess(List<OperaBean> object) {
-				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
-				oldSize=operaBeans.size();
-				focusSkip+=object.size();
-				operaBeans.addAll(object);
-				queryNearOperas(handle);
-				
-				mHandler.sendEmptyMessage(handle);
-			}
+				@Override
+				public void onSuccess(List<OperaBean> object) {
+					Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+					oldSize=operaBeans.size();
+					focusSkip+=object.size();
+					operaBeans.addAll(object);
+//					queryNearOperas(handle);
+					
+					mHandler.sendEmptyMessage(handle);
+				}
 
-			@Override
-			public void onError(int code, String msg) {
-				Log.e("majie","查询失败："+msg);
-				mHandler.sendEmptyMessage(handle);
-			}
-		});
+				@Override
+				public void onError(int code, String msg) {
+					Log.e("majie","查询失败："+msg);
+					mHandler.sendEmptyMessage(handle);
+				}
+			});
+		}
+		
 	}
 	
-	private void queryNearOperas(final int handle){
-		BmobQuery<OperaBean> nearQuery	 = new BmobQuery<OperaBean>();
-		nearQuery.setLimit(5);
-		nearQuery.order("-updatedAt");
-		nearQuery.setSkip(nearSkip);
-		nearQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
-
-			@Override
-			public void onSuccess(List<OperaBean> object) {
-				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
-				oldSize=operaBeans.size();
-				nearSkip+=object.size();
-				operaBeans.addAll(object);
-				
-				mHandler.sendEmptyMessage(handle);
-			}
-
-			@Override
-			public void onError(int code, String msg) {
-				Log.e("majie","查询失败："+msg);
-				mHandler.sendEmptyMessage(handle);
-			}
-		});
-	}
+//	private void queryNearOperas(final int handle){
+//		BmobQuery<OperaBean> nearQuery	 = new BmobQuery<OperaBean>();
+//		nearQuery.setLimit(5);
+//		nearQuery.order("-updatedAt");
+//		nearQuery.setSkip(nearSkip);
+//		nearQuery.findObjects(getActivity(), new FindListener<OperaBean>() {
+//
+//			@Override
+//			public void onSuccess(List<OperaBean> object) {
+//				Log.e("majie", "查询成功：共"+object.size()+"条数据。");
+//				oldSize=operaBeans.size();
+//				nearSkip+=object.size();
+//				operaBeans.addAll(object);
+//				
+//				mHandler.sendEmptyMessage(handle);
+//			}
+//
+//			@Override
+//			public void onError(int code, String msg) {
+//				Log.e("majie","查询失败："+msg);
+//				mHandler.sendEmptyMessage(handle);
+//			}
+//		});
+//	}
 	
 	private void setAdapter(){
 		adapter=new OperaAdapter(getActivity(), operaBeans);
@@ -216,7 +219,9 @@ public class OperaFragment extends Fragment {
 				break;
 				
 			}
-			adapter.notifyDataSetChanged();
+			synchronized (OperaFragment.this) {
+				adapter.notifyDataSetChanged();
+			}
 			
 		};
 	};

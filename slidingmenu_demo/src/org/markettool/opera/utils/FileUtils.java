@@ -13,6 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class FileUtils {
+	
+	public static String PHOTO_PATH=FileUtils.getSDCardRoot()+ "opera" + File.separator + "photo"+ File.separator;
 
 	public static String getSDCardRoot() {
 		String SDCardRoot = Environment.getExternalStorageDirectory()

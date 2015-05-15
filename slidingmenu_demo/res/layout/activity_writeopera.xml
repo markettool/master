@@ -16,8 +16,7 @@
         android:layout_height="100dp"
         android:layout_margin="5dp"
         android:gravity="top"
-        android:hint="@string/write_opera_hint"
-         />
+        android:hint="@string/write_opera_hint" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,10 +39,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/image"
-            android:layout_toRightOf="@+id/btn_write"
             android:layout_marginLeft="16dp"
-             />
+            android:layout_toRightOf="@+id/btn_write"
+            android:src="@drawable/image" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/opera_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

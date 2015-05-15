@@ -4,40 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="提交"
-        android:textSize="16sp"
-        android:layout_alignParentBottom="true" />
-
-    <!--
-    <LinearLayout
-        android:id="@+id/logo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mosang" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo" />
-    </LinearLayout>
-    -->
-
     <LinearLayout
         android:id="@+id/top"
         android:layout_width="fill_parent"
@@ -76,9 +42,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/psw_layout"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/psw_layout" >
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -151,26 +117,5 @@
             android:layout_marginLeft="5dp"
             android:inputType="number" />
     </LinearLayout>
-
-    <!-- <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/age"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="介绍:" />
-
-        <EditText
-            android:id="@+id/userintroduce"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:lines="4" />
-    </LinearLayout> -->
 
 </RelativeLayout>

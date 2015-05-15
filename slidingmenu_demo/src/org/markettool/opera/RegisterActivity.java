@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -26,7 +25,7 @@ import cn.bmob.v3.listener.UploadFileListener;
 public class RegisterActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	private EditText username, userpsw, userage;
-	private Button submit;
+//	private Button submit;
 	private RadioGroup group;
 	private boolean gender = true;
 	private ImageView userimg;
@@ -91,7 +90,7 @@ public class RegisterActivity extends BaseActivity {
 		userpsw = (EditText) findViewById(R.id.userpsw);
 		userage = (EditText) findViewById(R.id.userage);
 		userimg = (ImageView) findViewById(R.id.userimg);
-		submit = (Button) findViewById(R.id.submit);
+//		submit = (Button) findViewById(R.id.submit);
 		group = (RadioGroup) findViewById(R.id.sex);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
@@ -100,13 +99,11 @@ public class RegisterActivity extends BaseActivity {
 		
 		mImgLeft.setVisibility(View.VISIBLE);
 		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
-		mImgLeft.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
+		
+		mBtnTitleRight.setVisibility(View.VISIBLE);
+		mBtnTitleRight.setText("提交");
+		mBtnTitleRight.setTextColor(getResources().getColor(R.color.white));
+		
 	}
 
 	@Override
@@ -115,7 +112,7 @@ public class RegisterActivity extends BaseActivity {
 	}
 	
 	private void setListeners(){
-		submit.setOnClickListener(new OnClickListener() {
+		mBtnTitleRight.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -134,7 +131,6 @@ public class RegisterActivity extends BaseActivity {
 					uploadAvatarFile(name, psw, new Integer(age), gender,new File(avatarPath));
 				}
 				
-//				signUp(name, psw, new Integer(age), gender);
 			}
 		});
 
@@ -158,6 +154,14 @@ public class RegisterActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				getFileFromSD();
+			}
+		});
+		
+        mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
 			}
 		});
 	}
@@ -213,7 +217,7 @@ public class RegisterActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(int arg0, String arg1) {
-				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
+//				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
 			}
 
 		});

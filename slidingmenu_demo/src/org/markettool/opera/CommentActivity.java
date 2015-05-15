@@ -17,7 +17,6 @@ import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -60,8 +59,8 @@ public class CommentActivity extends BaseActivity {
 	
 	private MyUser myuser;
 	
-	private int screenWidth;
-	private int screenHeight;
+//	private int screenWidth;
+//	private int screenHeight;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,23 +148,23 @@ public class CommentActivity extends BaseActivity {
 			startActivity(LoginActivity.class);
 			finish();
 		}
-		MyApplication app=(MyApplication)getApplication();
-		screenWidth=app.getScreenWidth();
-		screenHeight=app.getScreenHeight();
-		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
-		String operaPicPath=dir+operaBean.getObjectId();
-	    File operaFile=new File(operaPicPath);
-	    if(operaFile.exists()){
-				Bitmap bitmap = BitmapUtil.getOriginBitmap(operaPicPath);
-				
-				if(bitmap!=null){
-					int height=Math.min(bitmap.getHeight()*screenWidth/bitmap.getWidth(),screenHeight/3);
-					bitmap=Bitmap.createScaledBitmap(bitmap, screenWidth, height, false);
-					tvOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
-					tvOpera.setBackgroundDrawable(new BitmapDrawable(bitmap));
-					tvOpera.setTextColor(getResources().getColor(R.color.white));
-				}
-	    }
+//		MyApplication app=(MyApplication)getApplication();
+//		screenWidth=app.getScreenWidth();
+//		screenHeight=app.getScreenHeight();
+//		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
+//		String operaPicPath=dir+operaBean.getObjectId();
+//	    File operaFile=new File(operaPicPath);
+//	    if(operaFile.exists()){
+//				Bitmap bitmap = BitmapUtil.getOriginBitmap(operaPicPath);
+//				
+//				if(bitmap!=null){
+//					int height=Math.min(bitmap.getHeight()*screenWidth/bitmap.getWidth(),screenHeight/3);
+//					bitmap=Bitmap.createScaledBitmap(bitmap, screenWidth, height, false);
+//					tvOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
+//					tvOpera.setBackgroundDrawable(new BitmapDrawable(bitmap));
+//					tvOpera.setTextColor(getResources().getColor(R.color.white));
+//				}
+//	    }
 		
 	}
 	

@@ -6,8 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.markettool.opera.R;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Bitmap.Config;
 import android.util.Log;
 
 public class BitmapUtil {
@@ -17,7 +22,6 @@ public class BitmapUtil {
 			Bitmap bitmap=BitmapFactory.decodeStream(new FileInputStream(path));
 			return bitmap;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -38,7 +42,7 @@ public class BitmapUtil {
         float realHeight = options.outHeight;
         Log.e("majie", "真实图片高度：" + realHeight + "宽度:" + realWidth);
         // 计算缩放比&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-        int scale = (int) ((realHeight > realWidth ? realHeight : realWidth) / width);
+        int scale = (int) ((realHeight < realWidth ? realHeight : realWidth) / width);
         if (scale <= 0)
         {
             scale = 1;
@@ -57,7 +61,7 @@ public class BitmapUtil {
 		File file=new File(desPath);
         try {
             FileOutputStream out=new FileOutputStream(file);
-           if(bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)){
+            if(bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)){
                 out.flush();
                 out.close();
             }
@@ -68,5 +72,31 @@ public class BitmapUtil {
         }
 		
 	}
+	
+	   /***
+     * 将图片画在画布中间
+     * @param bm
+     * @param width
+     * @param height
+     * @return
+     */
+    public static Bitmap getCanvasBitmap(Bitmap bm,int width,int height){
+//    	if(bm.getWidth()>width){
+//    		return bm;
+//    	}
+    	Bitmap bitmap=Bitmap.createBitmap(width, height, Config.ARGB_8888);
+    	Canvas canvas=new Canvas(bitmap);
+//    	int left=(width-bm.getWidth())/2;
+//    	int top=(height-bm.getHeight())/2;
+    	canvas.drawBitmap(bm, 0, 0, null);
+    	canvas.save(Canvas.ALL_SAVE_FLAG);
+    	canvas.restore();
+    	return bitmap;
+    }
+    
+    public static Bitmap getBitmapFromRes(Context context,int resId){
+    	Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(), resId);
+    	return bitmap;
+    }
 
 }

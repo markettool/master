@@ -6,13 +6,11 @@ import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
 import net.youmi.android.banner.AdViewListener;
 
-import org.markettool.opera.R;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -30,7 +28,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
@@ -42,6 +39,7 @@ public class WriteOperaActivity extends BaseActivity {
 	private EditText etOpera;
 	private Button btPublish;
 	private ImageView ivAddImage;
+	private ImageView ivOperaPic;
 	private MyUser myUser;
 	private RelativeLayout mAdContainer;
 	private String operaPicPath;
@@ -56,7 +54,7 @@ public class WriteOperaActivity extends BaseActivity {
 		initView();
 		setListeners();
 		initData();
-		showBanner();
+//		showBanner();
 	}
 
 	@Override
@@ -65,6 +63,7 @@ public class WriteOperaActivity extends BaseActivity {
 		btPublish=(Button) findViewById(R.id.btn_write);
 		mAdContainer = (RelativeLayout) findViewById(R.id.adcontainer);
 		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
+		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("我爱乱弹");
@@ -165,40 +164,38 @@ public class WriteOperaActivity extends BaseActivity {
 		setResult(0x01);
 	}
 	
-	private void showBanner() {
-
-		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT);
-		AdView adView = new AdView(this, AdSize.FIT_SCREEN);
-
-		// 监听广告条接口
-		adView.setAdListener(new AdViewListener() {
-
-			@Override
-			public void onSwitchedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "广告条切换");
-			}
-
-			@Override
-			public void onReceivedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "请求广告成功");
-
-			}
-
-			@Override
-			public void onFailedToReceivedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "请求广告失败");
-			}
-		});
-		mAdContainer.addView(adView,layoutParams);
-	}
+//	private void showBanner() {
+//
+//		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+//				FrameLayout.LayoutParams.WRAP_CONTENT);
+//		AdView adView = new AdView(this, AdSize.FIT_SCREEN);
+//
+//		// 监听广告条接口
+//		adView.setAdListener(new AdViewListener() {
+//
+//			@Override
+//			public void onSwitchedAd(AdView arg0) {
+//				Log.i("YoumiAdDemo", "广告条切换");
+//			}
+//
+//			@Override
+//			public void onReceivedAd(AdView arg0) {
+//				Log.i("YoumiAdDemo", "请求广告成功");
+//
+//			}
+//
+//			@Override
+//			public void onFailedToReceivedAd(AdView arg0) {
+//				Log.i("YoumiAdDemo", "请求广告失败");
+//			}
+//		});
+//		mAdContainer.addView(adView,layoutParams);
+//	}
 	
 	private void getFileFromSD() {
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		// intent.setDataAndType(Uri.parse("/mnt/sdcard"), "text/plain");
-
 		startActivityForResult(intent, PICK_REQUEST_CODE);
 	}
 
@@ -220,16 +217,19 @@ public class WriteOperaActivity extends BaseActivity {
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
 					    Bitmap b= BitmapUtil.getThumbilBitmap(path,200);
-					    int height=Math.min(b.getHeight()*screenWidth/b.getWidth(),screenHeight/3);
-						b=Bitmap.createScaledBitmap(b, screenWidth, height, false);
-					    etOpera.setBackgroundDrawable(new BitmapDrawable(b));
-					    etOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
-					    etOpera.setTextColor(getResources().getColor(R.color.white));
+//					    int height=Math.min(b.getHeight()*screenWidth/b.getWidth(),screenHeight/3);
+//						b=Bitmap.createScaledBitmap(b, screenWidth, height, false);
+//					    etOpera.setBackgroundDrawable(new BitmapDrawable(b));
+//					    etOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
+//					    etOpera.setTextColor(getResources().getColor(R.color.white));
+					    int width=Math.min(b.getWidth(), b.getHeight());
+					    Bitmap bitmap= BitmapUtil.getCanvasBitmap(b, width, width);
+					    ivOperaPic.setImageBitmap(bitmap);
 					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 					    FileUtils.mkdirs(dir);
 					    operaPicPath=dir+path.substring(path.lastIndexOf("/")+1);
 					    BitmapUtil.saveBitmapToSdcard(b, operaPicPath);
-					    
+					    b.recycle();
 					}
 				}
 
