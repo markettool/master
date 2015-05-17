@@ -13,12 +13,8 @@ public class MyUser extends BmobUser {
 	private Integer age;
 	private Boolean gender;
 	// ...
-	private BmobFile avatar;
-	private List<String> photoUrls;
-//	private BmobFile photo_1;
-//	private BmobFile photo_2;
-//	private BmobFile photo_3;
-//	private BmobFile photo_4;
+//	private BmobFile avatar;
+	private List<BmobFile> bmobFiles;
 	
 //	public BmobFile getPhoto_1() {
 //		return photo_1;
@@ -68,12 +64,12 @@ public class MyUser extends BmobUser {
 	public void setComment(int comment) {
 		this.comment = comment;
 	}
-	public BmobFile getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(BmobFile avatar) {
-		this.avatar = avatar;
-	}
+//	public BmobFile getAvatar() {
+//		return avatar;
+//	}
+//	public void setAvatar(BmobFile avatar) {
+//		this.avatar = avatar;
+//	}
 	public Integer getAge() {
 		return age;
 	}
@@ -92,11 +88,17 @@ public class MyUser extends BmobUser {
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
-	public List<String> getPhotoUrls() {
-		return photoUrls;
+//	public List<String> getPhotoUrls() {
+//		return photoUrls;
+//	}
+//	public void setPhotoUrls(List<String> photoUrls) {
+//		this.photoUrls = photoUrls;
+//	}
+	public List<BmobFile> getBmobFiles() {
+		return bmobFiles;
 	}
-	public void setPhotoUrls(List<String> photoUrls) {
-		this.photoUrls = photoUrls;
+	public void setBmobFiles(List<BmobFile> bmobFiles) {
+		this.bmobFiles = bmobFiles;
 	}
 	
 }

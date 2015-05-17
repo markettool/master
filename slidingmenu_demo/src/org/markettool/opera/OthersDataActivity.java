@@ -1,6 +1,7 @@
 package org.markettool.opera;
 
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.view.AlbumView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 public class OthersDataActivity extends BaseActivity {
 	private TextView userage,usersex;
+	private AlbumView albumView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class OthersDataActivity extends BaseActivity {
 		
 		userage=(TextView) findViewById(R.id.userage);
 		usersex=(TextView) findViewById(R.id.user_sex);
-		
+		albumView=(AlbumView) findViewById(R.id.albumview);
+		albumView.setIsCanAdd(false);
 	}
 
 	@Override

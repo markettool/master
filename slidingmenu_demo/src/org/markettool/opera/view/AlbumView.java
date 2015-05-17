@@ -6,10 +6,7 @@ import java.util.List;
 
 import org.markettool.opera.R;
 import org.markettool.opera.adapter.AlbumAdapter;
-import org.markettool.opera.beans.MyUser;
-import org.markettool.opera.utils.FileUtils;
 
-import cn.bmob.v3.BmobUser;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +25,8 @@ public class AlbumView extends LinearLayout {
 	private List<String> paths=new ArrayList<String>();
 	private AlbumAdapter adapter;
 	private onHandleListener listener;
+	
+//	private boolean isCanAdd=true;
 	
 //	private String dir;
 //	private MyUser myUser;
@@ -60,6 +59,10 @@ public class AlbumView extends LinearLayout {
 //		setUserPhotos();
 	}
 	
+	public void setIsCanAdd(boolean isCanAdd){
+		adapter.setIsCanAdd(isCanAdd);
+	}
+	
 	private void setListeners(){
 		gv.setOnItemClickListener(new OnItemClickListener() {
 
@@ -89,8 +92,8 @@ public class AlbumView extends LinearLayout {
 		adapter.notifyDataSetChanged();
 	}
 
-	public List<String> getThubPaths() {
-		return adapter.getThubPaths();
+	public List<String> getPaths() {
+		return paths;
 	}
 	
 	private Handler handler=new Handler(){

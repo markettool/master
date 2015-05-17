@@ -33,8 +33,9 @@ public class AlbumAdapter extends BaseAdapter {
 	private MyUser myUser;
 	
 	private List<String > thubPaths=new ArrayList<String>();
+	private boolean isCanAdd=true;
 	
-	public AlbumAdapter(Context context,List<String > paths){
+	public AlbumAdapter(Context context,List<String> paths){
 		this.context=context;
 		this.paths=paths;
 		this.inflater=LayoutInflater.from(context);
@@ -48,10 +49,20 @@ public class AlbumAdapter extends BaseAdapter {
 		
 		myUser = BmobUser.getCurrentUser(context, MyUser.class);
 	}
+	
+	public void setIsCanAdd(boolean isCanAdd){
+		this.isCanAdd=isCanAdd;
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public int getCount() {
-		return Math.min(paths.size()+1, 4);
+		if(isCanAdd){
+			return paths.size()+1;
+		}else{
+			return paths.size();
+		}
+		
 	}
 
 	@Override

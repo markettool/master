@@ -115,6 +115,7 @@ public class MyDataActivity extends BaseActivity {
 		while(i<4){
 			String path=dir+myUser.getUsername()+"_photo_"+i+".png";
 			initialPaths.add(path);
+			i++;
 		}
 		albumView.setInitialPaths(initialPaths);
 	}
@@ -212,7 +213,7 @@ public class MyDataActivity extends BaseActivity {
 						    userimg.setImageBitmap(b);
 						    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 						    FileUtils.mkdirs(dir);
-						    avatarPath=dir+path.substring(path.lastIndexOf("/")+1);
+//						    avatarPath=dir+path.substring(path.lastIndexOf("/")+1);
 						    BitmapUtil.saveBitmapToSdcard(b, avatarPath);
 						}else if(requestCode==PICK_USER_PHOTO){
 							albumView.refresh(path);
@@ -230,14 +231,12 @@ public class MyDataActivity extends BaseActivity {
 	private void updateUser(BmobFile bmobFile) {
 		final MyUser bmobUser = BmobUser.getCurrentUser(this, MyUser.class);
 		if (bmobUser != null) {
-//			Log.d("bmob", "getObjectId = " + bmobUser.getObjectId());
-//			Log.d("bmob", "getUsername = " + bmobUser.getUsername());
 			MyUser newUser = new MyUser();
 //			newUser.setPassword("123456");
-			if(bmobFile!=null){
-				newUser.setAvatar(bmobFile);
-			}
-			newUser.setPhotoUrls(myUser.getPhotoUrls());
+//			if(bmobFile!=null){
+//				newUser.setAvatar(bmobFile);
+//			}
+			newUser.setBmobFiles(myUser.getBmobFiles());;
 			newUser.setAge(age);
 			newUser.setGender(gender);
 			newUser.setFilePath(avatarPath);
@@ -258,28 +257,28 @@ public class MyDataActivity extends BaseActivity {
 		} 
 	}
 	
-	private void uploadAvatarFile() {
-		final BmobFile bmobFile = new BmobFile(new File(avatarPath));
-		
-		bmobFile.uploadblock(this, new UploadFileListener() {
-
-			@Override
-			public void onSuccess() {
-//				Log.i("majie", "名称--"+bmobFile.getFileUrl(MyDataActivity.this)+"，文件名="+bmobFile.getFilename());
-				updateUser(bmobFile);
-			}
-
-			@Override
-			public void onProgress(Integer arg0) {
-			}
-
-			@Override
-			public void onFailure(int arg0, String arg1) {
-//				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
-			}
-
-		});
-	}
+//	private void uploadAvatarFile() {
+//		final BmobFile bmobFile = new BmobFile(new File(avatarPath));
+//		
+//		bmobFile.uploadblock(this, new UploadFileListener() {
+//
+//			@Override
+//			public void onSuccess() {
+////				Log.i("majie", "名称--"+bmobFile.getFileUrl(MyDataActivity.this)+"，文件名="+bmobFile.getFilename());
+//				updateUser(bmobFile);
+//			}
+//
+//			@Override
+//			public void onProgress(Integer arg0) {
+//			}
+//
+//			@Override
+//			public void onFailure(int arg0, String arg1) {
+////				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
+//			}
+//
+//		});
+//	}
 	
 	private void uploadPhotos(final List<String> paths){
 		String [] filePaths=new String[paths.size()];
@@ -294,7 +293,7 @@ public class MyDataActivity extends BaseActivity {
 		    public void onSuccess(List<BmobFile> files,List<String> urls) {
 				Log.e("majie", "url ="+urls.size());
 				if(urls.size()==paths.size()){
-					myUser.setPhotoUrls(urls);
+					myUser.setBmobFiles(files);;
 					uploadOrUpdate();
 					
 				}
@@ -303,7 +302,6 @@ public class MyDataActivity extends BaseActivity {
 		    @Override
 		    public void onError(int statuscode, String errormsg) {
 		    	Log.e("majie", errormsg);
-//		    	uploadOrUpdate();
 		    }
 
 		    @Override
@@ -313,11 +311,11 @@ public class MyDataActivity extends BaseActivity {
 	}
 	
 	private void uploadOrUpdate(){
-		if(avatarPath!=null){
-			uploadAvatarFile();
-		}else{
+//		if(avatarPath!=null){
+//			uploadAvatarFile();
+//		}else{
 			updateUser(null);
-		}
+//		}
 	}
 	
 }
