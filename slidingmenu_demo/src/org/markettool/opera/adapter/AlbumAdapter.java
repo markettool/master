@@ -87,7 +87,7 @@ public class AlbumAdapter extends BaseAdapter {
 	
 	private List<String > saveThubPhoto(Bitmap bitmap,int position){
 		List<String > thubPaths=new ArrayList<String>();
-		String thubPath=dir+myUser.getUsername()+"_photo_"+position;
+		String thubPath=dir+myUser.getUsername()+"_photo_"+position+".png";
 		thubPaths.add(thubPath);
 		BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);	
 		return thubPaths;

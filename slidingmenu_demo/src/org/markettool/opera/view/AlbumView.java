@@ -10,8 +10,9 @@ import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.utils.FileUtils;
 
 import cn.bmob.v3.BmobUser;
-
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,9 @@ public class AlbumView extends LinearLayout {
 	private List<String> paths=new ArrayList<String>();
 	private AlbumAdapter adapter;
 	private onHandleListener listener;
+	
+//	private String dir;
+//	private MyUser myUser;
 
 	public AlbumView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -49,6 +53,11 @@ public class AlbumView extends LinearLayout {
 		
 		adapter=new AlbumAdapter(context, paths);
 		gv.setAdapter(adapter);
+		
+//		myUser = BmobUser.getCurrentUser(context, MyUser.class);
+//		dir = FileUtils.PHOTO_PATH;
+		
+//		setUserPhotos();
 	}
 	
 	private void setListeners(){
@@ -82,6 +91,31 @@ public class AlbumView extends LinearLayout {
 
 	public List<String> getThubPaths() {
 		return adapter.getThubPaths();
+	}
+	
+	private Handler handler=new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			refresh((String) msg.obj);
+		};
+	};
+	
+	public void setInitialPaths(final List<String> initialPaths){
+		new Thread(){
+			public void run() {
+				super.run();
+				for(String path:initialPaths){
+					File file=new File(path);
+					if(file.exists()){
+						Message msg=new Message();
+						msg.obj=path;
+						handler.sendMessage(msg);
+						
+					}else{
+						break;
+					}
+				}
+			};
+		}.start();
 	}
 	
 }

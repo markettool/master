@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.markettool.opera.CommentActivity;
 import org.markettool.opera.MyApplication;
+import org.markettool.opera.OthersDataActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.BitmapUtil;
@@ -161,6 +162,16 @@ public class OperaAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context, CommentActivity.class);
+				intent.putExtra("operaBean", beans.get(position));
+				context.startActivity(intent);
+			}
+		});
+		
+		holder.ivUserPic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(context, OthersDataActivity.class);
 				intent.putExtra("operaBean", beans.get(position));
 				context.startActivity(intent);
 			}

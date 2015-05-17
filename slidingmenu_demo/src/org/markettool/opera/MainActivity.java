@@ -1,13 +1,17 @@
 package org.markettool.opera;
 
+import java.io.File;
+
 import net.youmi.android.AdManager;
 
 import org.markettool.opera.fragment.LeftFragment;
 import org.markettool.opera.fragment.OperaFragment;
+import org.markettool.opera.utils.FileUtils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -145,11 +149,18 @@ public class MainActivity extends SlidingFragmentActivity implements
 		}
 	}
 	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+//	@Override
+//	public void onDestroy() {
+//		super.onDestroy();
 //		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
 //	    FileUtils.delete(dir);
-	}
+//	}
 	
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if(keyCode==KeyEvent.KEYCODE_BACK){
+//			finish();
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 }

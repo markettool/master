@@ -1,6 +1,7 @@
 package org.markettool.opera;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.markettool.opera.beans.MyUser;
@@ -14,8 +15,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +29,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class MyDataActivity extends BaseActivity {
 	public int PICK_USER_PIC = 0;
@@ -44,6 +44,9 @@ public class MyDataActivity extends BaseActivity {
     private AlbumView albumView;
     private MyUser myUser;
     private String dir;
+    private String name;
+    private int age;
+//    private List<String> photoUrls;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,33 +105,18 @@ public class MyDataActivity extends BaseActivity {
 		}
 		
 		dir = FileUtils.PHOTO_PATH;
-		myUser = BmobUser.getCurrentUser(this, MyUser.class);
-		
-		setUserPhotos();
-		
+		initAlbumView();
 	}
 	
-	private void setUserPhotos(){
-		new Thread(){
-			public void run() {
-				super.run();
-				int i=0;
-				while(i<4){
-					String path=dir+myUser.getUsername()+"_photo_"+i;
-					File file=new File(path);
-					if(file.exists()){
-						Message msg=new Message();
-						msg.obj=path;
-						handler.sendMessage(msg);
-						
-					}else{
-						break;
-					}
-					i++;
-				}
-			};
-		}.start();
+	private void initAlbumView(){
+		List<String > initialPaths=new ArrayList<String>();
+		int i=0;
 		
+		while(i<4){
+			String path=dir+myUser.getUsername()+"_photo_"+i+".png";
+			initialPaths.add(path);
+		}
+		albumView.setInitialPaths(initialPaths);
 	}
 	
 	private void setListeners(){
@@ -137,23 +125,21 @@ public class MyDataActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 
-				String name = username.getText().toString();
-//				String psw = userpsw.getText().toString();
-				String age = userage.getText().toString();
-				if (name.equals("") || age.equals("")
+				name = username.getText().toString();
+				
+				if (name.equals("") || userage.getText().toString().equals("")
 						) {
 					toastMsg("请填写基本资料");
 					return;
 				}
+				age =new Integer(userage.getText().toString()) ;
 				
-				uploadPhotos(albumView.getThubPaths());
-
-				if(avatarPath==null){
-					updateUser(name, new Integer(age), gender, null);
+				if(albumView.getThubPaths().size()!=0){
+					uploadPhotos(albumView.getThubPaths());
 				}else{
-//					uploadAvatarFile(name,  new Integer(age), gender, new File(avatarPath));
+					uploadOrUpdate();
 				}
-				
+
 			}
 		});
 
@@ -164,7 +150,6 @@ public class MyDataActivity extends BaseActivity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if (checkedId == R.id.male) {
 					gender = true;
-//					Toast.makeText(getApplicationContext(), "男", 2000).show();
 				} else {
 					gender = false;
 				}
@@ -242,16 +227,17 @@ public class MyDataActivity extends BaseActivity {
 		}
 	}
 	
-	private void updateUser(String name,int age,boolean gender,BmobFile bmobFile) {
+	private void updateUser(BmobFile bmobFile) {
 		final MyUser bmobUser = BmobUser.getCurrentUser(this, MyUser.class);
 		if (bmobUser != null) {
-			Log.d("bmob", "getObjectId = " + bmobUser.getObjectId());
-			Log.d("bmob", "getUsername = " + bmobUser.getUsername());
+//			Log.d("bmob", "getObjectId = " + bmobUser.getObjectId());
+//			Log.d("bmob", "getUsername = " + bmobUser.getUsername());
 			MyUser newUser = new MyUser();
 //			newUser.setPassword("123456");
 			if(bmobFile!=null){
 				newUser.setAvatar(bmobFile);
 			}
+			newUser.setPhotoUrls(myUser.getPhotoUrls());
 			newUser.setAge(age);
 			newUser.setGender(gender);
 			newUser.setFilePath(avatarPath);
@@ -272,30 +258,30 @@ public class MyDataActivity extends BaseActivity {
 		} 
 	}
 	
-//	private void uploadAvatarFile(final String name,final int age,final boolean gender,File file) {
-//		final BmobFile bmobFile = new BmobFile(file);
-//		
-//		bmobFile.uploadblock(this, new UploadFileListener() {
-//
-//			@Override
-//			public void onSuccess() {
-////				Log.i("majie", "名称--"+bmobFile.getFileUrl(MyDataActivity.this)+"，文件名="+bmobFile.getFilename());
-//				updateUser(name, age, gender, bmobFile);
-//			}
-//
-//			@Override
-//			public void onProgress(Integer arg0) {
-//			}
-//
-//			@Override
-//			public void onFailure(int arg0, String arg1) {
-////				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
-//			}
-//
-//		});
-//	}
+	private void uploadAvatarFile() {
+		final BmobFile bmobFile = new BmobFile(new File(avatarPath));
+		
+		bmobFile.uploadblock(this, new UploadFileListener() {
+
+			@Override
+			public void onSuccess() {
+//				Log.i("majie", "名称--"+bmobFile.getFileUrl(MyDataActivity.this)+"，文件名="+bmobFile.getFilename());
+				updateUser(bmobFile);
+			}
+
+			@Override
+			public void onProgress(Integer arg0) {
+			}
+
+			@Override
+			public void onFailure(int arg0, String arg1) {
+//				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
+			}
+
+		});
+	}
 	
-	private void uploadPhotos(List<String> paths){
+	private void uploadPhotos(final List<String> paths){
 		String [] filePaths=new String[paths.size()];
 		int i=0;
 		for(String path:paths){
@@ -307,10 +293,17 @@ public class MyDataActivity extends BaseActivity {
 			@Override
 		    public void onSuccess(List<BmobFile> files,List<String> urls) {
 				Log.e("majie", "url ="+urls.size());
+				if(urls.size()==paths.size()){
+					myUser.setPhotoUrls(urls);
+					uploadOrUpdate();
+					
+				}
 		    }
 
 		    @Override
 		    public void onError(int statuscode, String errormsg) {
+		    	Log.e("majie", errormsg);
+//		    	uploadOrUpdate();
 		    }
 
 		    @Override
@@ -319,10 +312,12 @@ public class MyDataActivity extends BaseActivity {
 		});
 	}
 	
-	private Handler handler=new Handler(){
-		public void handleMessage(android.os.Message msg) {
-			albumView.refresh((String) msg.obj);
-		};
-	};
+	private void uploadOrUpdate(){
+		if(avatarPath!=null){
+			uploadAvatarFile();
+		}else{
+			updateUser(null);
+		}
+	}
 	
 }
