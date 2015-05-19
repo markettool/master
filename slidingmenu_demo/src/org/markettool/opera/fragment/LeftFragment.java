@@ -9,14 +9,10 @@ import org.markettool.opera.MyDataActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.SettingActivity;
 import org.markettool.opera.beans.MyUser;
-import org.markettool.opera.utils.BitmapUtil;
-import org.markettool.opera.utils.FileDownloader;
-import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
 import org.markettool.opera.utils.FileUtils;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 /**
  * @date 2014/11/14
  * @author wuwenjie
@@ -38,7 +35,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	private View settingsView;
 	private RelativeLayout myData;
 	private TextView username;
-	private ImageView avatarPic;
+	private ImageView userimg;
 	
 	private MyUser myUser;
 	
@@ -68,8 +65,8 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		settingsView = view.findViewById(R.id.tvMySettings);
 		myData=(RelativeLayout) view.findViewById(R.id.my_data);
 		username=(TextView) view.findViewById(R.id.user_name);
-		avatarPic=(ImageView) view.findViewById(R.id.avatar_pic);
-		avatarPic.setOnClickListener(this);
+		userimg=(ImageView) view.findViewById(R.id.avatar_pic);
+		userimg.setOnClickListener(this);
 		todayView.setOnClickListener(this);
 		lastListView.setOnClickListener(this);
 		settingsView.setOnClickListener(this);
@@ -80,13 +77,16 @@ public class LeftFragment extends Fragment implements OnClickListener{
 	public void onResume() {
 		super.onResume();
 		myUser = BmobUser.getCurrentUser(getActivity(),MyUser.class);
-		setAvatarImage();
 		refresh();
 	};
 	
 	private void refresh(){
 		if(myUser!=null){
 			 username.setText(myUser.getUsername());
+			 if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
+					BmobFile avatar=myUser.getBmobFiles().get(0);
+					avatar.loadImageThumbnail(getActivity(), userimg, 100, 100);
+			 }
 		}
 		else{
 			username.setText("未登录");
@@ -154,48 +154,48 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		if(myUser==null){
 			return;
 		}
-		File file=new File(myUser.getFilePath());
-		if(file.exists()){
-			return;
-		}
-		FileDownloader downloader=new FileDownloader();
-		downloader.setFileUrl(myUser.getAvatar().getFileUrl(getActivity()));
-		downloader.setSavePath(myUser.getFilePath());
-		downloader.setProgressOutput(new IDownloadProgress() {
-			
-			@Override
-			public void downloadSucess() {
-				setAvatarImage();
-			}
-			
-			@Override
-			public void downloadProgress(float progress) {
-				
-			}
-			
-			@Override
-			public void downloadFail() {
-				
-			}
-		});
-		downloader.start();
+//		File file=new File(myUser.getFilePath());
+//		if(file.exists()){
+//			return;
+//		}
+//		FileDownloader downloader=new FileDownloader();
+//		downloader.setFileUrl(myUser.getAvatar().getFileUrl(getActivity()));
+//		downloader.setSavePath(myUser.getFilePath());
+//		downloader.setProgressOutput(new IDownloadProgress() {
+//			
+//			@Override
+//			public void downloadSucess() {
+//				setAvatarImage();
+//			}
+//			
+//			@Override
+//			public void downloadProgress(float progress) {
+//				
+//			}
+//			
+//			@Override
+//			public void downloadFail() {
+//				
+//			}
+//		});
+//		downloader.start();
 	}
 	
-	private void setAvatarImage(){
-		if(myUser!=null&&myUser.getFilePath()!=null){
-			try{
-				Bitmap b=BitmapUtil.getOriginBitmap(myUser.getFilePath());
-				if(b!=null){
-					avatarPic.setImageBitmap(b);
-				}else{
-					avatarPic.setImageResource(R.drawable.wwj_748);
-				}
-			}catch(Exception e){
-				
-			}
-			
-		}
-	}
+//	private void setAvatarImage(){
+//		if(myUser!=null&&myUser.getFilePath()!=null){
+//			try{
+//				Bitmap b=BitmapUtil.getOriginBitmap(myUser.getFilePath());
+//				if(b!=null){
+//					avatarPic.setImageBitmap(b);
+//				}else{
+//					avatarPic.setImageResource(R.drawable.wwj_748);
+//				}
+//			}catch(Exception e){
+//				
+//			}
+//			
+//		}
+//	}
 	
 	private void onClickShare() {  
 		  

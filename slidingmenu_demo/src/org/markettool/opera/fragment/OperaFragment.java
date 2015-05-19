@@ -1,21 +1,15 @@
 package org.markettool.opera.fragment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.youmi.android.banner.AdSize;
-import net.youmi.android.banner.AdView;
-import net.youmi.android.banner.AdViewListener;
 
 import org.markettool.opera.CommentActivity;
 import org.markettool.opera.R;
 import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
 import org.markettool.opera.beans.OperaBean;
-import org.markettool.opera.utils.FileDownloader;
-import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
-import org.markettool.opera.utils.FileUtils;
+import org.markettool.opera.utils.BitmapHelp;
+import org.markettool.opera.utils.ProgressUtil;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
@@ -31,12 +25,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
+
+import com.lidroid.xutils.bitmap.PauseOnScrollListener;
 public class OperaFragment extends Fragment {
 	public static final String PUBLISHER_ID = "56OJxFyIuN0CmR98Ua";
 	public static final String InlinePPID = "16TLettoApHowNUdHoefcMUi";
@@ -66,9 +61,9 @@ public class OperaFragment extends Fragment {
 		btWrite=(ImageView) view.findViewById(R.id.btn_write);
 		lv=(ListView) view.findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) view.findViewById(R.id.refreshableview);
+		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
 		setAdapter();
 		setListeners();
-		showBanner();
 		queryFocusOperas(FINISH_REFRESHING);
 		return view;
 	}
@@ -112,33 +107,6 @@ public class OperaFragment extends Fragment {
 				getActivity().startActivity(intent);
 			}
 		});
-	}
-	
-	private void showBanner() {
-
-		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-				FrameLayout.LayoutParams.WRAP_CONTENT);
-		AdView adView = new AdView(getActivity(), AdSize.FIT_SCREEN);
-		adView.setAdListener(new AdViewListener() {
-
-			@Override
-			public void onSwitchedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "广告条切换");
-			}
-
-			@Override
-			public void onReceivedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "请求广告成功");
-
-			}
-
-			@Override
-			public void onFailedToReceivedAd(AdView arg0) {
-				Log.i("YoumiAdDemo", "请求广告失败");
-			}
-		});
-//		this.addContentView(adView, layoutParams);
-		mAdContainer.addView(adView,layoutParams);
 	}
 	
 	private void queryFocusOperas(final int handle){
@@ -205,17 +173,13 @@ public class OperaFragment extends Fragment {
 			switch (msg.what) {
 			case FINISH_REFRESHING:
 				mRefreshableView.finishRefreshing();
-				downloadUserPics(0);
-				downloadOperaPics(0);
 				break;
 
 			case FINISH_LOADING:
 				mRefreshableView.finishLoading();
-				if(oldSize<operaBeans.size()){
-					lv.setSelection(oldSize);
+				if(oldSize+1<operaBeans.size()){
+					lv.setSelection(oldSize+1);
 				}
-				downloadUserPics(oldSize);
-				downloadOperaPics(oldSize);
 				break;
 				
 			}
@@ -225,85 +189,5 @@ public class OperaFragment extends Fragment {
 			
 		};
 	};
-	
-	private void downloadUserPics(int index){
-		if(index>=operaBeans.size()){
-			return;
-		}
-		final int tem=index+1;
-		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator+"opera"+File.separator;
-	    FileUtils.mkdirs(dir);
-	    String url=operaBeans.get(index).getUserPicPath();
-	    String savePath=dir+operaBeans.get(index).getUsername();
-	    if(new File(savePath).exists()||url==null){
-	    	downloadUserPics(tem);
-	    	return;
-	    }
-		FileDownloader downloader=new FileDownloader();
-	    downloader.setFileUrl(url);
-	    downloader.setSavePath(savePath);
-	    downloader.setProgressOutput(new IDownloadProgress() {
-			
-			@Override
-			public void downloadSucess() {
-				
-				mHandler.sendEmptyMessage(0x1101);
-				downloadUserPics(tem);
-			}
-			
-			@Override
-			public void downloadProgress(float progress) {
-				
-			}
-			
-			@Override
-			public void downloadFail() {
-				
-			}
-		});
-	    downloader.start();	    
-	}
-	
-	private void downloadOperaPics(int index){
-		if(index>=operaBeans.size()){
-			return;
-		}
-		final int tem=index+1;
-		String dir=FileUtils.getSDCardRoot()+getActivity().getPackageName()+File.separator+"opera"+File.separator;
-	    FileUtils.mkdirs(dir);
-	    if(operaBeans.get(index).getOperaPic()==null){
-	    	downloadOperaPics(tem);
-	    	return;
-	    }
-	    String url=operaBeans.get(index).getOperaPic().getFileUrl(getActivity());
-	    String operaPicPath=dir+operaBeans.get(index).getObjectId();
-	    if(new File(operaPicPath).exists()||url==null){
-	    	downloadOperaPics(tem);
-	    	return;
-	    }
-		FileDownloader downloader=new FileDownloader();
-	    downloader.setFileUrl(url);
-	    downloader.setSavePath(operaPicPath);
-	    downloader.setProgressOutput(new IDownloadProgress() {
-			
-			@Override
-			public void downloadSucess() {
-				
-				mHandler.sendEmptyMessage(0x1101);
-				downloadUserPics(tem);
-			}
-			
-			@Override
-			public void downloadProgress(float progress) {
-				
-			}
-			
-			@Override
-			public void downloadFail() {
-				
-			}
-		});
-	    downloader.start();	    
-	}
 	
 }

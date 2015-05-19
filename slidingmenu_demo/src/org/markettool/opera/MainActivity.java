@@ -1,7 +1,5 @@
 package org.markettool.opera;
 
-import net.youmi.android.AdManager;
-
 import org.markettool.opera.fragment.LeftFragment;
 import org.markettool.opera.fragment.OperaFragment;
 
@@ -47,9 +45,6 @@ public class MainActivity extends SlidingFragmentActivity implements
 		setContentView(R.layout.activity_main);
 		
 		Bmob.initialize(getApplicationContext(),APPID);
-		 AdManager.getInstance(this).init("8fc8db6c25bac8e1",
-				 "b9aee7b0b8ce4419", false);
-		 
 
 		topButton = (ImageView) findViewById(R.id.topButton);
 		topButton.setOnClickListener(this);
@@ -145,11 +140,18 @@ public class MainActivity extends SlidingFragmentActivity implements
 		}
 	}
 	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+//	@Override
+//	public void onDestroy() {
+//		super.onDestroy();
 //		String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator+"opera"+File.separator;
 //	    FileUtils.delete(dir);
-	}
+//	}
 	
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if(keyCode==KeyEvent.KEYCODE_BACK){
+//			finish();
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 }

@@ -1,21 +1,14 @@
 package org.markettool.opera;
 
-import java.io.File;
-
 import org.markettool.opera.beans.MyUser;
-import org.markettool.opera.utils.FileDownloader;
-import org.markettool.opera.utils.FileDownloader.IDownloadProgress;
-import org.markettool.opera.utils.FileUtils;
 
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends BaseActivity {
@@ -84,7 +77,6 @@ public class LoginActivity extends BaseActivity {
 
 	@Override
 	protected void initData() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -100,8 +92,7 @@ public class LoginActivity extends BaseActivity {
 			@Override
 			public void onSuccess() {
 				toastMsg(bu.getUsername() + "登陆成功");
-				getAvatar();
-				
+				finish();
 			}
 
 			@Override
@@ -110,36 +101,6 @@ public class LoginActivity extends BaseActivity {
 				
 			}
 		});
-	}
-	
-	private void getAvatar(){
-		final MyUser user=BmobUser.getCurrentUser(this, MyUser.class);
-		String url=user.getAvatar().getFileUrl(this);
-		FileDownloader downloader=new FileDownloader();
-		downloader.setFileUrl(url);
-		final String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
-	    FileUtils.mkdirs(dir);
-		downloader.setSavePath(dir+"avatar.png");
-		downloader.setProgressOutput(new IDownloadProgress() {
-			
-			@Override
-			public void downloadSucess() {
-				user.setFilePath(dir+"avatar.png");
-				finish();
-			}
-			
-			@Override
-			public void downloadProgress(float progress) {
-				
-			}
-			
-			@Override
-			public void downloadFail() {
-				finish();
-			}
-		});
-		Log.e("majie", url);
-		downloader.start();
 	}
 	
 }

@@ -80,6 +80,10 @@
             android:name="org.markettool.opera.CommentActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="org.markettool.opera.OthersDataActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

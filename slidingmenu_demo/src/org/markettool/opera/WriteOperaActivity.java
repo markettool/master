@@ -2,19 +2,15 @@ package org.markettool.opera;
 
 import java.io.File;
 
-import net.youmi.android.banner.AdSize;
-import net.youmi.android.banner.AdView;
-import net.youmi.android.banner.AdViewListener;
-
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
+import org.markettool.opera.utils.ProgressUtil;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -24,10 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
@@ -41,11 +34,10 @@ public class WriteOperaActivity extends BaseActivity {
 	private ImageView ivAddImage;
 	private ImageView ivOperaPic;
 	private MyUser myUser;
-	private RelativeLayout mAdContainer;
 	private String operaPicPath;
 	
-	private int screenWidth;
-	private int screenHeight;
+//	private int screenWidth;
+//	private int screenHeight;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +53,6 @@ public class WriteOperaActivity extends BaseActivity {
 	protected void initView() {
 		etOpera=(EditText) findViewById(R.id.et_opera);
 		btPublish=(Button) findViewById(R.id.btn_write);
-		mAdContainer = (RelativeLayout) findViewById(R.id.adcontainer);
 		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
 		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
 		
@@ -86,7 +77,7 @@ public class WriteOperaActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				if(!TextUtils.isEmpty(etOpera.getText().toString())){
-//					File file=new File(operaPicPath);
+					ProgressUtil.showProgress(WriteOperaActivity.this, "");
 					if(operaPicPath!=null){
 						uploadFile(new File(operaPicPath));
 					}else{
@@ -117,9 +108,9 @@ public class WriteOperaActivity extends BaseActivity {
 			finish();
 		}
 		
-		MyApplication app=(MyApplication)getApplication();
-		screenWidth=app.getScreenWidth();
-		screenHeight=app.getScreenHeight();
+//		MyApplication app=(MyApplication)getApplication();
+//		screenWidth=app.getScreenWidth();
+//		screenHeight=app.getScreenHeight();
 	}
 	
 	@Override
@@ -132,10 +123,9 @@ public class WriteOperaActivity extends BaseActivity {
 	 * 插入对象
 	 */
 	private void writeOpera(BmobFile file) {
-		
 		final OperaBean p = new OperaBean();
-		if(myUser.getAvatar()!=null){
-			p.setUserPicPath(myUser.getAvatar().getFileUrl(this));
+		if(myUser.getBmobFiles().size()!=0){
+			p.setUserPic(myUser.getBmobFiles().get(0));
 		}
 		p.setUsername(myUser.getUsername());
 		p.setOperaContent(etOpera.getText().toString());
@@ -149,11 +139,13 @@ public class WriteOperaActivity extends BaseActivity {
 				Log.d("bmob", "success  " );
 				toastMsg("发表成功");
 				finish();
+				ProgressUtil.closeProgress();
 			}
 
 			@Override
 			public void onFailure(int code, String msg) {
-				toastMsg("创建数据失败：" + msg);
+				toastMsg("失败：" + msg);
+				ProgressUtil.closeProgress();
 			}
 		});
 	}
@@ -164,41 +156,12 @@ public class WriteOperaActivity extends BaseActivity {
 		setResult(0x01);
 	}
 	
-//	private void showBanner() {
-//
-//		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-//				FrameLayout.LayoutParams.WRAP_CONTENT);
-//		AdView adView = new AdView(this, AdSize.FIT_SCREEN);
-//
-//		// 监听广告条接口
-//		adView.setAdListener(new AdViewListener() {
-//
-//			@Override
-//			public void onSwitchedAd(AdView arg0) {
-//				Log.i("YoumiAdDemo", "广告条切换");
-//			}
-//
-//			@Override
-//			public void onReceivedAd(AdView arg0) {
-//				Log.i("YoumiAdDemo", "请求广告成功");
-//
-//			}
-//
-//			@Override
-//			public void onFailedToReceivedAd(AdView arg0) {
-//				Log.i("YoumiAdDemo", "请求广告失败");
-//			}
-//		});
-//		mAdContainer.addView(adView,layoutParams);
-//	}
-	
 	private void getFileFromSD() {
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(intent, PICK_REQUEST_CODE);
 	}
-
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -217,11 +180,6 @@ public class WriteOperaActivity extends BaseActivity {
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
 					    Bitmap b= BitmapUtil.getThumbilBitmap(path,200);
-//					    int height=Math.min(b.getHeight()*screenWidth/b.getWidth(),screenHeight/3);
-//						b=Bitmap.createScaledBitmap(b, screenWidth, height, false);
-//					    etOpera.setBackgroundDrawable(new BitmapDrawable(b));
-//					    etOpera.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, height));
-//					    etOpera.setTextColor(getResources().getColor(R.color.white));
 					    int width=Math.min(b.getWidth(), b.getHeight());
 					    Bitmap bitmap= BitmapUtil.getCanvasBitmap(b, width, width);
 					    ivOperaPic.setImageBitmap(bitmap);
@@ -256,7 +214,7 @@ public class WriteOperaActivity extends BaseActivity {
 
 			@Override
 			public void onFailure(int arg0, String arg1) {
-				Log.i("majie", "-->uploadMovoieFile-->onFailure:" + arg0+",msg = "+arg1);
+				Log.i("majie", "fail:" + arg0+",msg = "+arg1);
 			}
 
 		});

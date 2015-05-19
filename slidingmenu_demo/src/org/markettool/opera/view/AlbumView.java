@@ -1,15 +1,10 @@
 package org.markettool.opera.view;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.markettool.opera.R;
 import org.markettool.opera.adapter.AlbumAdapter;
-import org.markettool.opera.beans.MyUser;
-import org.markettool.opera.utils.FileUtils;
-
-import cn.bmob.v3.BmobUser;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -19,15 +14,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import cn.bmob.v3.datatype.BmobFile;
 
 public class AlbumView extends LinearLayout {
 	private View view;
 	private GridView gv;
 	private Context context;
-	private List<String> paths=new ArrayList<String>();
+	private List<BmobFile> bmobFiles=new ArrayList<BmobFile>();
 	private AlbumAdapter adapter;
 	private onHandleListener listener;
-
+	
 	public AlbumView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context=context;
@@ -47,8 +43,13 @@ public class AlbumView extends LinearLayout {
 	
 	private void init(){
 		
-		adapter=new AlbumAdapter(context, paths);
+		adapter=new AlbumAdapter(context, bmobFiles);
 		gv.setAdapter(adapter);
+		
+	}
+	
+	public void setIsCanAdd(boolean isCanAdd){
+		adapter.setIsCanAdd(isCanAdd);
 	}
 	
 	private void setListeners(){
@@ -57,11 +58,9 @@ public class AlbumView extends LinearLayout {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				if(arg2==paths.size()){
-					if(listener!=null&&paths.size()<5){
-						listener.onClick();
-					}
-				}
+				if(listener!=null&&bmobFiles.size()<4){
+					listener.onClick(arg2);
+				}	
 			}
 		});
 	}
@@ -71,17 +70,56 @@ public class AlbumView extends LinearLayout {
 	}
 	
 	public interface onHandleListener{
-		public void onClick();
+		public void onClick(int index);
 	}
-
-
-	public void refresh(String path){
-		paths.add(path);
+	
+	public void addData(BmobFile file){
+		bmobFiles.add(file);
 		adapter.notifyDataSetChanged();
 	}
 
-	public List<String> getThubPaths() {
-		return adapter.getThubPaths();
+
+//	public void refresh(int index,String path){
+//		paths.add(index,path);
+//		adapter.notifyDataSetChanged();
+//	}
+//	
+//	public void refresh(String path){
+//		paths.add(path);
+//		adapter.notifyDataSetChanged();
+//	}
+//
+	public List<BmobFile> getBmobFiles() {
+		return bmobFiles;
 	}
+	
+//	private Handler handler=new Handler(){
+//		public void handleMessage(android.os.Message msg) {
+//			refresh((String) msg.obj);
+//		};
+//	};
+	
+//	public void setInitialPaths(final List<String> initialPaths){
+//		new Thread(){
+//			public void run() {
+//				super.run();
+//				for(String path:initialPaths){
+//					File file=new File(path);
+//					if(file.exists()){
+//						Message msg=new Message();
+//						msg.obj=path;
+//						handler.sendMessage(msg);
+//						
+//					}else{
+//						break;
+//					}
+//				}
+//			};
+//		}.start();
+//	}
+	
+//	public void notifyDataSetChanged(){
+//		adapter.notifyDataSetChanged();
+//	}
 	
 }

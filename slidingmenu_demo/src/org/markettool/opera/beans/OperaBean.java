@@ -9,14 +9,13 @@ public class OperaBean extends BmobObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String userPicPath;
+	private BmobFile userPic;
 	private String username;
 	private String operaContent;
 	private int likeNum;
 	private int commentNum;
 	private int statedLikeNum;
 	private int statedCommentNum;
-//	private String operaPicPath;
 	private BmobFile operaPic;
 	
 	public int getStatLikeNum() {
@@ -55,17 +54,17 @@ public class OperaBean extends BmobObject {
 	public void setCommentNum(int commentNum) {
 		this.commentNum = commentNum;
 	}
-	public String getUserPicPath() {
-		return userPicPath;
-	}
-	public void setUserPicPath(String userPicPath) {
-		this.userPicPath = userPicPath;
-	}
 	public BmobFile getOperaPic() {
 		return operaPic;
 	}
 	public void setOperaPic(BmobFile operaPic) {
 		this.operaPic = operaPic;
+	}
+	public BmobFile getUserPic() {
+		return userPic;
+	}
+	public void setUserPic(BmobFile userPic) {
+		this.userPic = userPic;
 	}
 
 }

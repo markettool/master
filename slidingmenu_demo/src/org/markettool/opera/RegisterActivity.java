@@ -1,6 +1,8 @@
 package org.markettool.opera;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.utils.BitmapUtil;
@@ -25,7 +27,6 @@ import cn.bmob.v3.listener.UploadFileListener;
 public class RegisterActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	private EditText username, userpsw, userage;
-//	private Button submit;
 	private RadioGroup group;
 	private boolean gender = true;
 	private ImageView userimg;
@@ -67,7 +68,7 @@ public class RegisterActivity extends BaseActivity {
 
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
-					    Bitmap b= BitmapUtil.getThumbilBitmap(path,100);
+					    Bitmap b= BitmapUtil.getThumbilBitmap(path,200);
 					    userimg.setImageBitmap(b);
 					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
 					    FileUtils.mkdirs(dir);
@@ -90,7 +91,6 @@ public class RegisterActivity extends BaseActivity {
 		userpsw = (EditText) findViewById(R.id.userpsw);
 		userage = (EditText) findViewById(R.id.userage);
 		userimg = (ImageView) findViewById(R.id.userimg);
-//		submit = (Button) findViewById(R.id.submit);
 		group = (RadioGroup) findViewById(R.id.sex);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
@@ -176,10 +176,13 @@ public class RegisterActivity extends BaseActivity {
 		myUser.setPassword(psw);
 		myUser.setAge(age);
 		myUser.setGender(gender);
-		myUser.setAvatar(file);
-		if(avatarPath!=null){
-			myUser.setFilePath(avatarPath);
-		}
+//		myUser.setAvatar(file);
+		List<BmobFile> bmobFiles=new ArrayList<BmobFile>();
+		bmobFiles.add(file);
+		myUser.setBmobFiles(bmobFiles);
+//		if(avatarPath!=null){
+//			myUser.setFilePath(avatarPath);
+//		}
 //		
 		myUser.signUp(this, new SaveListener() {
 
