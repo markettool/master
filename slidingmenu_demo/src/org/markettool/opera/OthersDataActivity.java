@@ -3,7 +3,6 @@ package org.markettool.opera;
 import java.io.File;
 import java.util.List;
 
-import org.markettool.opera.beans.MyBmobFile;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.view.AlbumView;
@@ -71,7 +70,7 @@ public class OthersDataActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess(List<MyUser> object) {
-				toastMsg("查询用户成功：" + object.size());
+//				toastMsg("查询用户成功：" + object.size());
 
 				if(object.size()!=0){
 					othersUser=object.get(0);
@@ -94,7 +93,7 @@ public class OthersDataActivity extends BaseActivity {
 
 			@Override
 			public void onError(int code, String msg) {
-				toastMsg("查询用户失败：" + msg);
+//				toastMsg("查询用户失败：" + msg);
 			}
 		});
 	}
