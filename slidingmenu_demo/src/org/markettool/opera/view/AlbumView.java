@@ -48,8 +48,12 @@ public class AlbumView extends LinearLayout {
 		
 	}
 	
+	public void setLimit(int limit){
+		adapter.setLimit(limit);
+	}
+	
 	public void setIsCanAdd(boolean isCanAdd){
-		adapter.setIsCanAdd(isCanAdd);
+		adapter.setCanAdd(isCanAdd);
 	}
 	
 	private void setListeners(){
@@ -73,53 +77,26 @@ public class AlbumView extends LinearLayout {
 		public void onClick(int index);
 	}
 	
+	public void addData(int index,BmobFile file){
+		if(index<bmobFiles.size()){
+			bmobFiles.set(index, file);
+		}else{
+			bmobFiles.add(file);
+		}
+		
+		adapter.notifyDataSetChanged();
+	}
+	
 	public void addData(BmobFile file){
+		if(bmobFiles==null){
+			bmobFiles=new ArrayList<BmobFile>();
+		}
 		bmobFiles.add(file);
 		adapter.notifyDataSetChanged();
 	}
 
-
-//	public void refresh(int index,String path){
-//		paths.add(index,path);
-//		adapter.notifyDataSetChanged();
-//	}
-//	
-//	public void refresh(String path){
-//		paths.add(path);
-//		adapter.notifyDataSetChanged();
-//	}
-//
 	public List<BmobFile> getBmobFiles() {
 		return bmobFiles;
 	}
-	
-//	private Handler handler=new Handler(){
-//		public void handleMessage(android.os.Message msg) {
-//			refresh((String) msg.obj);
-//		};
-//	};
-	
-//	public void setInitialPaths(final List<String> initialPaths){
-//		new Thread(){
-//			public void run() {
-//				super.run();
-//				for(String path:initialPaths){
-//					File file=new File(path);
-//					if(file.exists()){
-//						Message msg=new Message();
-//						msg.obj=path;
-//						handler.sendMessage(msg);
-//						
-//					}else{
-//						break;
-//					}
-//				}
-//			};
-//		}.start();
-//	}
-	
-//	public void notifyDataSetChanged(){
-//		adapter.notifyDataSetChanged();
-//	}
 	
 }

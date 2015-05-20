@@ -12,7 +12,7 @@
         android:hint="@string/get_cash_hint"
         android:id="@+id/et_cash" />
     
-    <Button
+ <!--    <Button
         android:id="@+id/btn_submit"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -22,6 +22,6 @@
         android:paddingTop="5dp"
         android:text="提交"
         android:textSize="16sp"
-         />
+         /> -->
 
 </LinearLayout>

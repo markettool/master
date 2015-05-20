@@ -9,12 +9,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" >
     </RelativeLayout>
+    
+    <org.markettool.opera.view.AutoScrollTextView 
+       android:layout_width="fill_parent" 
+       android:id="@+id/autoscroll_tv" 
+       android:textSize="16sp" 
+       android:layout_height="wrap_content" 
+       android:layout_below="@+id/adcontainer"
+       android:paddingTop="8dp"
+       android:paddingBottom="8dp"
+       />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@drawable/biz_pc_account_line" 
+        android:id="@+id/line"
+        android:layout_below="@+id/autoscroll_tv"/>
 
     <org.markettool.opera.view.RefreshableView
         android:id="@+id/refreshableview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/adcontainer" >
+        android:layout_below="@+id/line" >
 
         <ListView
             android:id="@+id/lv"

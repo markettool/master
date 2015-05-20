@@ -23,7 +23,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class AccountActivity extends BaseActivity {
 	
 	private TextView tvTotalFund;
-	private Button btGetCash;
+//	private Button btGetCash;
 	private MyUser myUser;
 	private float totalFund;
 	
@@ -40,7 +40,7 @@ public class AccountActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		tvTotalFund=(TextView) findViewById(R.id.total_fund);
-		btGetCash=(Button) findViewById(R.id.getcash);
+//		btGetCash=(Button) findViewById(R.id.getcash);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("我的账户");
@@ -48,17 +48,15 @@ public class AccountActivity extends BaseActivity {
 		
 		mImgLeft.setVisibility(View.VISIBLE);
 		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
-		mImgLeft.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
+		
+		mBtnTitleRight.setVisibility(View.VISIBLE);
+		mBtnTitleRight.setText("提现");
+		mBtnTitleRight.setTextColor(getResources().getColor(R.color.white));
+		
 	}
 	
 	private void setListeners(){
-		btGetCash.setOnClickListener(new OnClickListener() {
+		mBtnTitleRight.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
@@ -71,6 +69,14 @@ public class AccountActivity extends BaseActivity {
 					intent.putExtra("fund", totalFund);
 					startActivity(intent);
 				}
+			}
+		});
+		
+        mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
 			}
 		});
 	}

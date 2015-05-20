@@ -38,6 +38,7 @@ public class AlbumAdapter extends BaseAdapter {
 	
 	private BitmapUtils bitmapUtils;
 //	private BitmapDisplayConfig config;
+	private int limit=0;
 	
 	public AlbumAdapter(Context context,List<BmobFile> paths){
 		this.context=context;
@@ -52,13 +53,20 @@ public class AlbumAdapter extends BaseAdapter {
 //		config=BitmapHelp.getDisplayConfig(context, width, width);
 	}
 	
-	public void setIsCanAdd(boolean isCanAdd){
+	public void setLimit(int limit){
+		this.limit=limit;
+	}
+	
+	public void setCanAdd(boolean isCanAdd){
 		this.isCanAdd=isCanAdd;
 		notifyDataSetChanged();
 	}
 
 	@Override
 	public int getCount() {
+		if(limit!=0){
+			return limit;
+		}
 		if(isCanAdd){
 			return bmobFiles.size()+1;
 		}else{

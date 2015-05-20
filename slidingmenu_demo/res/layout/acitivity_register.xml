@@ -38,7 +38,8 @@
                 <EditText
                     android:id="@+id/username"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -55,7 +56,8 @@
                     android:id="@+id/userpsw"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:password="true" />
+                    android:password="true" 
+                    />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -115,7 +117,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:inputType="number" />
+            android:inputType="number"
+             />
     </LinearLayout>
 
 </RelativeLayout>

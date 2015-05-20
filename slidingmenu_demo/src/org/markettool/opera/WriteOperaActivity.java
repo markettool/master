@@ -2,25 +2,28 @@ package org.markettool.opera;
 
 import java.io.File;
 
+import org.markettool.opera.beans.MyBmobFile;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.BitmapUtil;
 import org.markettool.opera.utils.FileUtils;
 import org.markettool.opera.utils.ProgressUtil;
+import org.markettool.opera.view.AlbumView;
+import org.markettool.opera.view.AlbumView.onHandleListener;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
@@ -30,11 +33,11 @@ public class WriteOperaActivity extends BaseActivity {
 	int PICK_REQUEST_CODE = 0;
 	
 	private EditText etOpera;
-	private Button btPublish;
-	private ImageView ivAddImage;
-	private ImageView ivOperaPic;
+	private AlbumView albumView;
+	private String dir;
 	private MyUser myUser;
-	private String operaPicPath;
+	private MyBmobFile bmobFile;
+//	private String operaPicPath;
 	
 //	private int screenWidth;
 //	private int screenHeight;
@@ -46,15 +49,16 @@ public class WriteOperaActivity extends BaseActivity {
 		initView();
 		setListeners();
 		initData();
-//		showBanner();
 	}
 
 	@Override
 	protected void initView() {
 		etOpera=(EditText) findViewById(R.id.et_opera);
-		btPublish=(Button) findViewById(R.id.btn_write);
-		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
-		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
+//		btPublish=(Button) findViewById(R.id.btn_write);
+//		ivAddImage=(ImageView) findViewById(R.id.iv_addimage);
+//		ivOperaPic=(ImageView) findViewById(R.id.opera_pic);
+		albumView=(AlbumView) findViewById(R.id.albumview);
+		albumView.setLimit(1);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("我爱乱弹");
@@ -62,38 +66,48 @@ public class WriteOperaActivity extends BaseActivity {
 		
 		mImgLeft.setVisibility(View.VISIBLE);
 		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
-		mImgLeft.setOnClickListener(new OnClickListener() {
+		
+		mBtnTitleRight.setVisibility(View.VISIBLE);
+		mBtnTitleRight.setText("发表");
+		mBtnTitleRight.setTextColor(getResources().getColor(R.color.white));
+		
+	}
+	
+	private void publish(){
+		if(!TextUtils.isEmpty(etOpera.getText().toString())){
+			ProgressUtil.showProgress(WriteOperaActivity.this, "");
+			if(bmobFile!=null){
+				uploadFile();
+			}else{
+				writeOpera(null);
+			}
+			
+		}else{
+			toastMsg("输入为空");
+		}
+	}
+	
+	private void setListeners(){
+        mBtnTitleRight.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				publish();
+			}
+		});
+        
+        mImgLeft.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				finish();
 			}
 		});
-	}
-	
-	private void setListeners(){
-		btPublish.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(!TextUtils.isEmpty(etOpera.getText().toString())){
-					ProgressUtil.showProgress(WriteOperaActivity.this, "");
-					if(operaPicPath!=null){
-						uploadFile(new File(operaPicPath));
-					}else{
-						writeOpera(null);
-					}
-					
-				}else{
-					toastMsg("输入为空");
-				}
-			}
-		});
 		
-		ivAddImage.setOnClickListener(new OnClickListener() {
+        albumView.setOnHandleListener(new onHandleListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(int index) {
 				getFileFromSD();
 			}
 		});
@@ -107,6 +121,9 @@ public class WriteOperaActivity extends BaseActivity {
 			startActivity(LoginActivity.class);
 			finish();
 		}
+		
+		dir = FileUtils.PHOTO_PATH;
+		FileUtils.mkdirs(dir);
 		
 //		MyApplication app=(MyApplication)getApplication();
 //		screenWidth=app.getScreenWidth();
@@ -136,7 +153,7 @@ public class WriteOperaActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess() {
-				Log.d("bmob", "success  " );
+//				Log.d("bmob", "success  " );
 				toastMsg("发表成功");
 				finish();
 				ProgressUtil.closeProgress();
@@ -179,15 +196,7 @@ public class WriteOperaActivity extends BaseActivity {
 
 //					Log.e("majie", "path  " + path);
 					if (path != null) {
-					    Bitmap b= BitmapUtil.getThumbilBitmap(path,200);
-					    int width=Math.min(b.getWidth(), b.getHeight());
-					    Bitmap bitmap= BitmapUtil.getCanvasBitmap(b, width, width);
-					    ivOperaPic.setImageBitmap(bitmap);
-					    String dir=FileUtils.getSDCardRoot()+getPackageName()+File.separator;
-					    FileUtils.mkdirs(dir);
-					    operaPicPath=dir+path.substring(path.lastIndexOf("/")+1);
-					    BitmapUtil.saveBitmapToSdcard(b, operaPicPath);
-					    b.recycle();
+						saveThubPhoto(path);
 					}
 				}
 
@@ -197,8 +206,7 @@ public class WriteOperaActivity extends BaseActivity {
 		}
 	}
 	
-	private void uploadFile(File file) {
-		final BmobFile bmobFile = new BmobFile(file);
+	private void uploadFile() {
 		
 		bmobFile.uploadblock(this, new UploadFileListener() {
 
@@ -220,5 +228,30 @@ public class WriteOperaActivity extends BaseActivity {
 		});
 
 	}
+	
+	private void saveThubPhoto(final String path){
+		new Thread(){
+			public void run() {
+				super.run();
+				Bitmap bitmap=BitmapUtil.getThumbilBitmap(path, 200);
+				String thubPath=dir+myUser.getUsername()+"_opera_tmp"+".png";
+				BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);
+				Message message=new Message();
+				message.obj=thubPath;
+//				message.arg1=position;
+				handler.sendMessage(message);
+			};
+		}.start();
+		
+	}
+	
+	private Handler handler=new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			super.handleMessage(msg);
+			bmobFile=new MyBmobFile(new File((String) msg.obj));
+			bmobFile.setLocalFilePath((String) msg.obj);
+			albumView.addData(bmobFile);
+		};
+	};
 
 }

@@ -154,48 +154,7 @@ public class LeftFragment extends Fragment implements OnClickListener{
 		if(myUser==null){
 			return;
 		}
-//		File file=new File(myUser.getFilePath());
-//		if(file.exists()){
-//			return;
-//		}
-//		FileDownloader downloader=new FileDownloader();
-//		downloader.setFileUrl(myUser.getAvatar().getFileUrl(getActivity()));
-//		downloader.setSavePath(myUser.getFilePath());
-//		downloader.setProgressOutput(new IDownloadProgress() {
-//			
-//			@Override
-//			public void downloadSucess() {
-//				setAvatarImage();
-//			}
-//			
-//			@Override
-//			public void downloadProgress(float progress) {
-//				
-//			}
-//			
-//			@Override
-//			public void downloadFail() {
-//				
-//			}
-//		});
-//		downloader.start();
 	}
-	
-//	private void setAvatarImage(){
-//		if(myUser!=null&&myUser.getFilePath()!=null){
-//			try{
-//				Bitmap b=BitmapUtil.getOriginBitmap(myUser.getFilePath());
-//				if(b!=null){
-//					avatarPic.setImageBitmap(b);
-//				}else{
-//					avatarPic.setImageResource(R.drawable.wwj_748);
-//				}
-//			}catch(Exception e){
-//				
-//			}
-//			
-//		}
-//	}
 	
 	private void onClickShare() {  
 		  

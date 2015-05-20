@@ -1,5 +1,6 @@
 package org.markettool.opera;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,12 +34,10 @@ import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 
 public class MyDataActivity extends BaseActivity {
-//	public int PICK_USER_PIC = 0;
 	public int PICK_USER_PHOTO=1;
 	private EditText username, userage;
 	private RadioGroup group;
 	private boolean gender = true;
-	private ImageView userimg;
 	private LinearLayout pswLayout;
     private RadioButton maleRb,femaleRb;
     private AlbumView albumView;
@@ -66,7 +64,6 @@ public class MyDataActivity extends BaseActivity {
 		
 		username = (EditText) findViewById(R.id.username);
 		userage = (EditText) findViewById(R.id.userage);
-		userimg = (ImageView) findViewById(R.id.userimg);
 		pswLayout=(LinearLayout) findViewById(R.id.psw_layout);
 		pswLayout.setVisibility(View.GONE);
 		maleRb=(RadioButton) findViewById(R.id.male);
@@ -98,11 +95,6 @@ public class MyDataActivity extends BaseActivity {
 		}else{
 			femaleRb.setChecked(true);
 		}	
-		if(myUser.getBmobFiles()!=null&&myUser.getBmobFiles().size()!=0){
-			BmobFile avatar=myUser.getBmobFiles().get(0);
-			avatar.loadImageThumbnail(this, userimg, 60, 60);
-		}
-		
 		getScreenSize();
 		dir = FileUtils.PHOTO_PATH;
 		FileUtils.mkdirs(dir);
@@ -175,14 +167,6 @@ public class MyDataActivity extends BaseActivity {
 			}
 		});
 
-		userimg.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				getFileFromSD();
-			}
-		});
-		
 	    mImgLeft.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -240,7 +224,6 @@ public class MyDataActivity extends BaseActivity {
 			newUser.setBmobFiles(myUser.getBmobFiles());;
 			newUser.setAge(age);
 			newUser.setGender(gender);
-//			newUser.setFilePath(avatarPath);
 			newUser.setObjectId(bmobUser.getObjectId());
 			newUser.update(this,new UpdateListener() {
 
@@ -271,10 +254,17 @@ public class MyDataActivity extends BaseActivity {
 			
 			@Override
 		    public void onSuccess(List<BmobFile> files,List<String> urls) {
-//				Log.e("majie", "url ="+urls.size());
+				
 				if(urls.size()==paths.size()){
-					if(myUser.getBmobFiles()!=null){
-						myUser.getBmobFiles().addAll(files);
+					
+				    List<BmobFile> bmobFiles=myUser.getBmobFiles();
+					if(bmobFiles!=null){
+						for(BmobFile file:files){
+							if(file instanceof MyBmobFile){
+								
+								bmobFiles.add(((MyBmobFile)file).getIndex(), file);
+							}
+						}
 					}else{
 						myUser.setBmobFiles(files);
 					}
@@ -304,6 +294,7 @@ public class MyDataActivity extends BaseActivity {
 				BitmapUtil.saveBitmapToSdcard(bitmap, thubPath);
 				Message message=new Message();
 				message.obj=thubPath;
+				message.arg1=position;
 				handler.sendMessage(message);
 			};
 		}.start();
@@ -313,9 +304,10 @@ public class MyDataActivity extends BaseActivity {
 	private Handler handler=new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			super.handleMessage(msg);
-			MyBmobFile bmobFile=new MyBmobFile();
+			MyBmobFile bmobFile=new MyBmobFile(new File((String) msg.obj));
 			bmobFile.setLocalFilePath((String) msg.obj);
-			albumView.addData(bmobFile);
+			albumView.addData(msg.arg1,bmobFile);
+			bmobFile.setIndex(msg.arg1);
 		};
 	};
 	

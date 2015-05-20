@@ -5,32 +5,25 @@
     android:layout_height="match_parent" >
 
     <org.markettool.opera.view.AlbumView
+        android:id="@+id/albumview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/albumview" >
+        android:layout_height="wrap_content" >
     </org.markettool.opera.view.AlbumView>
 
     <LinearLayout
         android:id="@+id/top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/albumview"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:gravity="center_vertical" 
-        android:layout_below="@+id/albumview">
-
-        <org.markettool.opera.view.CircleImageView
-            android:id="@+id/userimg"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:clickable="true"
-            android:src="@drawable/wwj_748" />
+        android:gravity="center_vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="16dp"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -72,7 +65,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal" >
@@ -109,8 +102,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sex"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp" >
+        android:layout_marginLeft="25dp" >
 
         <TextView
             android:layout_width="wrap_content"

@@ -7,17 +7,16 @@ import org.markettool.opera.adapter.CommentAdapter;
 import org.markettool.opera.beans.CommentBean;
 import org.markettool.opera.beans.MyUser;
 import org.markettool.opera.beans.OperaBean;
+import org.markettool.opera.view.InputView;
+import org.markettool.opera.view.InputView.OnSendClickListener;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,12 +28,11 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class CommentActivity extends BaseActivity {
 	
-	private EditText etComment;
-	private Button btSubmit;
 	private OperaBean operaBean;
 	private ListView lv;
 	private RefreshableView mRefreshableView;
 	private RelativeLayout mAdContainer;
+	private InputView inputView;
 	private TextView tvOpera;
 	
 	private int skip;
@@ -65,19 +63,6 @@ public class CommentActivity extends BaseActivity {
 	}
 
 	private void setListeners(){
-		btSubmit.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				String comment=etComment.getText().toString();
-						
-				if(TextUtils.isEmpty(comment)){
-					toastMsg("输入为空");
-					return;
-				}
-				writeComment(comment, operaBean.getObjectId());
-			}
-		});
 		
         mRefreshableView.setOnRefreshListener(new PullToRefreshListener() {
 			
@@ -102,10 +87,9 @@ public class CommentActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 
-		etComment=(EditText) findViewById(R.id.et_comment);
-		btSubmit=(Button) findViewById(R.id.submit);
 		mAdContainer = (RelativeLayout) findViewById(R.id.adcontainer);
 		tvOpera=(TextView) findViewById(R.id.tv_opera);
+		inputView=(InputView) findViewById(R.id.inputview);
 		
 		lv=(ListView) findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) findViewById(R.id.refreshableview);
@@ -121,6 +105,14 @@ public class CommentActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				finish();
+			}
+		});
+		
+		inputView.setOnSendClickListener(new OnSendClickListener() {
+			
+			@Override
+			public void onClick(String msg) {
+				writeComment(msg, operaBean.getObjectId());
 			}
 		});
 	}
@@ -158,7 +150,7 @@ public class CommentActivity extends BaseActivity {
 			public void onSuccess() {
 				Log.d("bmob", "success  " );
 				toastMsg("发表成功");
-				etComment.setText("");
+//				etComment.setText("");
 				updateComment(operaBean);
 				if(commentBeans.size()==0){
 					queryComments(FINISH_REFRESHING);

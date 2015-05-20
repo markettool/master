@@ -9,7 +9,7 @@ import org.markettool.opera.WriteOperaActivity;
 import org.markettool.opera.adapter.OperaAdapter;
 import org.markettool.opera.beans.OperaBean;
 import org.markettool.opera.utils.BitmapHelp;
-import org.markettool.opera.utils.ProgressUtil;
+import org.markettool.opera.view.AutoScrollTextView;
 import org.markettool.opera.view.RefreshableView;
 import org.markettool.opera.view.RefreshableView.PullToLoadListener;
 import org.markettool.opera.view.RefreshableView.PullToRefreshListener;
@@ -39,9 +39,11 @@ public class OperaFragment extends Fragment {
 	public static final String SplashPPID = "16TLwebvAchksY6iOGe3xcik";
 	
 	private RelativeLayout mAdContainer;
+	
 	private ImageView btWrite;
 	private ListView lv;
 	private RefreshableView mRefreshableView;
+	private AutoScrollTextView autoScrollTextView;
 	
 	private OperaAdapter adapter;
 	
@@ -62,6 +64,11 @@ public class OperaFragment extends Fragment {
 		lv=(ListView) view.findViewById(R.id.lv);
 		mRefreshableView=(RefreshableView) view.findViewById(R.id.refreshableview);
 		lv.setOnScrollListener(new PauseOnScrollListener(BitmapHelp.getBitmapUtils(getActivity()), false, true));
+		autoScrollTextView=(AutoScrollTextView) view.findViewById(R.id.autoscroll_tv);
+		 autoScrollTextView.initScrollTextView(getActivity().getWindowManager(), 
+	                "下一版本加聊天功能，敬请期待！"); 
+	        autoScrollTextView.starScroll();  
+	        
 		setAdapter();
 		setListeners();
 		queryFocusOperas(FINISH_REFRESHING);

@@ -18,7 +18,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class GetCashActivity extends BaseActivity {
 	
 	private EditText etCash;
-	private Button btSubmit;
+//	private Button btSubmit;
 	private MyUser myUser;
 	private float fund;
 	
@@ -35,7 +35,7 @@ public class GetCashActivity extends BaseActivity {
 	@Override
 	protected void initView() {
 		etCash=(EditText) findViewById(R.id.et_opera);
-		btSubmit=(Button) findViewById(R.id.btn_write);
+//		btSubmit=(Button) findViewById(R.id.btn_write);
 		
 		mBtnTitleMiddle.setVisibility(View.VISIBLE);
 		mBtnTitleMiddle.setText("确认提现");
@@ -43,17 +43,15 @@ public class GetCashActivity extends BaseActivity {
 		
 		mImgLeft.setVisibility(View.VISIBLE);
 		mImgLeft.setBackgroundResource(R.drawable.bt_back_dark);
-		mImgLeft.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
+		
+		mBtnTitleRight.setVisibility(View.VISIBLE);
+		mBtnTitleRight.setText("提交");
+		mBtnTitleRight.setTextColor(getResources().getColor(R.color.white));
+	
 	}
 	
 	private void setListeners(){
-		btSubmit.setOnClickListener(new OnClickListener() {
+		mBtnTitleRight.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -63,6 +61,14 @@ public class GetCashActivity extends BaseActivity {
 				}else{
 					toastMsg("输入为空");
 				}
+			}
+		});
+		
+	    mImgLeft.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				finish();
 			}
 		});
 	}
